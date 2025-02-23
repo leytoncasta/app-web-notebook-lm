@@ -15,7 +15,7 @@ RUN git clone https://github.com/pgvector/pgvector.git /tmp/pgvector \
     && make install
 
 # Copy the initialization script to create the extension
-COPY init.sql /docker-entrypoint-initdb.d/
+# COPY init.sql /docker-entrypoint-initdb.d/
 
 # Set environment variables for PostgreSQL
 ENV POSTGRES_DB=${POSTGRES_DB}
