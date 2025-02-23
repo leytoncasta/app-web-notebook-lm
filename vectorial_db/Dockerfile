@@ -1,6 +1,9 @@
 # Use the official PostgreSQL image from the Docker Hub
 FROM postgres:15
 
+# Copy the initialization script to create the extension
+COPY ./init.sql /docker-entrypoint-initdb.d
+
 # Install pgvector extension
 RUN apt-get update && apt-get install -y \
     build-essential \
@@ -12,10 +15,8 @@ RUN apt-get update && apt-get install -y \
 RUN git clone https://github.com/pgvector/pgvector.git /tmp/pgvector \
     && cd /tmp/pgvector \
     && make \
-    && make install
-
-# Copy the initialization script to create the extension
-# COPY init.sql /docker-entrypoint-initdb.d/
+    && make install \
+    && rm -rf /tmp/pgvector
 
 # Set environment variables for PostgreSQL
 ENV POSTGRES_DB=${POSTGRES_DB}
