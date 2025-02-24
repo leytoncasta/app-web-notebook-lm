@@ -1,4 +1,49 @@
 services:
+
+  # -----------------------------------------------------------------------------
+  # Lógica Base de Datos RELACIONAL (PostgreSQL)
+  # -----------------------------------------------------------------------------
+  backend:
+    build:
+      context: ./backend
+      dockerfile: backend.dockerfile
+    container_name: backend
+    image: backend:latest
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - project_network
+    environment:
+      - DATABASE_URL=postgresql://team5:Project2025!@db:5432/users
+    restart: always
+
+  # -----------------------------------------------------------------------------
+  # Servicio Base de Datos RELACIONAL (PostgreSQL)
+  # -----------------------------------------------------------------------------
+  db:
+    container_name: relational_db
+    image: postgres:latest
+    env_file:
+      - ./backend/database/.env
+    ports:
+      - 5432:5432
+    volumes:
+      - relational_db:/var/lib/postgresql/data
+    networks:
+      - project_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U team5 -d users"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    restart: always
+
+  # -----------------------------------------------------------------------------
+  # Servicio Base de Datos VECTORIAL (PostgreSQL)
+  # -----------------------------------------------------------------------------
   postgres:
     build:
       context: ./vectorial_db
@@ -19,4 +64,6 @@ networks:
 
 volumes:
   vectorial_db:
+    driver: local
+  relational_db:
     driver: local
