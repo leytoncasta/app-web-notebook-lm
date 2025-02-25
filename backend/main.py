@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from usuario import modelo
 from usuario.rutas import router as usuario_router
 from LLM.rutas import router as LLM_router
+from chat.rutas import router as chat_router
 from database import engine
 
 modelo.Base.metadata.create_all(bind=engine)
@@ -13,3 +14,4 @@ app = FastAPI(
 
 app.include_router(usuario_router)
 app.include_router(LLM_router)
+app.include_router(chat_router)
