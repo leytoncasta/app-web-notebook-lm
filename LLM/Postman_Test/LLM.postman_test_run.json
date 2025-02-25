@@ -1,0 +1,84 @@
+{
+	"id": "16bf2ee9-38bf-4e5c-bee8-f9e1967d40ac",
+	"name": "LLM",
+	"timestamp": "2025-02-25T04:05:17.414Z",
+	"collection_id": "12650312-50476494-46fb-411a-a1d2-865117c7483f",
+	"folder_id": "12650312-71d5403f-b4ca-45a0-8da0-53c68c2dcd76",
+	"environment_id": "0",
+	"totalPass": 2,
+	"delay": 0,
+	"persist": true,
+	"status": "finished",
+	"startedAt": "2025-02-25T04:04:45.613Z",
+	"totalFail": 0,
+	"results": [
+		{
+			"id": "a2a5dc7c-6eed-44f9-8f97-5814cc649768",
+			"name": "List Models",
+			"url": "http://localhost:11434/api/tags",
+			"time": 10,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"No genera error traer los modelos que tenemos localmente en Ollama.": true
+			},
+			"testPassFailCounts": {
+				"No genera error traer los modelos que tenemos localmente en Ollama.": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				10
+			],
+			"allTests": [
+				{
+					"No genera error traer los modelos que tenemos localmente en Ollama.": true
+				}
+			]
+		},
+		{
+			"id": "931f4dd7-554d-4b64-9584-171a8a252cb5",
+			"name": "Query",
+			"url": "http://localhost:11434/api/generate",
+			"time": 30778,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"No genera error hacer un query.": true
+			},
+			"testPassFailCounts": {
+				"No genera error hacer un query.": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				30778
+			],
+			"allTests": [
+				{
+					"No genera error hacer un query.": true
+				}
+			]
+		}
+	],
+	"count": 1,
+	"totalTime": 30788,
+	"collection": {
+		"requests": [
+			{
+				"id": "a2a5dc7c-6eed-44f9-8f97-5814cc649768",
+				"method": "GET"
+			},
+			{
+				"id": "931f4dd7-554d-4b64-9584-171a8a252cb5",
+				"method": "POST"
+			}
+		]
+	}
+}

@@ -1,6 +1,23 @@
 services:
 
   # -----------------------------------------------------------------------------
+  # Ollama 
+  # -----------------------------------------------------------------------------
+
+  ollama:
+    build:
+      context: ./LLM
+      dockerfile: ollama.dockerfile
+    container_name: ollama
+    image: ollama:latest
+    volumes:
+      - ollama:/root/.ollama
+    ports:
+      - "11434:11434"
+    restart: unless-stopped
+
+
+  # -----------------------------------------------------------------------------
   # Lógica Base de Datos RELACIONAL (PostgreSQL)
   # -----------------------------------------------------------------------------
   backend:
@@ -52,6 +69,10 @@ services:
     networks:
       - project_network
 
+# -----------------------------------------------------------------------------
+# NETWORKS & VOLUMES
+# -----------------------------------------------------------------------------
+
 networks:
   project_network:
     driver: bridge
@@ -60,4 +81,6 @@ volumes:
   vectorial_db:
     driver: local
   relational_db:
+    driver: local
+  ollama:
     driver: local

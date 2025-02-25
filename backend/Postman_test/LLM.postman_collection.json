@@ -438,6 +438,90 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "LLM",
+			"item": [
+				{
+					"name": "List Models",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"No genera error traer los modelos que tenemos localmente en Ollama.\"]=responseCode.code==200;"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:11434/api/tags",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "11434",
+							"path": [
+								"api",
+								"tags"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Query",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"No genera error hacer un query.\"]=responseCode.code==200;"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"model\": \"llama3.2:1b\",\r\n    \"prompt\": \"Whay the sky is blue?\",\r\n    \"stream\": false,\r\n    \"context\": []\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:11434/api/generate",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "11434",
+							"path": [
+								"api",
+								"generate"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	]
 }
