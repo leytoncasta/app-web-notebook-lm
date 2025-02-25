@@ -1,7 +1,26 @@
 services:
 
   # -----------------------------------------------------------------------------
-  # Ollama 
+  # Ollama Machine Learning Model Local API
+  # -----------------------------------------------------------------------------
+  ollama_service:
+    build:
+      context: ./LLM/service
+      dockerfile: ollama_service.dockerfile
+    container_name: ollama_service
+    image: ollama_service:latest
+    depends_on:
+      - ollama
+    ports:
+      - "4000:4000"
+    networks:
+      - project_network
+    env_file:
+      - ./LLM/service/.env
+    restart: always
+
+  # -----------------------------------------------------------------------------
+  # Ollama Machine Learning Model Local API
   # -----------------------------------------------------------------------------
 
   ollama:
@@ -14,6 +33,8 @@ services:
       - ollama:/root/.ollama
     ports:
       - "11434:11434"
+    networks:
+      - project_network
     restart: unless-stopped
 
 
@@ -83,4 +104,6 @@ volumes:
   relational_db:
     driver: local
   ollama:
+    driver: local
+  ollama_service:
     driver: local
