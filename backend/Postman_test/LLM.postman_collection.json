@@ -443,7 +443,7 @@
 			"name": "LLM",
 			"item": [
 				{
-					"name": "List Models",
+					"name": "List Models (Local)",
 					"event": [
 						{
 							"listen": "test",
@@ -478,7 +478,7 @@
 					"response": []
 				},
 				{
-					"name": "Query",
+					"name": "Query (Local)",
 					"event": [
 						{
 							"listen": "test",
@@ -499,7 +499,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"model\": \"llama3.2:1b\",\r\n    \"prompt\": \"Whay the sky is blue?\",\r\n    \"stream\": false,\r\n    \"context\": []\r\n}",
+							"raw": "{\r\n    \"model\": \"llama3.2:1b\",\r\n    \"prompt\": \"1+1?\",\r\n    \"stream\": false,\r\n    \"context\": []\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -516,6 +516,101 @@
 							"path": [
 								"api",
 								"generate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Query API",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data = JSON.parse(responseBody);\r",
+									"postman.setGlobalVariable(\"ollama_response\",data.response);\r",
+									"tests[\"No genera error al hacer un query al api local de ollama.\"]=responseCode.code==200;"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"model\": \"llama3.2:1b\",\r\n    \"prompt\": \"1+1?\",\r\n    \"stream\": false,\r\n    \"context\": []\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:4000/generate",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "4000",
+							"path": [
+								"generate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Backend Receive",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"No genera error recibir la respuesta del query del api local de ollama.\"]=responseCode.code==200;"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"data\": \"{{ollama_response}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/LLM/response",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"LLM",
+								"response"
 							]
 						}
 					},

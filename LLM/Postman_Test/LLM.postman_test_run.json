@@ -1,22 +1,22 @@
 {
-	"id": "16bf2ee9-38bf-4e5c-bee8-f9e1967d40ac",
+	"id": "fcdd3c79-364b-499f-9ed2-e47a12c093f3",
 	"name": "LLM",
-	"timestamp": "2025-02-25T04:05:17.414Z",
+	"timestamp": "2025-02-25T14:29:47.350Z",
 	"collection_id": "12650312-50476494-46fb-411a-a1d2-865117c7483f",
 	"folder_id": "12650312-71d5403f-b4ca-45a0-8da0-53c68c2dcd76",
 	"environment_id": "0",
-	"totalPass": 2,
+	"totalPass": 4,
 	"delay": 0,
 	"persist": true,
 	"status": "finished",
-	"startedAt": "2025-02-25T04:04:45.613Z",
+	"startedAt": "2025-02-25T14:29:03.070Z",
 	"totalFail": 0,
 	"results": [
 		{
 			"id": "a2a5dc7c-6eed-44f9-8f97-5814cc649768",
-			"name": "List Models",
+			"name": "List Models (Local)",
 			"url": "http://localhost:11434/api/tags",
-			"time": 10,
+			"time": 77,
 			"responseCode": {
 				"code": 200,
 				"name": "OK"
@@ -31,7 +31,7 @@
 				}
 			},
 			"times": [
-				10
+				77
 			],
 			"allTests": [
 				{
@@ -41,9 +41,9 @@
 		},
 		{
 			"id": "931f4dd7-554d-4b64-9584-171a8a252cb5",
-			"name": "Query",
+			"name": "Query (Local)",
 			"url": "http://localhost:11434/api/generate",
-			"time": 30778,
+			"time": 40717,
 			"responseCode": {
 				"code": 200,
 				"name": "OK"
@@ -58,17 +58,71 @@
 				}
 			},
 			"times": [
-				30778
+				40717
 			],
 			"allTests": [
 				{
 					"No genera error hacer un query.": true
 				}
 			]
+		},
+		{
+			"id": "13cd493a-3d9c-482d-acf6-259fba5b3bfa",
+			"name": "Query API",
+			"url": "http://127.0.0.1:4000/generate",
+			"time": 2125,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"No genera error al hacer un query al api local de ollama.": true
+			},
+			"testPassFailCounts": {
+				"No genera error al hacer un query al api local de ollama.": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				2125
+			],
+			"allTests": [
+				{
+					"No genera error al hacer un query al api local de ollama.": true
+				}
+			]
+		},
+		{
+			"id": "286d7402-a66d-4779-ba95-51b53e3c7bfb",
+			"name": "Backend Receive",
+			"url": "http://127.0.0.1:8000/LLM/response",
+			"time": 21,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"No genera error recibir la respuesta del query del api local de ollama.": true
+			},
+			"testPassFailCounts": {
+				"No genera error recibir la respuesta del query del api local de ollama.": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				21
+			],
+			"allTests": [
+				{
+					"No genera error recibir la respuesta del query del api local de ollama.": true
+				}
+			]
 		}
 	],
 	"count": 1,
-	"totalTime": 30788,
+	"totalTime": 42940,
 	"collection": {
 		"requests": [
 			{
@@ -77,6 +131,14 @@
 			},
 			{
 				"id": "931f4dd7-554d-4b64-9584-171a8a252cb5",
+				"method": "POST"
+			},
+			{
+				"id": "13cd493a-3d9c-482d-acf6-259fba5b3bfa",
+				"method": "POST"
+			},
+			{
+				"id": "286d7402-a66d-4779-ba95-51b53e3c7bfb",
 				"method": "POST"
 			}
 		]
