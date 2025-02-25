@@ -1,7 +1,41 @@
 from sqlalchemy.orm import Session
-from fastapi import HTTPException
+from fastapi import HTTPException, Depends, status
 from . import modelo
 from typing import List
+from JWT.auth import (
+    verify_password, 
+    get_password_hash, 
+    create_access_token,
+)
+
+def login_usuario(db: Session, username: str, password: str):
+    """Login function that accepts OAuth2 standard fields (username, password)"""
+    usuario = db.query(modelo.UsuarioDB).filter(
+        modelo.UsuarioDB.nombre_usuario == username
+    ).first()
+    
+    if not usuario:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Credenciales incorrectas"
+        )
+    
+    if not verify_password(password, usuario.contraseña):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Credenciales incorrectas"
+        )
+    
+    access_token = create_access_token(
+        data={"sub": usuario.nombre_usuario}
+    )
+    
+    return {
+        "access_token": access_token,
+        "token_type": "bearer",
+        "usuario_id": usuario.id,
+        "nombre_usuario": usuario.nombre_usuario
+    }
 
 def crear_usuario(db: Session, usuario: modelo.UsuarioDB):
     db_usuario = db.query(modelo.UsuarioDB).filter(
@@ -11,7 +45,11 @@ def crear_usuario(db: Session, usuario: modelo.UsuarioDB):
     if db_usuario:
         raise HTTPException(status_code=400, detail="Nombre de usuario ya existe")
     
-    db_usuario = modelo.UsuarioDB(**usuario.dict())
+    # Hash the password before storing
+    usuario_dict = usuario.dict()
+    usuario_dict["contraseña"] = get_password_hash(usuario_dict["contraseña"])
+    
+    db_usuario = modelo.UsuarioDB(**usuario_dict)
     db.add(db_usuario)
     db.commit()
     db.refresh(db_usuario)
