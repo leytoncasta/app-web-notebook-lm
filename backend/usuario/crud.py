@@ -3,7 +3,7 @@ from fastapi import HTTPException
 from . import modelo
 from typing import List
 
-def crear_usuario(db: Session, usuario: modelo.Usuario):
+def crear_usuario(db: Session, usuario: modelo.UsuarioDB):
     db_usuario = db.query(modelo.UsuarioDB).filter(
         modelo.UsuarioDB.nombre_usuario == usuario.nombre_usuario
     ).first()
@@ -26,7 +26,7 @@ def obtener_usuario(db: Session, usuario_id: int):
         raise HTTPException(status_code=404, detail="Usuario no encontrado")
     return db_usuario
 
-def actualizar_usuario(db: Session, usuario_id: int, usuario: modelo.Usuario):
+def actualizar_usuario(db: Session, usuario_id: int, usuario: modelo.UsuarioDB):
     db_usuario = db.query(modelo.UsuarioDB).filter(modelo.UsuarioDB.id == usuario_id).first()
     if db_usuario is None:
         raise HTTPException(status_code=404, detail="Usuario no encontrado")

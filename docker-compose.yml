@@ -16,8 +16,8 @@ services:
         condition: service_healthy
     networks:
       - project_network
-    environment:
-      - DATABASE_URL=postgresql://team5:Project2025!@db:5432/users
+    env_file:
+      - ./backend/database/.env
     restart: always
 
   # -----------------------------------------------------------------------------
@@ -35,7 +35,7 @@ services:
     networks:
       - project_network
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U team5 -d users"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
       interval: 5s
       timeout: 5s
       retries: 5
