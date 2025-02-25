@@ -1,6 +1,28 @@
 services:
 
   # -----------------------------------------------------------------------------
+  # Frontend: Vite APP
+  # -----------------------------------------------------------------------------
+
+  frontend:
+    container_name: viteapp
+    image: vite:lastest
+    build:
+      context: ./frontend
+      dockerfile: frontend.dockerfile
+    ports:
+      - 3000:3000
+    volumes:
+      - ./frontend:/app
+    networks:
+      - project_network
+    env_file:
+      - ./frontend/.env
+    depends_on:
+      - backend
+    restart: always
+
+  # -----------------------------------------------------------------------------
   # Ollama Machine Learning Model Local API
   # -----------------------------------------------------------------------------
   ollama_service:
@@ -106,4 +128,6 @@ volumes:
   ollama:
     driver: local
   ollama_service:
+    driver: local
+  frontend:
     driver: local
