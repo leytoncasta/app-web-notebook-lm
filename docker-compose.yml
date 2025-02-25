@@ -5,24 +5,19 @@ services:
   # -----------------------------------------------------------------------------
 
   frontend:
-    container_name: viteapp
-    image: vite:lastest
+    image: vite:latest
+    container_name: frontend
     build:
       context: ./frontend
       dockerfile: frontend.dockerfile
-    ports:
-      - 3000:3000
-    volumes:
-      - ./frontend:/app
-      - /app/node_modules
     environment:
-      - NODE_ENV=production
-      - PORT=3000
+      NODE_ENV: production
     env_file:
       - ./frontend/.env
     depends_on:
       - backend
-    restart: always
+    ports:
+      - 3000:3000
 
   # -----------------------------------------------------------------------------
   # Ollama Machine Learning Model Local API
