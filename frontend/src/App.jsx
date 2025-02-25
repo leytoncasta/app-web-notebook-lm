@@ -36,8 +36,6 @@ const PrivateRoute = ({ children }) => {
 // - /: Página principal
 // - /login: Inicio de sesión
 // - /register: Registro de usuario
-// - /categorias: Vista de categorías (protegida)
-// - /tareas: Vista de tareas (protegida)
 function App() {
   return (
     <BrowserRouter>

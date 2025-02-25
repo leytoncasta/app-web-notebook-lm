@@ -14,8 +14,10 @@ services:
       - 3000:3000
     volumes:
       - ./frontend:/app
-    networks:
-      - project_network
+      - /app/node_modules
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
     env_file:
       - ./frontend/.env
     depends_on:

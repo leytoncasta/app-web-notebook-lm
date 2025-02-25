@@ -37,4 +37,4 @@ RUN npm run build
 EXPOSE 3000
 
 # Iniciar servidor de producción
-CMD [ "serve", "-s", "dist" ]
+CMD ["npx", "serve", "-s", "dist", "-l", "tcp://0.0.0.0:3000"]
