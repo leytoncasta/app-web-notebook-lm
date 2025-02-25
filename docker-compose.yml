@@ -12,8 +12,7 @@ services:
     ports:
       - "8000:8000"
     depends_on:
-      db:
-        condition: service_healthy
+      - db
     networks:
       - project_network
     env_file:
@@ -34,11 +33,6 @@ services:
       - relational_db:/var/lib/postgresql/data
     networks:
       - project_network
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
     restart: always
 
   # -----------------------------------------------------------------------------
