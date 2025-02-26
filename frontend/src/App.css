@@ -1,0 +1,39 @@
+/* -----------------------------------------------------------------------------
+ * Autor: Santiago Bobadilla Suarez
+ * -----------------------------------------------------------------------------*/
+
+/* -----------------------------------------------------------------------------
+ * Estilos del Contenedor Principal
+ * -----------------------------------------------------------------------------*/
+.app-container {
+  /* Altura mínima para ocupar toda la pantalla */
+  min-height: 100vh;
+  /* Flexbox para centrar contenido */
+  display: flex;
+  /* Fondo con gradiente azul */
+  background: linear-gradient(135deg, #2196f3 0%, #1976d2 100%);
+}
+
+/* -----------------------------------------------------------------------------
+ * Estilos del Contenido Principal
+ * -----------------------------------------------------------------------------*/
+.app-content {
+  /* Ancho completo disponible */
+  width: 100%;
+  /* Espaciado interno */
+  padding: 20px;
+  /* Flexbox para centrado */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* -----------------------------------------------------------------------------
+ * Diseño Responsive - Móvil
+ * -----------------------------------------------------------------------------*/
+@media (max-width: 600px) {
+  .app-content {
+    /* Reduce el padding en pantallas pequeñas */
+    padding: 10px;
+  }
+}
