@@ -2,7 +2,7 @@
 FROM postgres:15
 
 # Copy the initialization script to create the extension
-COPY ./init.sql /docker-entrypoint-initdb.d
+COPY ./sql/init.sql /docker-entrypoint-initdb.d/init.sql
 
 # Install pgvector extension
 RUN apt-get update && apt-get install -y \
