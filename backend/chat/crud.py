@@ -21,3 +21,10 @@ def delete_chat(db: Session, chat_id: int):
         db.commit()
         return True
     return False
+
+def get_chats_by_user_id(db: Session, user_id: int, skip: int = 0, limit: int = 100):
+    return db.query(modelo.UsuarioDB)\
+        .filter(modelo.UsuarioDB.id_usuario == user_id)\
+        .offset(skip)\
+        .limit(limit)\
+        .all()
