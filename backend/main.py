@@ -4,6 +4,7 @@ from usuario import modelo
 from usuario.rutas import router as usuario_router
 from LLM.rutas import router as LLM_router
 from chat.rutas import router as chat_router
+from document.rutas import router as document_router
 from database import engine
 
 modelo.Base.metadata.create_all(bind=engine)
@@ -16,7 +17,7 @@ app = FastAPI(
 # Configure CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://localhost:3000"],  # Frontend URL
+    allow_origins=["http://localhost:5173", "http://localhost:3000", "http://localhost:8080"],  # Frontend URL
     allow_credentials=True,
     allow_methods=["*"],  # Allows all methods
     allow_headers=["*"],  # Allows all headers
@@ -25,3 +26,4 @@ app.add_middleware(
 app.include_router(usuario_router)
 app.include_router(LLM_router)
 app.include_router(chat_router)
+app.include_router(document_router)

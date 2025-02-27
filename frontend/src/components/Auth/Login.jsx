@@ -56,14 +56,44 @@ const Login = () => {
     e.preventDefault();
     setLoading(true);
     try {
+      // Login request
       const response = await api.post("/usuarios/login", {
         username: formData.usuario,
         password: formData.contraseña,
       });
 
       if (response.data.access_token) {
+        // Store user data in localStorage
         localStorage.setItem("token", response.data.access_token);
-        localStorage.setItem("user", JSON.stringify(response.data.usuario_id));
+        localStorage.setItem(
+          "user_id",
+          JSON.stringify(response.data.usuario_id)
+        );
+        localStorage.setItem(
+          "nombre_usuario",
+          JSON.stringify(response.data.nombre_usuario)
+        );
+
+        // Set authorization header
+        const token = response.data.access_token;
+        const userId = response.data.usuario_id;
+        api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
+        // Handle chat creation
+        try {
+          await api.get(`/chats/user/${userId}`);
+        } catch (chatError) {
+          if (chatError.response?.status === 404) {
+            // Create new chat if none exists
+            await api.post("/chats", {
+              id_usuario: userId,
+            });
+          } else {
+            throw chatError;
+          }
+        }
+
+        // Navigate to dashboard after everything is set up
         navigate("/dashboard");
       }
     } catch (err) {
