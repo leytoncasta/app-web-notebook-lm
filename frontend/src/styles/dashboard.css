@@ -1,0 +1,43 @@
+/* -----------------------------------------------------------------------------
+ * Variables Globales
+ * -------------------------------------------------------------------------- */
+:root {
+  --primary-color: #2c3e50;
+  --secondary-color: rgba(43, 119, 129, 0.4);
+  --background-light: #f8f9fa;
+  --text-primary: #2c3e50;
+  --text-secondary: #7f8c8d;
+  --accent-color: #e74c3c;
+  --border-color: #ecf0f1;
+  --glass-bg: rgba(255, 255, 255, 0.8);
+  --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* -----------------------------------------------------------------------------
+ * Dashboard Container
+ * -------------------------------------------------------------------------- */
+.dashboard {
+  height: 100vh; /* Changed from min-height */
+  width: 100vw;
+  margin: 0;
+  padding: 20px;
+  background: linear-gradient(
+      rgba(255, 255, 255, 0.2),
+      rgba(255, 255, 255, 0.2)
+    ),
+    url("/task-bg.gif");
+  background-size: cover;
+  background-position: center;
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 20px;
+  overflow: hidden; /* Prevents scrolling */
+  box-sizing: border-box; /* Includes padding in total size */
+}
+
+/* Add this to reset default body margins */
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}

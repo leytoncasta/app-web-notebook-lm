@@ -1,0 +1,118 @@
+.chat-area {
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
+  border-radius: 15px;
+  box-shadow: var(--shadow);
+  height: calc(100vh - 20px); /* Match sidebar height */
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-header {
+  padding: 20px;
+  background: var(--secondary-color);
+  border-radius: 15px 15px 0 0;
+  border-bottom: 2px solid var(--border-color);
+}
+
+.chat-header h2 {
+  color: white;
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.messages {
+  flex: 1;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  overflow-y: auto;
+  color: #000;
+}
+
+/* Message input area improvements */
+.input-area {
+  padding: 20px;
+  background: var(--glass-bg);
+  border-radius: 0 0 15px 15px;
+  border-top: 2px solid var(--border-color);
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.message-input {
+  flex: 1;
+  padding: 15px 20px;
+  border: 2px solid var(--secondary-color);
+  border-radius: 25px;
+  font-size: 16px;
+  background: white;
+  color: var(--text-primary);
+  transition: all 0.3s ease;
+}
+
+.message-input:focus {
+  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+  outline: none;
+}
+
+/* Upload button styling */
+.file-upload {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.upload-button {
+  background: var(--secondary-color);
+  color: white;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.upload-button:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
+}
+
+.file-name {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Send button improvements */
+.send-button {
+  background: var(--secondary-color);
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 25px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  min-width: 100px;
+}
+
+.send-button:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
+}
+
+.send-button:disabled {
+  background: var(--text-secondary);
+  cursor: not-allowed;
+  transform: none;
+}

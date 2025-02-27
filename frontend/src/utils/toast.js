@@ -29,7 +29,6 @@ export const showToast = (message, type = "success") => {
     pauseOnHover: true,
     draggable: true,
     style: {
-      background: "#FFE5B4",
       color: "#000000",
     },
   });
