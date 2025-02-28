@@ -3,6 +3,8 @@ from sqlalchemy.orm import Session
 from typing import List
 from . import read, schema
 from database import get_db
+from service import post_contexts
+import logging
 
 # Define the FastAPI router
 router = APIRouter(
@@ -10,15 +12,21 @@ router = APIRouter(
     tags=["retriever"]
 )
 
+# Set up logging
+logger = logging.getLogger(__name__)
+
 # Define the POST method
-@router.post("/contexto", response_model=schema.PromptResponse, status_code=status.HTTP_200_OK)
-def prompt_retriever(request: schema.RetrieverRequest, db: Session = Depends(get_db)):
+@router.post("/contexto", response_model=schema.PromptResponse, status_code=status.HTTP_201_CREATED)
+async def prompt_retriever(request: schema.RetrieverRequest, db: Session = Depends(get_db)):
     try:
         # Call the function to get textos based on the embedding
         textos = read.get_texts_by_embedding(db, request.embedding)
 
         # Return the prompt and the textos
-        return schema.PromptResponse(prompt=request.prompt, textos=textos)
+        retriever_response = schema.PromptResponse(prompt=request.prompt, textos=textos)
+        response_augmenter = post_contexts(retriever_response.model_dump(exclude_none=True))
+        print(response_augmenter)
+        return response_augmenter
     
     except ValueError as e:
         # Handle errors
