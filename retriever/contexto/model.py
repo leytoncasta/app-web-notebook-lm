@@ -4,6 +4,7 @@ from database import Base
 
 class FilesDB(Base):
     __tablename__ = "session_embeddings"
+    __table_args__ = {"schema": "vectorial"}
 
     id_session = Column(Integer, primary_key=True)
     texto = Column(Text, nullable=False)

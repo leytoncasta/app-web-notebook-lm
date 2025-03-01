@@ -27,9 +27,9 @@ async def prompt_retriever(request: schema.RetrieverRequest, db: Session = Depen
 
         # Return the prompt and the textos
         retriever_response = schema.PromptResponse(prompt=request.prompt, textos=textos)
+        print(retriever_response)
         response_augmenter = post_contexts(retriever_response.model_dump(exclude_none=True))
         print(response_augmenter)
-        return response_augmenter
     
     except ValueError as e:
         # Handle errors
