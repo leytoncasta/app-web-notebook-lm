@@ -8,8 +8,8 @@ SET search_path TO vectorial, public;
 CREATE EXTENSION IF NOT EXISTS vector SCHEMA vectorial;
 
 -- Create the table in the new schema
-CREATE TABLE session_embeddings (
-    id_session INT NOT NULL,  -- Unique identifier for each session
+CREATE TABLE vectorial.session_embeddings (
+    id_session INT PRIMARY KEY,  -- Unique identifier for each session
     texto TEXT NOT NULL,      -- Column to store the text of the session
-    embedding vector NOT NULL  -- Column to store vector embeddings
+    embeddings vector NOT NULL  -- Column to store vector embeddings
 );
