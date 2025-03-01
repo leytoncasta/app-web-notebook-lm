@@ -11,10 +11,13 @@ def get_texts_by_embedding(db: Session, query_embedding: list[float]) -> list[st
     # Normalize the query vector for cosine similarity
     query_embedding_norm = query_embedding / np.linalg.norm(query_embedding)
 
+     # Convert the normalized NumPy array to a Python list
+    query_embedding_list = query_embedding_norm.tolist()
+
     # Perform the cosine similarity search
     most_similar = (
         db.query(model.FilesDB.id_session)
-        .order_by(func.cosine_distance(model.FilesDB.embeddings, query_embedding_norm))
+        .order_by(func.cosine_distance(model.FilesDB.embeddings, query_embedding_list))
         .first()
     )
 

@@ -5,6 +5,6 @@ from database import Base
 class FilesDB(Base):
     __tablename__ = "session_embeddings"
 
-    id_session = Column(Integer, nullable=False)
+    id_session = Column(Integer, primary_key=True)
     texto = Column(Text, nullable=False)
     embeddings = Column(ARRAY(FLOAT), nullable=False)

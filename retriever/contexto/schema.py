@@ -6,7 +6,7 @@ class SessionEmbeddings(BaseModel):
     texto: str
     embeddings: list[float]
 
-    @field_validator('embedding')
+    @field_validator('embeddings')
     def validate_embedding(cls, value):
         if not isinstance(value, list) or not all(isinstance(x, float) for x in value):
             raise ValueError("embedding must be a list of floats")

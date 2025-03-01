@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from typing import List
 from . import read, schema
 from database import get_db
-from service import post_contexts
+from service.api import post_contexts
 import logging
 
 # Define the FastAPI router
@@ -19,6 +19,9 @@ logger = logging.getLogger(__name__)
 @router.post("/contexto", response_model=schema.PromptResponse, status_code=status.HTTP_201_CREATED)
 async def prompt_retriever(request: schema.RetrieverRequest, db: Session = Depends(get_db)):
     try:
+
+        print(f"Embedding type: {type(request.embedding)}, value: {request.embedding}")
+
         # Call the function to get textos based on the embedding
         textos = read.get_texts_by_embedding(db, request.embedding)
 
