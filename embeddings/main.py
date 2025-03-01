@@ -16,7 +16,7 @@ class EmbeddingRequest(BaseModel):
 async def generate_embeddings(data: EmbeddingRequest):
     """Recibe fragmentos de texto y devuelve embeddings junto con el chat_id."""
     try:
-        chat_id = data.chat_id  # Acceder directamente sin .get()
+        chat_id = data.chat_id 
         chunks = data.chunks or []
 
         if not chunks:
