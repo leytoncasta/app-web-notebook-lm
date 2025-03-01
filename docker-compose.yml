@@ -1,96 +1,96 @@
 services:
 
-  # # -----------------------------------------------------------------------------
-  # # Frontend: Vite APP
-  # # -----------------------------------------------------------------------------
+  # -----------------------------------------------------------------------------
+  # Frontend: Vite APP
+  # -----------------------------------------------------------------------------
 
-  # frontend:
-  #   image: vite:latest
-  #   container_name: frontend
-  #   build:
-  #     context: ./frontend
-  #     dockerfile: frontend.dockerfile
-  #   environment:
-  #     NODE_ENV: production
-  #   env_file:
-  #     - ./frontend/.env
-  #   depends_on:
-  #     - backend
-  #   ports:
-  #     - 3000:3000
+  frontend:
+    image: vite:latest
+    container_name: frontend
+    build:
+      context: ./frontend
+      dockerfile: frontend.dockerfile
+    environment:
+      NODE_ENV: production
+    env_file:
+      - ./frontend/.env
+    depends_on:
+      - backend
+    ports:
+      - 3000:3000
 
-  # # -----------------------------------------------------------------------------
-  # # Ollama Machine Learning Model Local API
-  # # -----------------------------------------------------------------------------
-  # ollama_service:
-  #   build:
-  #     context: ./LLM/service
-  #     dockerfile: ollama_service.dockerfile
-  #   container_name: ollama_service
-  #   image: ollama_service:latest
-  #   depends_on:
-  #     - ollama
-  #   ports:
-  #     - "4000:4000"
-  #   networks:
-  #     - project_network
-  #   env_file:
-  #     - ./LLM/service/.env
-  #   restart: always
+  # -----------------------------------------------------------------------------
+  # Ollama Machine Learning Model Local API
+  # -----------------------------------------------------------------------------
+  ollama_service:
+    build:
+      context: ./LLM/service
+      dockerfile: ollama_service.dockerfile
+    container_name: ollama_service
+    image: ollama_service:latest
+    depends_on:
+      - ollama
+    ports:
+      - "4000:4000"
+    networks:
+      - project_network
+    env_file:
+      - ./LLM/service/.env
+    restart: always
 
-  # # -----------------------------------------------------------------------------
-  # # Ollama Machine Learning Model Local API
-  # # -----------------------------------------------------------------------------
+  # -----------------------------------------------------------------------------
+  # Ollama Machine Learning Model Local API
+  # -----------------------------------------------------------------------------
 
-  # ollama:
-  #   build:
-  #     context: ./LLM
-  #     dockerfile: ollama.dockerfile
-  #   container_name: ollama
-  #   image: ollama:latest
-  #   volumes:
-  #     - ollama:/root/.ollama
-  #   ports:
-  #     - "11434:11434"
-  #   networks:
-  #     - project_network
-  #   restart: unless-stopped
+  ollama:
+    build:
+      context: ./LLM
+      dockerfile: ollama.dockerfile
+    container_name: ollama
+    image: ollama:latest
+    volumes:
+      - ollama:/root/.ollama
+    ports:
+      - "11434:11434"
+    networks:
+      - project_network
+    restart: unless-stopped
 
 
-  # # -----------------------------------------------------------------------------
-  # # Lógica Base de Datos RELACIONAL (PostgreSQL)
-  # # -----------------------------------------------------------------------------
-  # backend:
-  #   build:
-  #     context: ./backend
-  #     dockerfile: backend.dockerfile
-  #   container_name: backend
-  #   image: backend:latest
-  #   ports:
-  #     - "8000:8000"
-  #   depends_on:
-  #     - db
-  #   networks:
-  #     - project_network
-  #   env_file:
-  #     - ./backend/database/.env
-  #   restart: always
+  # -----------------------------------------------------------------------------
+  # Lógica Base de Datos RELACIONAL (PostgreSQL)
+  # -----------------------------------------------------------------------------
+  backend:
+    build:
+      context: ./backend
+      dockerfile: backend.dockerfile
+    container_name: backend
+    image: backend:latest
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    networks:
+      - project_network
+    env_file:
+      - ./backend/database/.env
+    restart: always
 
-  # # -----------------------------------------------------------------------------
-  # # Servicio Base de Datos RELACIONAL (PostgreSQL)
-  # # -----------------------------------------------------------------------------
-  # db:
-  #   container_name: relational_db
-  #   image: postgres:latest
-  #   env_file:
-  #     - ./backend/database/.env
-  #   ports:
-  #     - 5432:5432
-  #   volumes:
-  #     - relational_db:/var/lib/postgresql/data
-  #   networks:
-  #     - project_network
-  #   restart: always
+  # -----------------------------------------------------------------------------
+  # Servicio Base de Datos RELACIONAL (PostgreSQL)
+  # -----------------------------------------------------------------------------
+  db:
+    container_name: relational_db
+    image: postgres:latest
+    env_file:
+      - ./backend/database/.env
+    ports:
+      - 5432:5432
+    volumes:
+      - relational_db:/var/lib/postgresql/data
+    networks:
+      - project_network
+    restart: always
 
   # -----------------------------------------------------------------------------
   # Lógica Retriever (PostgreSQL Vectorial)
