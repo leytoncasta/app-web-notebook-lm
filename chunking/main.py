@@ -1,6 +1,6 @@
-from fastapi import FastAPI, File, UploadFile
+from fastapi import FastAPI, File, HTTPException, UploadFile,Form
 from pypdf import PdfReader
-from typing import List
+from typing import List, Dict, Union
 import httpx
 
 app = FastAPI()
@@ -12,9 +12,11 @@ def chunk_text(text: str, chunk_size: int = 500) -> List[str]:
     return [text[i:i+chunk_size] for i in range(0, len(text), chunk_size)]
 
 @app.post("/upload_document")
-async def upload_document(file: UploadFile = File(...)):
-    """Recibe un PDF, extrae el texto, lo divide en fragmentos y los envía al servicio de embeddings."""
+async def upload_document(file: UploadFile = File(...), chat_id: str = Form(...)) -> Dict[str, Union[str, int, Dict]]:
+    """Recibe un PDF, extrae el texto, lo divide en fragmentos y los envía al servicio de embeddings junto con el chat_id."""
     try:
+        if not file.filename.lower().endswith(".pdf"):
+            raise HTTPException(status_code=400, detail="El archivo debe ser un PDF")
         pdf_reader = PdfReader(file.file)
         text = " ".join([page.extract_text() for page in pdf_reader.pages if page.extract_text()])
         
@@ -24,7 +26,7 @@ async def upload_document(file: UploadFile = File(...)):
         chunks = chunk_text(text)
 
         async with httpx.AsyncClient() as client:
-            response = await client.post(EMBEDDING_SERVICE_URL, json=chunks)  # Enviar la lista directamente
+            response = await client.post(EMBEDDING_SERVICE_URL, json={"chat_id": chat_id, "chunks": chunks})
             embeddings_response = response.json()
 
         return embeddings_response
