@@ -17,17 +17,22 @@ app = FastAPI()
 
 class LLMQuery(BaseModel):
     model: str
+    context: str
     prompt: str
     stream: bool
-    context: list
 
 @app.post("/generate")
 async def generate(query: LLMQuery):
 
+    ollama_query = {
+        "model": query.model,
+        "prompt": f"Atención: A continuación se proporciona un contexto detallado que debe utilizarse para responder la siguiente pregunta, sin tener en cuenta ningún otro conocimiento preentrenado.\n\nContexto:\n{query.context}\n\nPregunta:\n{query.prompt}",
+        "stream": query.stream
+    }
     try:
         async with httpx.AsyncClient() as client:
             # Forward the payload to the Ollama LLM service
-            response = await client.post(OLLAMA_API_URL, json=query.dict())
+            response = await client.post(OLLAMA_API_URL, json=ollama_query)
             response.raise_for_status()
             data = response.json()
             
