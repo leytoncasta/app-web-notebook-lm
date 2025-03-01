@@ -93,9 +93,47 @@ services:
     restart: always
 
   # -----------------------------------------------------------------------------
+  # Lógica Retriever (PostgreSQL Vectorial)
+  # -----------------------------------------------------------------------------
+  augment:
+    build:
+      context: ./augment
+      dockerfile: Dockerfile
+    container_name: augment
+    image: augment:latest
+    ports:
+      - "2000:2000"
+    depends_on:
+      - retriever
+    networks:
+      - project_network
+    volumes:
+      - augment:/var/lib/augment/data
+    restart: always
+
+  # -----------------------------------------------------------------------------
+  # Lógica Retriever (PostgreSQL Vectorial)
+  # -----------------------------------------------------------------------------
+  retriever:
+    build:
+      context: ./retriever
+      dockerfile: Dockerfile
+    container_name: retriever
+    image: retriever:latest
+    ports:
+      - "8080:8080"
+    depends_on:
+      - vectorial_db
+    networks:
+      - project_network
+    volumes:
+      - retriever:/var/lib/retriever/data
+    restart: always
+
+  # -----------------------------------------------------------------------------
   # Servicio Base de Datos VECTORIAL (PostgreSQL)
   # -----------------------------------------------------------------------------
-  postgres:
+  vectorial_db:
     build:
       context: ./vectorial_db
       dockerfile: Dockerfile
@@ -169,3 +207,8 @@ volumes:
     driver: local
   frontend:
     driver: local
+  retriever:
+    driver: local
+  augment:
+    driver: local
+    
