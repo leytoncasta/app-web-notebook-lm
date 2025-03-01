@@ -124,14 +124,28 @@ services:
 # Embeddings
 # -----------------------------------------------------------------------------
 
-
-  embeddings:
+# -----------------------------------------------------------------------------
+# 1
+# -----------------------------------------------------------------------------
+  embeddings1:
     build:
       context: ./embeddings
-      dockerfile: embedings.dockerfile  # OJO: Parece que "embedings" tiene un error tipográfico
-    container_name: embeddings_service
+      dockerfile: embedings.dockerfile  #
+    container_name: embeddings_service_1
     ports:
       - "8002:8002"
+    networks:
+      - project_network
+# -----------------------------------------------------------------------------
+# 2
+# -----------------------------------------------------------------------------
+  embeddings2:
+    build:
+      context: ./embeddings
+      dockerfile: embedings.dockerfile  
+    container_name: embeddings_service_2
+    ports:
+      - "8003:8002"
     networks:
       - project_network
 
