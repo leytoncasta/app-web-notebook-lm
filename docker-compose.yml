@@ -146,10 +146,51 @@ services:
       - vectorial_db:/var/lib/postgresql/data
     networks:
       - project_network
+# -----------------------------------------------------------------------------
+# Chunking
+# -----------------------------------------------------------------------------
+  chunking:
+    build:
+      context: ./chunking
+      dockerfile: chunking.dockerfile
+    container_name: chunking_service
+    ports:
+      - "8001:8001"
+    networks:
+      - project_network
+# -----------------------------------------------------------------------------
+# Embeddings
+# -----------------------------------------------------------------------------
+
+# -----------------------------------------------------------------------------
+# 1
+# -----------------------------------------------------------------------------
+  embeddings1:
+    build:
+      context: ./embeddings
+      dockerfile: embedings.dockerfile  #
+    container_name: embeddings_service_1
+    ports:
+      - "8002:8002"
+    networks:
+      - project_network
+# -----------------------------------------------------------------------------
+# 2
+# -----------------------------------------------------------------------------
+  embeddings2:
+    build:
+      context: ./embeddings
+      dockerfile: embedings.dockerfile  
+    container_name: embeddings_service_2
+    ports:
+      - "8003:8002"
+    networks:
+      - project_network
 
 # -----------------------------------------------------------------------------
 # NETWORKS & VOLUMES
 # -----------------------------------------------------------------------------
+
 
 networks:
   project_network:
