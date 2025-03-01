@@ -1,25 +1,18 @@
 from sqlalchemy.orm import Session
-from sqlalchemy import func
-from scipy.spatial.distance import cosine
+from sqlalchemy import text, bindparam
+from sqlalchemy.dialects.postgresql import ARRAY, FLOAT
 from . import model
-import numpy as np
 
 def get_texts_by_embedding(db: Session, query_embedding: list[float]) -> list[str]:
-    # Convert the query vector to a NumPy array
-    query_embedding = np.array(query_embedding)
-
-    # Normalize the query vector for cosine similarity
-    query_embedding_norm = query_embedding / np.linalg.norm(query_embedding)
-
-     # Convert the normalized NumPy array to a Python list
-    query_embedding_list = query_embedding_norm.tolist()
-
-    # Perform the cosine similarity search
-    most_similar = (
-        db.query(model.FilesDB.id_session)
-        .order_by(func.cosine_distance(model.FilesDB.embeddings, query_embedding_list))
-        .first()
-    )
+    
+    query = text("""
+        SELECT id_session 
+        FROM vectorial.session_embeddings 
+        ORDER BY embeddings <=> CAST(:query_embedding AS vector)
+        LIMIT 1
+    """).bindparams(bindparam("query_embedding", type_=ARRAY(FLOAT)))
+    
+    most_similar = db.execute(query, {"query_embedding": query_embedding}).first()
 
     if not most_similar:
         raise ValueError("No matching session found.")
