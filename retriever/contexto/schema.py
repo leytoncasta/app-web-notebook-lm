@@ -2,6 +2,7 @@ from pydantic import BaseModel, field_validator
 from typing import List
 
 class SessionEmbeddings(BaseModel):
+    index: int
     id_session: int
     texto: str
     embeddings: list[float]

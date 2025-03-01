@@ -4,131 +4,131 @@ services:
   # # Frontend: Vite APP
   # # -----------------------------------------------------------------------------
 
-  # frontend:
-  #   image: vite:latest
-  #   container_name: frontend
-  #   build:
-  #     context: ./frontend
-  #     dockerfile: frontend.dockerfile
-  #   environment:
-  #     NODE_ENV: production
-  #   env_file:
-  #     - ./frontend/.env
-  #   depends_on:
-  #     - backend
-  #   ports:
-  #     - 3000:3000
+  frontend:
+    image: vite:latest
+    container_name: frontend
+    build:
+      context: ./frontend
+      dockerfile: frontend.dockerfile
+    environment:
+      NODE_ENV: production
+    env_file:
+      - ./frontend/.env
+    depends_on:
+      - backend
+    ports:
+      - 3000:3000
 
-  # # -----------------------------------------------------------------------------
-  # # Ollama Machine Learning Model Local API
-  # # -----------------------------------------------------------------------------
-  # ollama_service:
-  #   build:
-  #     context: ./LLM/service
-  #     dockerfile: ollama_service.dockerfile
-  #   container_name: ollama_service
-  #   image: ollama_service:latest
-  #   depends_on:
-  #     - ollama
-  #   ports:
-  #     - "4000:4000"
-  #   networks:
-  #     - project_network
-  #   env_file:
-  #     - ./LLM/service/.env
-  #   restart: always
+  # -----------------------------------------------------------------------------
+  # Ollama Machine Learning Model Local API
+  # -----------------------------------------------------------------------------
+  ollama_service:
+    build:
+      context: ./LLM/service
+      dockerfile: ollama_service.dockerfile
+    container_name: ollama_service
+    image: ollama_service:latest
+    depends_on:
+      - ollama
+    ports:
+      - "4000:4000"
+    networks:
+      - project_network
+    env_file:
+      - ./LLM/service/.env
+    restart: always
 
-  # # -----------------------------------------------------------------------------
-  # # Ollama Machine Learning Model Local API
-  # # -----------------------------------------------------------------------------
+  # -----------------------------------------------------------------------------
+  # Ollama Machine Learning Model Local API
+  # -----------------------------------------------------------------------------
 
-  # ollama:
-  #   build:
-  #     context: ./LLM
-  #     dockerfile: ollama.dockerfile
-  #   container_name: ollama
-  #   image: ollama:latest
-  #   volumes:
-  #     - ollama:/root/.ollama
-  #   ports:
-  #     - "11434:11434"
-  #   networks:
-  #     - project_network
-  #   restart: unless-stopped
+  ollama:
+    build:
+      context: ./LLM
+      dockerfile: ollama.dockerfile
+    container_name: ollama
+    image: ollama:latest
+    volumes:
+      - ollama:/root/.ollama
+    ports:
+      - "11434:11434"
+    networks:
+      - project_network
+    restart: unless-stopped
 
 
-  # # -----------------------------------------------------------------------------
-  # # Lógica Base de Datos RELACIONAL (PostgreSQL)
-  # # -----------------------------------------------------------------------------
-  # backend:
-  #   build:
-  #     context: ./backend
-  #     dockerfile: backend.dockerfile
-  #   container_name: backend
-  #   image: backend:latest
-  #   ports:
-  #     - "8000:8000"
-  #   depends_on:
-  #     - db
-  #   networks:
-  #     - project_network
-  #   env_file:
-  #     - ./backend/database/.env
-  #   restart: always
+  # -----------------------------------------------------------------------------
+  # Lógica Base de Datos RELACIONAL (PostgreSQL)
+  # -----------------------------------------------------------------------------
+  backend:
+    build:
+      context: ./backend
+      dockerfile: backend.dockerfile
+    container_name: backend
+    image: backend:latest
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    networks:
+      - project_network
+    env_file:
+      - ./backend/database/.env
+    restart: always
 
-  # # -----------------------------------------------------------------------------
-  # # Servicio Base de Datos RELACIONAL (PostgreSQL)
-  # # -----------------------------------------------------------------------------
-  # db:
-  #   container_name: relational_db
-  #   image: postgres:latest
-  #   env_file:
-  #     - ./backend/database/.env
-  #   ports:
-  #     - 5432:5432
-  #   volumes:
-  #     - relational_db:/var/lib/postgresql/data
-  #   networks:
-  #     - project_network
-  #   restart: always
+  # -----------------------------------------------------------------------------
+  # Servicio Base de Datos RELACIONAL (PostgreSQL)
+  # -----------------------------------------------------------------------------
+  db:
+    container_name: relational_db
+    image: postgres:latest
+    env_file:
+      - ./backend/database/.env
+    ports:
+      - 5432:5432
+    volumes:
+      - relational_db:/var/lib/postgresql/data
+    networks:
+      - project_network
+    restart: always
 
-  # # -----------------------------------------------------------------------------
-  # # Lógica Retriever (PostgreSQL Vectorial)
-  # # -----------------------------------------------------------------------------
-  # augment:
-  #   build:
-  #     context: ./augment
-  #     dockerfile: Dockerfile
-  #   container_name: augment
-  #   image: augment:latest
-  #   ports:
-  #     - "2000:2000"
-  #   depends_on:
-  #     - retriever
-  #   networks:
-  #     - project_network
-  #   volumes:
-  #     - augment:/var/lib/augment/data
-  #   restart: always
+  -----------------------------------------------------------------------------
+  Lógica Retriever (PostgreSQL Vectorial)
+  -----------------------------------------------------------------------------
+  augment:
+    build:
+      context: ./augment
+      dockerfile: Dockerfile
+    container_name: augment
+    image: augment:latest
+    ports:
+      - "2000:2000"
+    depends_on:
+      - retriever
+    networks:
+      - project_network
+    volumes:
+      - augment:/var/lib/augment/data
+    restart: always
 
-  # # -----------------------------------------------------------------------------
-  # # Lógica Retriever (PostgreSQL Vectorial)
-  # # -----------------------------------------------------------------------------
-  # retriever:
-  #   build:
-  #     context: ./retriever
-  #     dockerfile: Dockerfile
-  #   container_name: retriever
-  #   image: retriever:latest
-  #   ports:
-  #     - "8080:8080"
-  #   depends_on:
-  #     - vectorial_db
-  #   networks:
-  #     - project_network
-  #   volumes:
-  #     - retriever:/var/lib/retriever/data
-  #   restart: always
+  -----------------------------------------------------------------------------
+  Lógica Retriever (PostgreSQL Vectorial)
+  -----------------------------------------------------------------------------
+  retriever:
+    build:
+      context: ./retriever
+      dockerfile: Dockerfile
+    container_name: retriever
+    image: retriever:latest
+    ports:
+      - "8080:8080"
+    depends_on:
+      - vectorial_db
+    networks:
+      - project_network
+    volumes:
+      - retriever:/var/lib/retriever/data
+    restart: always
 
   # -----------------------------------------------------------------------------
   # Servicio Base de Datos VECTORIAL (PostgreSQL)
@@ -146,50 +146,50 @@ services:
       - vectorial_db:/var/lib/postgresql/data
     networks:
       - project_network
-# # -----------------------------------------------------------------------------
-# # Chunking
-# # -----------------------------------------------------------------------------
-#   chunking:
-#     build:
-#       context: ./chunking
-#       dockerfile: chunking.dockerfile
-#     container_name: chunking_service
-#     ports:
-#       - "8001:8001"
-#     networks:
-#       - project_network
-# # -----------------------------------------------------------------------------
-# # Embeddings
-# # -----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
+# Chunking
+# -----------------------------------------------------------------------------
+  chunking:
+    build:
+      context: ./chunking
+      dockerfile: chunking.dockerfile
+    container_name: chunking_service
+    ports:
+      - "8001:8001"
+    networks:
+      - project_network
+# -----------------------------------------------------------------------------
+# Embeddings
+# -----------------------------------------------------------------------------
 
-# # -----------------------------------------------------------------------------
-# # 1
-# # -----------------------------------------------------------------------------
-#   embeddings1:
-#     build:
-#       context: ./embeddings
-#       dockerfile: embedings.dockerfile  #
-#     container_name: embeddings_service_1
-#     ports:
-#       - "8002:8002"
-#     networks:
-#       - project_network
-# # -----------------------------------------------------------------------------
-# # 2
-# # -----------------------------------------------------------------------------
-#   embeddings2:
-#     build:
-#       context: ./embeddings
-#       dockerfile: embedings.dockerfile  
-#     container_name: embeddings_service_2
-#     ports:
-#       - "8003:8002"
-#     networks:
-#       - project_network
+# -----------------------------------------------------------------------------
+# 1
+# -----------------------------------------------------------------------------
+  embeddings1:
+    build:
+      context: ./embeddings
+      dockerfile: embedings.dockerfile  #
+    container_name: embeddings_service_1
+    ports:
+      - "8002:8002"
+    networks:
+      - project_network
+# -----------------------------------------------------------------------------
+# 2
+# -----------------------------------------------------------------------------
+  embeddings2:
+    build:
+      context: ./embeddings
+      dockerfile: embedings.dockerfile  
+    container_name: embeddings_service_2
+    ports:
+      - "8003:8002"
+    networks:
+      - project_network
 
-# # -----------------------------------------------------------------------------
-# # NETWORKS & VOLUMES
-# # -----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
+# NETWORKS & VOLUMES
+# -----------------------------------------------------------------------------
 
 
 networks:
