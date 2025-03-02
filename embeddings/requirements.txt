@@ -1,0 +1,8 @@
+fastapi
+uvicorn
+sqlalchemy
+pydantic
+pypdf
+sentence-transformers
+python-dotenv
+psycopg2-binary
