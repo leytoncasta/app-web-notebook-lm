@@ -170,7 +170,7 @@ services:
   embeddings1:
     build:
       context: ./embeddings
-      dockerfile: embedings.dockerfile  #
+      dockerfile: embedings.dockerfile  
     container_name: embeddings_service_1
     ports:
       - "8002:8002"

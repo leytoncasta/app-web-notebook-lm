@@ -14,7 +14,6 @@ class EmbeddingRequest(BaseModel):
     chat_id: int
     chunks: List[str]
 
-
 @app.post("/insert_dummy_data")
 async def insert_dummy_data(db: Session = Depends(get_db)):
     """Inserta un solo registro de prueba en la tabla session_embeddings."""
@@ -25,7 +24,6 @@ async def insert_dummy_data(db: Session = Depends(get_db)):
             embeddings=[random.uniform(-1, 1) for _ in range(5)] 
         )
         
-
         db.add(dummy_entry)
         db.commit()
 
