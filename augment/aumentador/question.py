@@ -1,5 +1,12 @@
 def structure_question(texto, prompt):
     
-    pregunta = "Basado en este texto: " + texto + " Responde a la siguiente pregunta: " + prompt
+    concat = " ".join(texto)
 
-    return pregunta
+    return f'''Atencion: A continuación se proporciona un 
+    contexto detallado que debe utilizarse para responder la siguiente pregunta, 
+    sin tener en cuenta ningún otro conocimiento preentrenado. 
+    Contexto: 
+    {concat}. 
+    Pregunta: 
+    {prompt}'''
+   

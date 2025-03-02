@@ -14,22 +14,19 @@ router = APIRouter(
 logger = logging.getLogger(__name__)
 
 # Define the POST method
-@router.post("/aumentador",response_model=schema.AugmentResponse , status_code=status.HTTP_201_CREATED)
+@router.post("/",response_model=schema.AugmentResponse , status_code=status.HTTP_201_CREATED)
 async def augment_search(request: schema.AugmentRequest):
     try:
+            # make question
+            model = "llama3.2:1b"
+            prompt = structure_question(request.text, request.prompt)
+            stream = False
+            context = []
 
-        # Log the received string
-        logger.info(f"Received string: {request.text}")
-
-        # make question
-        pregunta = structure_question(request.text, request.prompt)
-        #pregunta = "Basado en este texto: " + request.text + " Responde a la siguiente pregunta: " + request.prompt
-
-        # make searching
-        augment_reponse = schema.AugmentResponse(question=pregunta)
-        response_llm = post_searching(augment_reponse.model_dump(exclude_none=True))
-        print(response_llm)
-        return response_llm
+            # # make searching
+            augment_reponse = schema.AugmentResponse(model=model, prompt=prompt, stream=stream, context=context)
+            print(augment_reponse)
+            post_searching(augment_reponse.model_dump(mode = "json"))
           
     except ValueError as e:
         # Handle errors
