@@ -15,7 +15,9 @@ def chunk_text(text: str, chunk_size: int = 500) -> List[str]:
 @app.post("/upload_document")
 async def upload_document(file: UploadFile = File(...), chat_id: int = Form(...)) -> Dict[str, Any]:
     """Recibe un PDF, extrae el texto, lo divide en fragmentos y los envía al servicio de embeddings junto con el chat_id."""
+    print(file.filename)
     try:
+        
         if not file.filename.lower().endswith(".pdf"):
             raise HTTPException(status_code=400, detail="El archivo debe ser un PDF")
         
@@ -32,5 +34,6 @@ async def upload_document(file: UploadFile = File(...), chat_id: int = Form(...)
             embeddings_response = response.json()
         
         return embeddings_response
+    
     except Exception as e:
         return {"error": str(e)}

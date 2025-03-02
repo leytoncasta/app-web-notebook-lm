@@ -57,6 +57,7 @@ const ChatArea = ({ chat }) => {
       if (file) {
         const formData = new FormData();
         formData.append("file_upload", file);
+        formData.append("chat_id", chat.id);
 
         const token = localStorage.getItem("token");
         api.defaults.headers.common["Authorization"] = `Bearer ${token}`;

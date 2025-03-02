@@ -1,8 +1,7 @@
 from fastapi import FastAPI, Depends, HTTPException
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
-from pypdf import PdfReader
-from typing import List, Dict
+from typing import List
 from sentence_transformers import SentenceTransformer
 from database.db import get_db
 import random
@@ -36,6 +35,7 @@ async def insert_dummy_data(db: Session = Depends(get_db)):
         db.rollback()
         return {"error": str(e)}
     
+
 @app.post("/generate_embeddings")
 async def generate_embeddings(data: EmbeddingRequest, db: Session = Depends(get_db)):
     """Recibe fragmentos de texto y devuelve embeddings junto con el chat_id, además los guarda en la BD."""
@@ -61,6 +61,8 @@ async def generate_embeddings(data: EmbeddingRequest, db: Session = Depends(get_
     except Exception as e:
         db.rollback() 
         raise HTTPException(status_code=500, detail=str(e))
+    
+
 @app.post("/embed_text")
 async def embed_text(text: str):
     """Recibe un texto y devuelve su embedding."""
