@@ -5,7 +5,7 @@ import httpx
 
 app = FastAPI()
 
-EMBEDDING_SERVICE_URL = "http://example.com/embed"
+EMBEDDING_SERVICE_URL = "http://embeddings1:8002/generate_embeddings"
 
 def chunk_text(text: str, chunk_size: int = 500) -> List[str]:
     """Divide el texto en fragmentos de tamaño determinado."""
@@ -13,7 +13,7 @@ def chunk_text(text: str, chunk_size: int = 500) -> List[str]:
 
 
 @app.post("/upload_document")
-async def upload_document(file: UploadFile = File(...), chat_id: str = Form(...)) -> Dict[str, Any]:
+async def upload_document(file: UploadFile = File(...), chat_id: int = Form(...)) -> Dict[str, Any]:
     """Recibe un PDF, extrae el texto, lo divide en fragmentos y los envía al servicio de embeddings junto con el chat_id."""
     try:
         if not file.filename.lower().endswith(".pdf"):

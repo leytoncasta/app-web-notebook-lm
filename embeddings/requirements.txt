@@ -3,6 +3,6 @@ uvicorn
 sqlalchemy
 pydantic
 pypdf
-#sentence-transformers
+sentence-transformers
 python-dotenv
 psycopg2-binary
