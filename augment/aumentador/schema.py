@@ -1,8 +1,12 @@
-from pydantic import BaseModel, field_validator
+from pydantic import BaseModel 
+from typing import List
 
 class AugmentRequest(BaseModel):
     prompt: str
-    text: str
+    text: List[str]
 
 class AugmentResponse(BaseModel):
-    question: str
+    model: str
+    prompt: str
+    stream: bool
+    context: List[str]
