@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from contexto import model
 from contexto.path import router as retriever_router
 from database import engine
+import uvicorn
 
 model.Base.metadata.create_all(bind=engine)
 
@@ -21,3 +22,6 @@ app.add_middleware(
 )
 
 app.include_router(retriever_router)
+
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=8080)

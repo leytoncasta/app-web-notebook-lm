@@ -26,9 +26,9 @@ async def prompt_retriever(request: schema.RetrieverRequest, db: Session = Depen
         textos = read.get_texts_by_embedding(db, request.embedding)
 
         # Return the prompt and the textos
-        retriever_response = schema.PromptResponse(prompt=request.prompt, textos=textos)
+        retriever_response = schema.PromptResponse(prompt=request.prompt, text=textos)
         print(retriever_response)
-        response_augmenter = post_contexts(retriever_response.model_dump(exclude_none=True))
+        response_augmenter = post_contexts(retriever_response.model_dump(mode = 'json'))
         print(response_augmenter)
     
     except ValueError as e:

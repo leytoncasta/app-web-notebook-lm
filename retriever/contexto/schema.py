@@ -24,5 +24,5 @@ class RetrieverRequest(BaseModel):
 # Define the response
 class PromptResponse(BaseModel):
     prompt: str
-    textos: List[str]
+    text: List[str]
         
