@@ -20,11 +20,11 @@ RUN git clone https://github.com/pgvector/pgvector.git /tmp/pgvector \
     && make install \
     && rm -rf /tmp/pgvector
 
-# Set environment variables with defaults
-ENV POSTGRES_DB='files'
-ENV POSTGRES_USER='team5'
-ENV POSTGRES_PASSWORD='Project2025!'
-ENV POSTGRES_PORT='532'
+# Set environment variables for PostgreSQL
+ENV POSTGRES_DB=${POSTGRES_DB}
+ENV POSTGRES_USER=${POSTGRES_USER}
+ENV POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+ENV POSTGRES_PORT=${POSTGRES_PORT}
 
 # Expose the PostgreSQL port
 EXPOSE 532
