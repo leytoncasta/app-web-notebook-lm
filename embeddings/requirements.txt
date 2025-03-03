@@ -6,3 +6,4 @@ pypdf
 sentence-transformers
 python-dotenv
 psycopg2-binary
+aiohttp

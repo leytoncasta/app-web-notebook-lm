@@ -8,11 +8,12 @@ import random
 from database.model import FilesDB
 from database import model as modelo
 from database import engine
+import aiohttp
 
 app = FastAPI()
 model = SentenceTransformer("all-MiniLM-L6-v2")  
 modelo.Base.metadata.create_all(bind=engine)
-
+API_URL_RETRIEVER = "http://retriever:8080/retriever/contexto"
 class EmbeddingRequest(BaseModel):
     chat_id: int
     chunks: List[str]
@@ -70,7 +71,23 @@ class TextRequest(BaseModel):
 @app.post("/embed_text")
 async def embed_text(request: TextRequest):
     try:
-        embedding = model.encode(request.text).tolist()  
+        if not request.text.strip():
+            raise HTTPException(status_code=400, detail="Input text cannot be empty")
+        
+        embedding = model.encode(request.text).tolist()
+        json_document = {
+            "prompt": request.text,
+            "embedding": embedding
+        }
+        
+        async with aiohttp.ClientSession() as session:
+            async with session.post(API_URL_RETRIEVER, json=json_document) as response:
+                if response.status != 200:
+                    error_msg = await response.text()
+                    raise HTTPException(status_code=response.status, detail=f"Retriever API error: {error_msg}")
+        
         return {"embedding": embedding}
+    except HTTPException as e:
+        raise e
     except Exception as e:
-        return {"error": str(e)}
+        raise HTTPException(status_code=500, detail=f"Internal Server Error: {str(e)}")

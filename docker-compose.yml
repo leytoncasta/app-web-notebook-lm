@@ -174,7 +174,7 @@ services:
     depends_on:
       - vectorial_db
     ports:
-      - "8003:8003"
+      - "8003:8002"
     networks:
       - project_network
 
