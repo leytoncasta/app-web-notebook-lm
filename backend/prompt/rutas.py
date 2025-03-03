@@ -35,7 +35,7 @@ async def subir_prompt(
             "chat_id": request.chat_id
         }
 
-        async with httpx.AsyncClient() as client:
+        async with httpx.AsyncClient(timeout=300.0) as client:
             try:
                 print(f"Attempting to connect to: {EMBEDDING_SERVICE_URL}")
                 print(f"With payload: {payload}")
