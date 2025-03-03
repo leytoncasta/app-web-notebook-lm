@@ -1,7 +1,7 @@
-from fastapi import FastAPI, Depends, HTTPException
+from fastapi import FastAPI, Depends, HTTPException, status
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
-from typing import List
+from typing import List, Optional
 from sentence_transformers import SentenceTransformer
 from database.db import get_db
 import random
@@ -14,6 +14,7 @@ app = FastAPI()
 model = SentenceTransformer("all-MiniLM-L6-v2")  
 modelo.Base.metadata.create_all(bind=engine)
 API_URL_RETRIEVER = "http://retriever:8080/retriever/contexto"
+
 class EmbeddingRequest(BaseModel):
     chat_id: int
     chunks: List[str]
@@ -67,8 +68,18 @@ async def generate_embeddings(data: EmbeddingRequest, db: Session = Depends(get_
 
 class TextRequest(BaseModel):
     text: str
+    chat_id: int
 
-@app.post("/embed_text")
+class AugmentResponse(BaseModel):
+    model: str
+    prompt: str
+    stream: bool
+    context: List[str]
+    response: str
+    done: bool = False
+    done_reason: Optional[str] = ""
+
+@app.post("/embed_text", response_model=AugmentResponse, status_code=status.HTTP_201_CREATED)
 async def embed_text(request: TextRequest):
     try:
         if not request.text.strip():
@@ -77,16 +88,15 @@ async def embed_text(request: TextRequest):
         embedding = model.encode(request.text).tolist()
         json_document = {
             "prompt": request.text,
-            "embedding": embedding
+            "embedding": embedding,
+            "chat_id": request.chat_id
         }
         
         async with aiohttp.ClientSession() as session:
             async with session.post(API_URL_RETRIEVER, json=json_document) as response:
-                if response.status != 200:
-                    error_msg = await response.text()
-                    raise HTTPException(status_code=response.status, detail=f"Retriever API error: {error_msg}")
-        
-        return {"embedding": embedding}
+                sol = await response.json()
+                return sol
+    
     except HTTPException as e:
         raise e
     except Exception as e:

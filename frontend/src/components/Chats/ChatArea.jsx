@@ -8,10 +8,11 @@ const ChatArea = ({ chat }) => {
   const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [hasDocument, setHasDocument] = useState(false);
   const fileInputRef = useRef();
   const messagesEndRef = useRef(null);
 
-  // Get messages for current chat
+  // Obtener mensajes del chat actual
   const currentMessages = chat ? chatMessages[chat.id] || [] : [];
 
   useEffect(() => {
@@ -34,64 +35,94 @@ const ChatArea = ({ chat }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!message.trim() && !file) return;
 
+    if (file) {
+      await handleFileUploadSubmit();
+    } else if (message.trim() && hasDocument) {
+      await handleMessageSubmit();
+    }
+  };
+
+  const handleFileUploadSubmit = async () => {
     try {
       setLoading(true);
+      const formData = new FormData();
+      formData.append("file_upload", file);
+      formData.append("chat_id", chat.id);
 
-      // Add message to UI immediately for current chat
-      if (message.trim()) {
-        const newMessage = {
-          content: message,
-          isUser: true,
-          timestamp: new Date().toISOString(),
-        };
+      const token = localStorage.getItem("token");
+      api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
-        setChatMessages((prev) => ({
-          ...prev,
-          [chat.id]: [...(prev[chat.id] || []), newMessage],
-        }));
-      }
+      await api.post("/documentos/uploadfile", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
 
-      // Handle file upload if present
-      if (file) {
-        const formData = new FormData();
-        formData.append("file_upload", file);
-        formData.append("chat_id", chat.id);
+      setChatMessages((prev) => ({
+        ...prev,
+        [chat.id]: [
+          ...(prev[chat.id] || []),
+          {
+            content: `Documento subido: ${file.name}`,
+            isUser: true,
+            timestamp: new Date().toISOString(),
+          },
+        ],
+      }));
 
-        const token = localStorage.getItem("token");
-        api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-
-        try {
-          await api.post("/documentos/uploadfile", formData, {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          });
-
-          // Add file confirmation message for current chat
-          setChatMessages((prev) => ({
-            ...prev,
-            [chat.id]: [
-              ...(prev[chat.id] || []),
-              {
-                content: `File uploaded: ${file.name}`,
-                isUser: true,
-                timestamp: new Date().toISOString(),
-              },
-            ],
-          }));
-        } catch (err) {
-          setError("Error uploading PDF");
-          console.error("Upload error:", err);
-        }
-      }
-
-      setMessage("");
+      setHasDocument(true);
       setFile(null);
       setError("");
     } catch (err) {
-      setError("Error sending message");
+      setError("Error al subir el PDF");
+      console.error("Error de subida:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleMessageSubmit = async () => {
+    try {
+      setLoading(true);
+
+      // Agregar mensaje del usuario a la UI
+      const newMessage = {
+        content: message,
+        isUser: true,
+        timestamp: new Date().toISOString(),
+      };
+
+      setChatMessages((prev) => ({
+        ...prev,
+        [chat.id]: [...(prev[chat.id] || []), newMessage],
+      }));
+
+      // Enviar prompt al backend
+      const response = await api.post("/prompt/", {
+        text: message,
+        chat_id: chat.id,
+      });
+
+      // Agregar respuesta del backend
+      if (response.data.response) {
+        setChatMessages((prev) => ({
+          ...prev,
+          [chat.id]: [
+            ...(prev[chat.id] || []),
+            {
+              content: response.data.response,
+              isUser: false,
+              timestamp: new Date().toISOString(),
+            },
+          ],
+        }));
+      }
+
+      setMessage("");
+      setError("");
+    } catch (err) {
+      setError("Error al enviar el mensaje");
       console.error("Error:", err);
     } finally {
       setLoading(false);
@@ -103,13 +134,12 @@ const ChatArea = ({ chat }) => {
 
     if (selectedFile) {
       if (selectedFile.type !== "application/pdf") {
-        setError("Only PDF files are allowed");
+        setError("Solo se permiten archivos PDF");
         return;
       }
 
       if (selectedFile.size > 5000000) {
-        // 5MB limit
-        setError("File size should be less than 5MB");
+        setError("El archivo debe ser menor a 5MB");
         return;
       }
 
@@ -154,6 +184,7 @@ const ChatArea = ({ chat }) => {
             type="button"
             onClick={() => fileInputRef.current.click()}
             className="upload-button"
+            disabled={hasDocument}
           >
             📄
           </button>
@@ -163,12 +194,20 @@ const ChatArea = ({ chat }) => {
           type="text"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
-          placeholder="Type a message..."
+          placeholder={
+            hasDocument ? "Escribe un mensaje..." : "Sube un documento primero"
+          }
           className="message-input"
-          disabled={loading}
+          disabled={loading || !hasDocument}
         />
-        <button type="submit" className="send-button" disabled={loading}>
-          {loading ? "Sending..." : "Send"}
+        <button
+          type="submit"
+          className="send-button"
+          disabled={
+            loading || (!file && !hasDocument) || (!message.trim() && !file)
+          }
+        >
+          {loading ? "Enviando..." : "Enviar"}
         </button>
       </form>
     </div>

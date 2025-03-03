@@ -20,6 +20,7 @@ class SessionEmbeddings(BaseModel):
 class RetrieverRequest(BaseModel):
     prompt: str
     embedding: List[float]
+    chat_id: int
 
 # Define the response
 class PromptResponse(BaseModel):

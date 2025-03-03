@@ -119,6 +119,7 @@ services:
       context: ./vectorial_db
       dockerfile: Dockerfile
     container_name: vectorial_db  
+    image: vectorial_db:latest
     env_file:
       - ./vectorial_db/.env
     ports: 
