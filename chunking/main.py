@@ -8,14 +8,10 @@ app = FastAPI()
 EMBEDDING_SERVICE_URL = "http://embeddings1:8002/generate_embeddings"
 
 def chunk_text(text: str, chunk_size: int = 500) -> List[str]:
-    """Divide el texto en fragmentos de tamaño determinado."""
     return [text[i:i+chunk_size] for i in range(0, len(text), chunk_size)]
-
 
 @app.post("/upload_document")
 async def upload_document(file: UploadFile = File(...), chat_id: int = Form(...)) -> Dict[str, Any]:
-    """Recibe un PDF, extrae el texto, lo divide en fragmentos y los envía al servicio de embeddings junto con el chat_id."""
-    print(file.filename)
     try:
         
         if not file.filename.lower().endswith(".pdf"):

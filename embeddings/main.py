@@ -6,9 +6,12 @@ from sentence_transformers import SentenceTransformer
 from database.db import get_db
 import random
 from database.model import FilesDB
+from database import model as modelo
+from database import engine
+
 app = FastAPI()
 model = SentenceTransformer("all-MiniLM-L6-v2")  
-
+modelo.Base.metadata.create_all(bind=engine)
 
 class EmbeddingRequest(BaseModel):
     chat_id: int
