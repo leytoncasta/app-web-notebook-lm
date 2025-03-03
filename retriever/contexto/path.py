@@ -16,7 +16,7 @@ router = APIRouter(
 logger = logging.getLogger(__name__)
 
 # Define the POST method
-@router.post("/contexto", response_model=schema.PromptResponse, status_code=status.HTTP_201_CREATED)
+@router.post("/contexto", response_model=schema.AugmentResponse, status_code=status.HTTP_201_CREATED)
 async def prompt_retriever(request: schema.RetrieverRequest, db: Session = Depends(get_db)):
     try:
         textos = read.get_texts_by_embedding(db, request.embedding)
@@ -26,7 +26,7 @@ async def prompt_retriever(request: schema.RetrieverRequest, db: Session = Depen
         augmented_response = await post_contexts(retriever_response.model_dump(mode='json'))
         logger.info(f"Augmented response: {augmented_response}")
 
-        return retriever_response
+        return augmented_response
 
     except HTTPException:
         raise

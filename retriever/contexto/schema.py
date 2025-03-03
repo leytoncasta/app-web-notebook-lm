@@ -1,5 +1,5 @@
 from pydantic import BaseModel, field_validator
-from typing import List
+from typing import List, Optional
 
 class SessionEmbeddings(BaseModel):
     index: int
@@ -25,4 +25,12 @@ class RetrieverRequest(BaseModel):
 class PromptResponse(BaseModel):
     prompt: str
     text: List[str]
-        
+
+class AugmentResponse(BaseModel):
+    model: str
+    prompt: str
+    stream: bool
+    context: List[str]
+    response: str
+    done: bool = False
+    done_reason: Optional[str] = ""

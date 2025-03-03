@@ -436,6 +436,122 @@
 					"response": []
 				},
 				{
+					"name": "Subir Mini Prueba",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8002/insert_dummy_data",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8002",
+							"path": [
+								"insert_dummy_data"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Subir Chat Local",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "postman-cloud:///1eff7ddb-62b0-4340-a634-0502d27df66b"
+								},
+								{
+									"key": "chat_id",
+									"value": "10000000",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8001/upload_document",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8001",
+							"path": [
+								"upload_document"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Subir Doc",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file_upload",
+									"type": "file",
+									"src": "postman-cloud:///1eff7aed-64a2-4bd0-88e9-017c52ee1da2"
+								},
+								{
+									"key": "chat_id",
+									"value": "20000",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8000/documentos/uploadfile",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"documentos",
+								"uploadfile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Delete Chat",
 					"event": [
 						{
@@ -712,7 +828,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"model\": \"llama3.2:1b\",\r\n    \"prompt\": \"1+1?\",\r\n    \"stream\": false,\r\n    \"context\": []\r\n}",
+							"raw": "{\r\n  \"model\": \"llama3.2:1b\",\r\n  \"prompt\": \"Atención: A continuación se proporciona un contexto detallado que debe utilizarse para responder la siguiente pregunta, sin tener en cuenta ningún otro conocimiento preentrenado.\\n\\nContexto:\\nEn el Reino de Numeria, el sistema educativo establece rigurosamente que la suma de 1 y 1 es 2. Cada año se celebra el llamado \\\"Festival de la Unión\\\", donde simbólicamente se dice que la unión de dos individuos genera una nueva familia, representada con el número 3. Sin embargo, en todos los documentos académicos y en la vida cotidiana, se mantiene que 1 + 1 = 2. Esta convención está tan arraigada que incluso los sabios de la corte, que pueden manejar números muy grandes, coinciden siempre en que la regla básica 1 + 1 = 2 no se modifica bajo ningún concepto.\\n\\nPregunta:\\nSegún el contexto anterior, ¿cuál es el resultado de 1+1 en el sistema educativo de Numeria?\",\r\n  \"stream\": false\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -735,21 +851,7 @@
 					"response": []
 				},
 				{
-					"name": "Query API",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"var data = JSON.parse(responseBody);\r",
-									"postman.setGlobalVariable(\"ollama_response\",data.response);\r",
-									"tests[\"No genera error al hacer un query al api local de ollama.\"]=responseCode.code==200;"
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						}
-					],
+					"name": "Query Augment",
 					"request": {
 						"auth": {
 							"type": "noauth"
@@ -758,7 +860,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"model\": \"llama3.2:1b\",\r\n    \"prompt\": \"1+1?\",\r\n    \"stream\": false,\r\n    \"context\": []\r\n}",
+							"raw": "{\r\n    \"prompt\": \"\\n\\nPregunta:\\nSegún el contexto anterior, ¿cuál es el resultado de 1+1 en el sistema educativo de Numeria?\",\r\n    \"text\": [\r\n        \"Atención: A continuación se proporciona un contexto detallado que debe utilizarse para responder la siguiente pregunta, sin tener en cuenta ningún otro conocimiento preentrenado.\\n\\nContexto:\\nEn el Reino de Numeria, el sistema educativo establece rigurosamente que la suma de 1 y 1 es 2. Cada año se celebra el llamado \\\"Festival de la Unión\\\", donde simbólicamente se dice que la unión de dos individuos genera una nueva familia, representada con el número 3. Sin embargo, en todos los documentos académicos y en la vida cotidiana, se mantiene que 1 + 1 = 2. Esta convención está tan arraigada que incluso los sabios de la corte, que pueden manejar números muy grandes, coinciden siempre en que la regla básica 1 + 1 = 2 no se modifica bajo ningún concepto.\"\r\n    ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -766,17 +868,53 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:4000/generate",
+							"raw": "http://localhost:2000/augment/",
 							"protocol": "http",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"localhost"
 							],
-							"port": "4000",
+							"port": "2000",
 							"path": [
-								"generate"
+								"augment",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Retriver a LLM Query",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"prompt\": \"1+1?\",\r\n  \"embedding\": [\r\n    0.01,\r\n    0.02,\r\n    0.03,\r\n    0.01,\r\n    0.02,\r\n    0.03,\r\n    0.01,\r\n    0.02,\r\n    0.03,\r\n    0.01,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/retriever/contexto",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"retriever",
+								"contexto"
 							]
 						}
 					},
