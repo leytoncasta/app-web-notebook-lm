@@ -18,3 +18,4 @@ starlette==0.46.0
 typing_extensions==4.12.2
 urllib3==2.3.0
 uvicorn==0.34.0
+aiohttp==3.11.13

@@ -5,17 +5,30 @@ from . import model
 
 def get_texts_by_embedding(db: Session, query_embedding: list[float]) -> list[str]:
     
-    query = text("""
-        SELECT id_session 
-        FROM vectorial.session_embeddings 
-        ORDER BY embeddings <=> CAST(:query_embedding AS vector)
-        LIMIT 1
-    """).bindparams(bindparam("query_embedding", type_=ARRAY(FLOAT)))
+    vector_str = f"[{','.join(str(x) for x in query_embedding)}]"
     
-    most_similar = db.execute(query, {"query_embedding": query_embedding}).first()
+    query = text("""
+        WITH vector_lengths AS (
+            SELECT id_session, 
+                   vector_dims(embeddings) as vec_length
+            FROM vectorial.session_embeddings
+        )
+        SELECT e.id_session 
+        FROM vectorial.session_embeddings e
+        INNER JOIN vector_lengths vl ON e.id_session = vl.id_session
+        WHERE vl.vec_length = vector_dims((:embedding)::vector)
+        ORDER BY e.embeddings <=> (:embedding)::vector
+        LIMIT 1
+    """)
+    
+    # Execute with the string representation
+    most_similar = db.execute(
+        query,
+        {"embedding": vector_str}
+    ).first()
 
     if not most_similar:
-        raise ValueError("No matching session found.")
+        raise ValueError(f"No matching sessions found with vector dimension {len(query_embedding)}")
     
     # Retrieve the id_session of the most similar vector
     id_session = most_similar.id_session

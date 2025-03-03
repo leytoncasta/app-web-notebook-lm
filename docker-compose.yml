@@ -22,25 +22,6 @@ services:
   # -----------------------------------------------------------------------------
   # Ollama Machine Learning Model Local API
   # -----------------------------------------------------------------------------
-  ollama_service:
-    build:
-      context: ./LLM/service
-      dockerfile: ollama_service.dockerfile
-    container_name: ollama_service
-    image: ollama_service:latest
-    depends_on:
-      - ollama
-    ports:
-      - "4000:4000"
-    networks:
-      - project_network
-    env_file:
-      - ./LLM/service/.env
-    restart: always
-
-  # -----------------------------------------------------------------------------
-  # Ollama Machine Learning Model Local API
-  # -----------------------------------------------------------------------------
 
   ollama:
     build:
@@ -155,6 +136,7 @@ services:
       context: ./chunking
       dockerfile: chunking.dockerfile
     container_name: chunking_service
+    image: chunking:latest
     ports:
       - "8001:8001"
     networks:
@@ -172,8 +154,11 @@ services:
       context: ./embeddings
       dockerfile: embedings.dockerfile  
     container_name: embeddings_service_1
+    image: embeddings1:latest
     ports:
       - "8002:8002"
+    depends_on:
+      - vectorial_db
     networks:
       - project_network
 
@@ -185,8 +170,11 @@ services:
       context: ./embeddings
       dockerfile: embedings.dockerfile  
     container_name: embeddings_service_2
+    image: embeddings2:latest
+    depends_on:
+      - vectorial_db
     ports:
-      - "8003:8002"
+      - "8003:8003"
     networks:
       - project_network
 

@@ -19,21 +19,27 @@ logger = logging.getLogger(__name__)
 @router.post("/contexto", response_model=schema.PromptResponse, status_code=status.HTTP_201_CREATED)
 async def prompt_retriever(request: schema.RetrieverRequest, db: Session = Depends(get_db)):
     try:
-
-        print(f"Embedding type: {type(request.embedding)}, value: {request.embedding}")
-
-        # Call the function to get textos based on the embedding
         textos = read.get_texts_by_embedding(db, request.embedding)
-
-        # Return the prompt and the textos
         retriever_response = schema.PromptResponse(prompt=request.prompt, text=textos)
-        print(retriever_response)
-        response_augmenter = post_contexts(retriever_response.model_dump(mode = 'json'))
-        print(response_augmenter)
-    
+        logger.info(f"Retriever response: {retriever_response}")
+        
+        augmented_response = await post_contexts(retriever_response.model_dump(mode='json'))
+        logger.info(f"Augmented response: {augmented_response}")
+
+        return retriever_response
+
+    except HTTPException:
+        raise
+
     except ValueError as e:
-        # Handle errors
+        logger.error(f"Error processing request: {str(e)}")
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=str(e),
+        )
+    except Exception as e:
+        logger.error(f"Unexpected error: {str(e)}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="An unexpected error occurred",
         )

@@ -1,8 +1,13 @@
-import requests
+import aiohttp
 from pathlib import Path
 import os
+import logging
 from dotenv import load_dotenv
 from fastapi import HTTPException
+from typing import Dict, Any
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 SERVICE_ABSOLUTE_PATH = Path(__file__).resolve().parent
 env_file = SERVICE_ABSOLUTE_PATH / '.env'
@@ -12,11 +17,17 @@ API_URL_LLM = os.getenv("API_URL_LLM")
 if not API_URL_LLM:
     raise ValueError("API_URL_LLM environment variable is not set")
 
-# Make a POST request to an API endpoint
-def post_searching(payload):
-        response = requests.post(API_URL_LLM, json=payload)
-        # Check if the request was successful (status code 201 for created)
-        if response.status_code >= 200 and response.status_code < 300:
-            print("Successfully consumed llm service")  
-        else:
-            print(f"Failed to consume augmenter service. Status code: {response.status_code}")
+async def post_searching(payload: Dict[str, Any]) -> Dict[str, Any]:
+    async with aiohttp.ClientSession() as session:
+        try:
+            async with session.post(API_URL_LLM, json=payload) as response:
+                response.raise_for_status()
+                logger.info("Successfully consumed llm service")
+                return await response.json()
+                
+        except aiohttp.ClientError as e:
+            logger.error(f"Failed to consume augmenter service: {str(e)}")
+            raise HTTPException(
+                status_code=getattr(response, 'status', 500),
+                detail=f"External service error: {str(e)}"
+            )
