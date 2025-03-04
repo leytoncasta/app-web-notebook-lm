@@ -1,7 +1,7 @@
 {
-	"id": "55a2be59-385e-4e5e-bde1-5e7ad7146315",
+	"id": "011bddb3-13c0-4486-87a0-5db71b4113be",
 	"name": "LLM",
-	"timestamp": "2025-03-04T01:46:13.477Z",
+	"timestamp": "2025-03-04T03:49:44.735Z",
 	"collection_id": "12650312-50476494-46fb-411a-a1d2-865117c7483f",
 	"folder_id": 0,
 	"environment_id": "0",
@@ -9,14 +9,14 @@
 	"delay": 0,
 	"persist": true,
 	"status": "finished",
-	"startedAt": "2025-03-04T01:44:24.581Z",
+	"startedAt": "2025-03-04T03:47:54.625Z",
 	"totalFail": 0,
 	"results": [
 		{
 			"id": "ec6a511f-26e3-453e-95ea-2295f7493228",
 			"name": "Get All (Vacio)",
 			"url": "http://127.0.0.1:8000/usuarios/",
-			"time": 149,
+			"time": 608,
 			"responseCode": {
 				"code": 200,
 				"name": "OK"
@@ -31,7 +31,7 @@
 				}
 			},
 			"times": [
-				149
+				608
 			],
 			"allTests": [
 				{
@@ -43,7 +43,7 @@
 			"id": "103fb777-e31f-406f-8363-25af60063ade",
 			"name": "Crear Usuario 1",
 			"url": "http://localhost:8000/usuarios",
-			"time": 341,
+			"time": 428,
 			"responseCode": {
 				"code": 201,
 				"name": "Created"
@@ -58,7 +58,7 @@
 				}
 			},
 			"times": [
-				341
+				428
 			],
 			"allTests": [
 				{
@@ -70,7 +70,7 @@
 			"id": "41bddec5-5984-44bd-bde9-b4935418ae4f",
 			"name": "Crear  Usuario 2",
 			"url": "http://localhost:8000/usuarios",
-			"time": 275,
+			"time": 273,
 			"responseCode": {
 				"code": 201,
 				"name": "Created"
@@ -85,7 +85,7 @@
 				}
 			},
 			"times": [
-				275
+				273
 			],
 			"allTests": [
 				{
@@ -97,7 +97,7 @@
 			"id": "557cc74f-3e7f-4cd6-9400-4af39cdbdfb7",
 			"name": "Get All",
 			"url": "http://127.0.0.1:8000/usuarios/",
-			"time": 9,
+			"time": 10,
 			"responseCode": {
 				"code": 200,
 				"name": "OK"
@@ -112,7 +112,7 @@
 				}
 			},
 			"times": [
-				9
+				10
 			],
 			"allTests": [
 				{
@@ -124,7 +124,7 @@
 			"id": "82b441b5-0f0b-40a2-b738-83395a8f4f56",
 			"name": "Log In",
 			"url": "http://localhost:8000/usuarios/login",
-			"time": 298,
+			"time": 310,
 			"responseCode": {
 				"code": 200,
 				"name": "OK"
@@ -139,7 +139,7 @@
 				}
 			},
 			"times": [
-				298
+				310
 			],
 			"allTests": [
 				{
@@ -150,8 +150,8 @@
 		{
 			"id": "5db03994-ffa3-46e1-84c3-690795d96dd4",
 			"name": "Get Usuario por ID",
-			"url": "http://localhost:8000/usuarios/27",
-			"time": 13,
+			"url": "http://localhost:8000/usuarios/35",
+			"time": 22,
 			"responseCode": {
 				"code": 200,
 				"name": "OK"
@@ -166,7 +166,7 @@
 				}
 			},
 			"times": [
-				13
+				22
 			],
 			"allTests": [
 				{
@@ -205,7 +205,7 @@
 			"id": "ea1eaf1e-2a2c-44ed-97f0-a53c70bbb06a",
 			"name": "Crear Chat",
 			"url": "http://localhost:8000/chats/",
-			"time": 20,
+			"time": 28,
 			"responseCode": {
 				"code": 201,
 				"name": "Created"
@@ -220,7 +220,7 @@
 				}
 			},
 			"times": [
-				20
+				28
 			],
 			"allTests": [
 				{
@@ -231,8 +231,8 @@
 		{
 			"id": "46b264eb-b039-4aa4-92aa-27feab4d83f6",
 			"name": "Get Chat por ID",
-			"url": "http://localhost:8000/chats/31",
-			"time": 9,
+			"url": "http://localhost:8000/chats/43",
+			"time": 8,
 			"responseCode": {
 				"code": 200,
 				"name": "OK"
@@ -247,7 +247,7 @@
 				}
 			},
 			"times": [
-				9
+				8
 			],
 			"allTests": [
 				{
@@ -258,8 +258,8 @@
 		{
 			"id": "0eda2e84-6e94-422b-b904-d2fd32ecfe9e",
 			"name": "Chats de un Usuario",
-			"url": "http://localhost:8000/chats/user/27?skip=0&limit=100",
-			"time": 12,
+			"url": "http://localhost:8000/chats/user/35?skip=0&limit=100",
+			"time": 13,
 			"responseCode": {
 				"code": 200,
 				"name": "OK"
@@ -274,7 +274,7 @@
 				}
 			},
 			"times": [
-				12
+				13
 			],
 			"allTests": [
 				{
@@ -286,7 +286,7 @@
 			"id": "eb8b6a81-a2f2-46ac-a40a-005ec8085eaf",
 			"name": "Subir Mini Prueba",
 			"url": "http://localhost:8002/insert_dummy_data",
-			"time": 319,
+			"time": 551,
 			"responseCode": {
 				"code": 200,
 				"name": "OK"
@@ -301,7 +301,7 @@
 				}
 			},
 			"times": [
-				319
+				551
 			],
 			"allTests": [
 				{
@@ -313,7 +313,7 @@
 			"id": "ba9907c7-3f2f-45f0-a7ee-adea402428d0",
 			"name": "Subir Chat Local",
 			"url": "http://localhost:8001/upload_document",
-			"time": 1717,
+			"time": 3006,
 			"responseCode": {
 				"code": 200,
 				"name": "OK"
@@ -328,7 +328,7 @@
 				}
 			},
 			"times": [
-				1717
+				3006
 			],
 			"allTests": [
 				{
@@ -340,7 +340,7 @@
 			"id": "df5501ad-37c7-4305-b45c-492fae8e837a",
 			"name": "Subir Doc",
 			"url": "http://localhost:8000/documentos/uploadfile",
-			"time": 2272,
+			"time": 2209,
 			"responseCode": {
 				"code": 200,
 				"name": "OK"
@@ -355,7 +355,7 @@
 				}
 			},
 			"times": [
-				2272
+				2209
 			],
 			"allTests": [
 				{
@@ -366,8 +366,8 @@
 		{
 			"id": "225a238b-00a9-4aac-b917-2655336cdb14",
 			"name": "Delete Chat",
-			"url": "http://localhost:8000/chats/31",
-			"time": 21,
+			"url": "http://localhost:8000/chats/43",
+			"time": 19,
 			"responseCode": {
 				"code": 200,
 				"name": "OK"
@@ -382,7 +382,7 @@
 				}
 			},
 			"times": [
-				21
+				19
 			],
 			"allTests": [
 				{
@@ -393,8 +393,8 @@
 		{
 			"id": "8b01200c-82b5-460e-8250-760c25238a14",
 			"name": "Actualizar Usuario",
-			"url": "http://localhost:8000/usuarios/28",
-			"time": 18,
+			"url": "http://localhost:8000/usuarios/36",
+			"time": 146,
 			"responseCode": {
 				"code": 200,
 				"name": "OK"
@@ -409,7 +409,7 @@
 				}
 			},
 			"times": [
-				18
+				146
 			],
 			"allTests": [
 				{
@@ -420,8 +420,8 @@
 		{
 			"id": "ba215527-202f-4d42-9ca7-de5e42ccd6a7",
 			"name": "Detele Usuario 1",
-			"url": "http://localhost:8000/usuarios/27",
-			"time": 14,
+			"url": "http://localhost:8000/usuarios/35",
+			"time": 12,
 			"responseCode": {
 				"code": 204,
 				"name": "No Content"
@@ -436,7 +436,7 @@
 				}
 			},
 			"times": [
-				14
+				12
 			],
 			"allTests": [
 				{
@@ -447,8 +447,8 @@
 		{
 			"id": "0bfa1baf-98e4-4a14-9371-5361f82b6bf5",
 			"name": "Detele Usuario 2",
-			"url": "http://localhost:8000/usuarios/28",
-			"time": 14,
+			"url": "http://localhost:8000/usuarios/36",
+			"time": 12,
 			"responseCode": {
 				"code": 204,
 				"name": "No Content"
@@ -463,7 +463,7 @@
 				}
 			},
 			"times": [
-				14
+				12
 			],
 			"allTests": [
 				{
@@ -475,7 +475,7 @@
 			"id": "56cf9a40-e2a4-4520-95d8-7377e96789fc",
 			"name": "Get All (Vacio)",
 			"url": "http://127.0.0.1:8000/usuarios/",
-			"time": 16,
+			"time": 11,
 			"responseCode": {
 				"code": 200,
 				"name": "OK"
@@ -490,7 +490,7 @@
 				}
 			},
 			"times": [
-				16
+				11
 			],
 			"allTests": [
 				{
@@ -502,7 +502,7 @@
 			"id": "a2a5dc7c-6eed-44f9-8f97-5814cc649768",
 			"name": "List Models (Local)",
 			"url": "http://localhost:11434/api/tags",
-			"time": 10,
+			"time": 13,
 			"responseCode": {
 				"code": 200,
 				"name": "OK"
@@ -517,7 +517,7 @@
 				}
 			},
 			"times": [
-				10
+				13
 			],
 			"allTests": [
 				{
@@ -529,7 +529,7 @@
 			"id": "931f4dd7-554d-4b64-9584-171a8a252cb5",
 			"name": "Query (Local)",
 			"url": "http://localhost:11434/api/generate",
-			"time": 7600,
+			"time": 9683,
 			"responseCode": {
 				"code": 200,
 				"name": "OK"
@@ -544,7 +544,7 @@
 				}
 			},
 			"times": [
-				7600
+				9683
 			],
 			"allTests": [
 				{
@@ -556,7 +556,7 @@
 			"id": "37333b7e-bf17-46eb-981e-aa1395d27800",
 			"name": "Query Augment",
 			"url": "http://localhost:2000/augment/",
-			"time": 11400,
+			"time": 17936,
 			"responseCode": {
 				"code": 201,
 				"name": "Created"
@@ -571,7 +571,7 @@
 				}
 			},
 			"times": [
-				11400
+				17936
 			],
 			"allTests": [
 				{
@@ -583,7 +583,7 @@
 			"id": "18344464-05d6-47fe-9045-99b7e148078c",
 			"name": "Retriver a LLM Query",
 			"url": "http://localhost:8080/retriever/contexto",
-			"time": 31493,
+			"time": 23157,
 			"responseCode": {
 				"code": 201,
 				"name": "Created"
@@ -598,7 +598,7 @@
 				}
 			},
 			"times": [
-				31493
+				23157
 			],
 			"allTests": [
 				{
@@ -610,7 +610,7 @@
 			"id": "30dbe2ad-1860-4a7d-8734-adf3f61cb8b2",
 			"name": "Embedding a LLM Query",
 			"url": "http://localhost:8003/embed_text",
-			"time": 49120,
+			"time": 17358,
 			"responseCode": {
 				"code": 201,
 				"name": "Created"
@@ -625,7 +625,7 @@
 				}
 			},
 			"times": [
-				49120
+				17358
 			],
 			"allTests": [
 				{
@@ -637,7 +637,7 @@
 			"id": "d3062d83-5bba-459f-8a22-7595760315d1",
 			"name": "Backend to LLM",
 			"url": "http://localhost:8000/prompt/",
-			"time": 1311,
+			"time": 32224,
 			"responseCode": {
 				"code": 201,
 				"name": "Created"
@@ -652,7 +652,7 @@
 				}
 			},
 			"times": [
-				1311
+				32224
 			],
 			"allTests": [
 				{
@@ -662,7 +662,7 @@
 		}
 	],
 	"count": 1,
-	"totalTime": 106467,
+	"totalTime": 108053,
 	"collection": {
 		"requests": [
 			{

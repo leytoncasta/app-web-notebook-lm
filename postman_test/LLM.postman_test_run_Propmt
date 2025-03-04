@@ -1,7 +1,7 @@
 {
-	"id": "6092623e-3a88-483f-be39-e9516b275553",
+	"id": "c24a8345-d675-4e79-9d9e-fd9faaa8fbf0",
 	"name": "LLM",
-	"timestamp": "2025-03-04T01:43:38.396Z",
+	"timestamp": "2025-03-04T03:47:03.342Z",
 	"collection_id": "12650312-50476494-46fb-411a-a1d2-865117c7483f",
 	"folder_id": "12650312-71d5403f-b4ca-45a0-8da0-53c68c2dcd76",
 	"environment_id": "0",
@@ -9,14 +9,14 @@
 	"delay": 0,
 	"persist": true,
 	"status": "finished",
-	"startedAt": "2025-03-04T01:41:46.163Z",
+	"startedAt": "2025-03-04T03:44:40.127Z",
 	"totalFail": 0,
 	"results": [
 		{
 			"id": "a2a5dc7c-6eed-44f9-8f97-5814cc649768",
 			"name": "List Models (Local)",
 			"url": "http://localhost:11434/api/tags",
-			"time": 29,
+			"time": 16,
 			"responseCode": {
 				"code": 200,
 				"name": "OK"
@@ -31,7 +31,7 @@
 				}
 			},
 			"times": [
-				29
+				16
 			],
 			"allTests": [
 				{
@@ -43,7 +43,7 @@
 			"id": "931f4dd7-554d-4b64-9584-171a8a252cb5",
 			"name": "Query (Local)",
 			"url": "http://localhost:11434/api/generate",
-			"time": 41491,
+			"time": 10176,
 			"responseCode": {
 				"code": 200,
 				"name": "OK"
@@ -58,7 +58,7 @@
 				}
 			},
 			"times": [
-				41491
+				10176
 			],
 			"allTests": [
 				{
@@ -70,7 +70,7 @@
 			"id": "37333b7e-bf17-46eb-981e-aa1395d27800",
 			"name": "Query Augment",
 			"url": "http://localhost:2000/augment/",
-			"time": 11819,
+			"time": 19301,
 			"responseCode": {
 				"code": 201,
 				"name": "Created"
@@ -85,7 +85,7 @@
 				}
 			},
 			"times": [
-				11819
+				19301
 			],
 			"allTests": [
 				{
@@ -97,7 +97,7 @@
 			"id": "18344464-05d6-47fe-9045-99b7e148078c",
 			"name": "Retriver a LLM Query",
 			"url": "http://localhost:8080/retriever/contexto",
-			"time": 8557,
+			"time": 58013,
 			"responseCode": {
 				"code": 201,
 				"name": "Created"
@@ -112,7 +112,7 @@
 				}
 			},
 			"times": [
-				8557
+				58013
 			],
 			"allTests": [
 				{
@@ -124,7 +124,7 @@
 			"id": "30dbe2ad-1860-4a7d-8734-adf3f61cb8b2",
 			"name": "Embedding a LLM Query",
 			"url": "http://localhost:8003/embed_text",
-			"time": 46787,
+			"time": 4488,
 			"responseCode": {
 				"code": 201,
 				"name": "Created"
@@ -139,7 +139,7 @@
 				}
 			},
 			"times": [
-				46787
+				4488
 			],
 			"allTests": [
 				{
@@ -151,7 +151,7 @@
 			"id": "d3062d83-5bba-459f-8a22-7595760315d1",
 			"name": "Backend to LLM",
 			"url": "http://localhost:8000/prompt/",
-			"time": 2657,
+			"time": 50430,
 			"responseCode": {
 				"code": 201,
 				"name": "Created"
@@ -166,7 +166,7 @@
 				}
 			},
 			"times": [
-				2657
+				50430
 			],
 			"allTests": [
 				{
@@ -176,7 +176,7 @@
 		}
 	],
 	"count": 1,
-	"totalTime": 111340,
+	"totalTime": 142424,
 	"collection": {
 		"requests": [
 			{
