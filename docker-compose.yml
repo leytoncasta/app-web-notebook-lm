@@ -195,8 +195,6 @@ volumes:
     driver: local
   ollama:
     driver: local
-  ollama_service:
-    driver: local
   frontend:
     driver: local
   retriever:
