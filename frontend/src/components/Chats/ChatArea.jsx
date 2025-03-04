@@ -21,25 +21,6 @@ const ChatArea = ({ chat }) => {
     scrollToBottom();
   }, [currentMessages]);
 
-  //useEffect(() => {
-  //  // Check if current chat has a document when chat changes
-  //  if (chat) {
-  //    checkDocumentStatus();
-  //  }
-  //}, [chat]);
-  //
-  //const checkDocumentStatus = async () => {
-  //  try {
-  //    const response = await api.get(`/documentos/status/${chat.id}`);
-  //    setHasDocuments((prev) => ({
-  //      ...prev,
-  //      [chat.id]: response.data.hasDocument,
-  //    }));
-  //  } catch (err) {
-  //    console.error("Error checking document status:", err);
-  //  }
-  //};
-
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
@@ -123,25 +104,55 @@ const ChatArea = ({ chat }) => {
         [chat.id]: [...(prev[chat.id] || []), newMessage],
       }));
 
-      // Enviar prompt al backend
-      const response = await api.post("/prompt/", {
-        text: message,
-        chat_id: chat.id,
-      });
+      api
+        .post("/prompt/", {
+          text: message,
+          chat_id: chat.id,
+        })
+        .catch((error) => {
+          console.error("Error sending prompt:", error);
+          throw error;
+        });
 
-      // Agregar respuesta del backend
-      if (response.data.response) {
-        setChatMessages((prev) => ({
-          ...prev,
-          [chat.id]: [
-            ...(prev[chat.id] || []),
-            {
-              content: response.data.response,
-              isUser: false,
-              timestamp: new Date().toISOString(),
-            },
-          ],
-        }));
+      let attempts = 0;
+      const maxAttempts = 300; // 5 minutos máximo
+
+      const pollResponse = async () => {
+        try {
+          const llmResponse = await api.get(`/LLM/response/${chat.id}`);
+
+          if (llmResponse.data.status === "success" && llmResponse.data.data) {
+            setChatMessages((prev) => ({
+              ...prev,
+              [chat.id]: [
+                ...(prev[chat.id] || []),
+                {
+                  content: llmResponse.data.data,
+                  isUser: false,
+                  timestamp: new Date().toISOString(),
+                },
+              ],
+            }));
+            return true;
+          }
+
+          attempts++;
+          if (attempts >= maxAttempts) {
+            setError("Tiempo de espera agotado");
+            return true;
+          }
+
+          await new Promise((resolve) => setTimeout(resolve, 1000));
+          return false;
+        } catch (error) {
+          console.error("Error polling response:", error);
+          setError("Error al obtener la respuesta");
+          return true;
+        }
+      };
+
+      while (!(await pollResponse())) {
+        continue;
       }
 
       setMessage("");

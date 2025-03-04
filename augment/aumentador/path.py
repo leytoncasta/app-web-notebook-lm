@@ -1,4 +1,5 @@
 from fastapi import APIRouter, status, HTTPException
+import httpx
 from service.api import post_searching
 from . import schema
 from .question import structure_question
@@ -12,6 +13,7 @@ router = APIRouter(
 
 # Set up logging
 logger = logging.getLogger(__name__)
+BACKEND_URL = "http://backend:8000/LLM/response"
 
 # Define the POST method
 @router.post("/", response_model=schema.AugmentResponse, status_code=status.HTTP_201_CREATED)
@@ -43,7 +45,18 @@ async def augment_search(request: schema.AugmentRequest):
             done=llm_response.get('done', False),
             done_reason=llm_response.get('done_reason', '')
         )
-        
+
+        async with httpx.AsyncClient() as client:
+            backend_response = await client.post(
+                BACKEND_URL,
+                json={
+                    "data": llm_response.get('response', ''),
+                    "chat_id": request.chat_id
+                }
+            )
+            if backend_response.status_code != 200:
+                logger.error(f"Failed to send response to backend: {backend_response.text}")
+
         return augment_response
           
     except ValueError as e:
@@ -52,4 +65,3 @@ async def augment_search(request: schema.AugmentRequest):
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=str(e),
         )
-

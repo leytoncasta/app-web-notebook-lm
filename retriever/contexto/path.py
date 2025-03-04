@@ -18,8 +18,8 @@ logger = logging.getLogger(__name__)
 @router.post("/contexto", response_model=schema.AugmentResponse, status_code=status.HTTP_201_CREATED)
 async def prompt_retriever(request: schema.RetrieverRequest, db: Session = Depends(get_db)):
     try:
-        textos = read.get_texts_by_embedding(db, request.embedding)
-        retriever_response = schema.PromptResponse(prompt=request.prompt, text=textos)
+        textos = read.get_texts_by_embedding(db, request.embedding, request.chat_id)
+        retriever_response = schema.PromptResponse(prompt=request.prompt, text=textos, chat_id=request.chat_id )
         logger.info(f"Retriever response: {retriever_response}")
         
         augmented_response = await post_contexts(retriever_response.model_dump(mode='json'))

@@ -5,7 +5,7 @@ from typing import Dict
 from datetime import datetime
 class LLMRequest(BaseModel):
     data: str
-    chat_id: str
+    chat_id: int
 
 router = APIRouter(
     prefix="/LLM",
@@ -17,10 +17,12 @@ response_store: Dict[str, dict] = {}
 @router.post("/response")
 async def receive_llm_response(request: LLMRequest):
     try:
+        print(f"Received response: {request.data}")
         response_store[request.chat_id] = {
             "data": request.data,
             "timestamp": datetime.now(),
         }
+        print(f"Stored response for chat_id: {response_store}")
         return {"status": "received", "chat_id": request.chat_id}
     except Exception as e:
         raise HTTPException(status_code=400, detail="Invalid request data")
@@ -28,18 +30,18 @@ async def receive_llm_response(request: LLMRequest):
 @router.get("/response/{chat_id}")
 async def get_llm_response(chat_id: str):
     try:
-        if chat_id not in response_store:
+        chat_id = int(chat_id)
+        if chat_id not in list(response_store.keys()):
             return {"status": "waiting", "data": None}
         
         response = response_store[chat_id]["data"]
-        del response_store[chat_id]  # Clean up after sending
         return {"status": "success", "data": response}
     
     except Exception as e:
         raise HTTPException(status_code=500, detail="Error retrieving response")
 
 @router.on_event("startup")
-@repeat_every(seconds=300) 
+@repeat_every(seconds=1000) 
 async def cleanup_old_responses():
     current_time = datetime.now()
     expired_chats = [
