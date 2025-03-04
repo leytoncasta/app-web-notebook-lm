@@ -1,22 +1,22 @@
 {
-	"id": "8c697cb3-7f1c-4259-a575-3cff88c74cc9",
+	"id": "55a2be59-385e-4e5e-bde1-5e7ad7146315",
 	"name": "LLM",
-	"timestamp": "2025-02-25T15:04:55.027Z",
+	"timestamp": "2025-03-04T01:46:13.477Z",
 	"collection_id": "12650312-50476494-46fb-411a-a1d2-865117c7483f",
-	"folder_id": "12650312-4ed23db8-0579-47e3-ac07-2c99a6f7584e",
+	"folder_id": 0,
 	"environment_id": "0",
-	"totalPass": 70,
+	"totalPass": 24,
 	"delay": 0,
 	"persist": true,
 	"status": "finished",
-	"startedAt": "2025-02-25T15:04:39.653Z",
+	"startedAt": "2025-03-04T01:44:24.581Z",
 	"totalFail": 0,
 	"results": [
 		{
 			"id": "ec6a511f-26e3-453e-95ea-2295f7493228",
 			"name": "Get All (Vacio)",
 			"url": "http://127.0.0.1:8000/usuarios/",
-			"time": 24,
+			"time": 149,
 			"responseCode": {
 				"code": 200,
 				"name": "OK"
@@ -31,25 +31,9 @@
 				}
 			},
 			"times": [
-				22,
-				23,
-				105,
-				15,
-				24
+				149
 			],
 			"allTests": [
-				{
-					"No genera error traer todos los usuarios.": true
-				},
-				{
-					"No genera error traer todos los usuarios.": true
-				},
-				{
-					"No genera error traer todos los usuarios.": true
-				},
-				{
-					"No genera error traer todos los usuarios.": true
-				},
 				{
 					"No genera error traer todos los usuarios.": true
 				}
@@ -59,7 +43,7 @@
 			"id": "103fb777-e31f-406f-8363-25af60063ade",
 			"name": "Crear Usuario 1",
 			"url": "http://localhost:8000/usuarios",
-			"time": 656,
+			"time": 341,
 			"responseCode": {
 				"code": 201,
 				"name": "Created"
@@ -74,25 +58,9 @@
 				}
 			},
 			"times": [
-				684,
-				731,
-				515,
-				633,
-				656
+				341
 			],
 			"allTests": [
-				{
-					"No genera error crearr un usuario.": true
-				},
-				{
-					"No genera error crearr un usuario.": true
-				},
-				{
-					"No genera error crearr un usuario.": true
-				},
-				{
-					"No genera error crearr un usuario.": true
-				},
 				{
 					"No genera error crearr un usuario.": true
 				}
@@ -102,7 +70,7 @@
 			"id": "41bddec5-5984-44bd-bde9-b4935418ae4f",
 			"name": "Crear  Usuario 2",
 			"url": "http://localhost:8000/usuarios",
-			"time": 694,
+			"time": 275,
 			"responseCode": {
 				"code": 201,
 				"name": "Created"
@@ -117,25 +85,9 @@
 				}
 			},
 			"times": [
-				554,
-				580,
-				589,
-				612,
-				694
+				275
 			],
 			"allTests": [
-				{
-					"No genera error crearr un usuario.": true
-				},
-				{
-					"No genera error crearr un usuario.": true
-				},
-				{
-					"No genera error crearr un usuario.": true
-				},
-				{
-					"No genera error crearr un usuario.": true
-				},
 				{
 					"No genera error crearr un usuario.": true
 				}
@@ -145,7 +97,7 @@
 			"id": "557cc74f-3e7f-4cd6-9400-4af39cdbdfb7",
 			"name": "Get All",
 			"url": "http://127.0.0.1:8000/usuarios/",
-			"time": 12,
+			"time": 9,
 			"responseCode": {
 				"code": 200,
 				"name": "OK"
@@ -160,25 +112,9 @@
 				}
 			},
 			"times": [
-				14,
-				25,
-				13,
-				13,
-				12
+				9
 			],
 			"allTests": [
-				{
-					"No genera error traer todos los usuarios.": true
-				},
-				{
-					"No genera error traer todos los usuarios.": true
-				},
-				{
-					"No genera error traer todos los usuarios.": true
-				},
-				{
-					"No genera error traer todos los usuarios.": true
-				},
 				{
 					"No genera error traer todos los usuarios.": true
 				}
@@ -188,7 +124,7 @@
 			"id": "82b441b5-0f0b-40a2-b738-83395a8f4f56",
 			"name": "Log In",
 			"url": "http://localhost:8000/usuarios/login",
-			"time": 437,
+			"time": 298,
 			"responseCode": {
 				"code": 200,
 				"name": "OK"
@@ -203,25 +139,9 @@
 				}
 			},
 			"times": [
-				379,
-				572,
-				555,
-				827,
-				437
+				298
 			],
 			"allTests": [
-				{
-					"No genera error buscar al usario y ver que su contrseña es correcta.": true
-				},
-				{
-					"No genera error buscar al usario y ver que su contrseña es correcta.": true
-				},
-				{
-					"No genera error buscar al usario y ver que su contrseña es correcta.": true
-				},
-				{
-					"No genera error buscar al usario y ver que su contrseña es correcta.": true
-				},
 				{
 					"No genera error buscar al usario y ver que su contrseña es correcta.": true
 				}
@@ -230,8 +150,8 @@
 		{
 			"id": "5db03994-ffa3-46e1-84c3-690795d96dd4",
 			"name": "Get Usuario por ID",
-			"url": "http://localhost:8000/usuarios/11",
-			"time": 20,
+			"url": "http://localhost:8000/usuarios/27",
+			"time": 13,
 			"responseCode": {
 				"code": 200,
 				"name": "OK"
@@ -246,25 +166,9 @@
 				}
 			},
 			"times": [
-				10,
-				14,
-				13,
-				11,
-				20
+				13
 			],
 			"allTests": [
-				{
-					"No genera error traer un usuario con un Id especifico.": true
-				},
-				{
-					"No genera error traer un usuario con un Id especifico.": true
-				},
-				{
-					"No genera error traer un usuario con un Id especifico.": true
-				},
-				{
-					"No genera error traer un usuario con un Id especifico.": true
-				},
 				{
 					"No genera error traer un usuario con un Id especifico.": true
 				}
@@ -289,25 +193,9 @@
 				}
 			},
 			"times": [
-				16,
-				13,
-				12,
-				12,
 				16
 			],
 			"allTests": [
-				{
-					"No genera error traer todos los chats.": true
-				},
-				{
-					"No genera error traer todos los chats.": true
-				},
-				{
-					"No genera error traer todos los chats.": true
-				},
-				{
-					"No genera error traer todos los chats.": true
-				},
 				{
 					"No genera error traer todos los chats.": true
 				}
@@ -317,40 +205,24 @@
 			"id": "ea1eaf1e-2a2c-44ed-97f0-a53c70bbb06a",
 			"name": "Crear Chat",
 			"url": "http://localhost:8000/chats/",
-			"time": 25,
+			"time": 20,
 			"responseCode": {
-				"code": 200,
-				"name": "OK"
+				"code": 201,
+				"name": "Created"
 			},
 			"tests": {
 				"No genera error crear un chat asociado a un usuario": true
 			},
 			"testPassFailCounts": {
 				"No genera error crear un chat asociado a un usuario": {
-					"pass": 5,
+					"pass": 1,
 					"fail": 0
 				}
 			},
 			"times": [
-				23,
-				26,
-				21,
-				17,
-				25
+				20
 			],
 			"allTests": [
-				{
-					"No genera error crear un chat asociado a un usuario": true
-				},
-				{
-					"No genera error crear un chat asociado a un usuario": true
-				},
-				{
-					"No genera error crear un chat asociado a un usuario": true
-				},
-				{
-					"No genera error crear un chat asociado a un usuario": true
-				},
 				{
 					"No genera error crear un chat asociado a un usuario": true
 				}
@@ -359,8 +231,8 @@
 		{
 			"id": "46b264eb-b039-4aa4-92aa-27feab4d83f6",
 			"name": "Get Chat por ID",
-			"url": "http://localhost:8000/chats/8",
-			"time": 21,
+			"url": "http://localhost:8000/chats/31",
+			"time": 9,
 			"responseCode": {
 				"code": 200,
 				"name": "OK"
@@ -375,35 +247,127 @@
 				}
 			},
 			"times": [
-				19,
-				18,
-				12,
-				12,
-				21
+				9
 			],
 			"allTests": [
-				{
-					"No genera error traer un chat con un Id especifico.": true
-				},
-				{
-					"No genera error traer un chat con un Id especifico.": true
-				},
-				{
-					"No genera error traer un chat con un Id especifico.": true
-				},
-				{
-					"No genera error traer un chat con un Id especifico.": true
-				},
 				{
 					"No genera error traer un chat con un Id especifico.": true
 				}
 			]
 		},
 		{
+			"id": "0eda2e84-6e94-422b-b904-d2fd32ecfe9e",
+			"name": "Chats de un Usuario",
+			"url": "http://localhost:8000/chats/user/27?skip=0&limit=100",
+			"time": 12,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"No genera error traer un chat de un usuario con Id especifico.": true
+			},
+			"testPassFailCounts": {
+				"No genera error traer un chat de un usuario con Id especifico.": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				12
+			],
+			"allTests": [
+				{
+					"No genera error traer un chat de un usuario con Id especifico.": true
+				}
+			]
+		},
+		{
+			"id": "eb8b6a81-a2f2-46ac-a40a-005ec8085eaf",
+			"name": "Subir Mini Prueba",
+			"url": "http://localhost:8002/insert_dummy_data",
+			"time": 319,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"No genera error escribir una prueba en la BD vectorial.": true
+			},
+			"testPassFailCounts": {
+				"No genera error escribir una prueba en la BD vectorial.": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				319
+			],
+			"allTests": [
+				{
+					"No genera error escribir una prueba en la BD vectorial.": true
+				}
+			]
+		},
+		{
+			"id": "ba9907c7-3f2f-45f0-a7ee-adea402428d0",
+			"name": "Subir Chat Local",
+			"url": "http://localhost:8001/upload_document",
+			"time": 1717,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"No genera error escribir una documento en la BD vectorial directamente desde el chunking.": true
+			},
+			"testPassFailCounts": {
+				"No genera error escribir una documento en la BD vectorial directamente desde el chunking.": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				1717
+			],
+			"allTests": [
+				{
+					"No genera error escribir una documento en la BD vectorial directamente desde el chunking.": true
+				}
+			]
+		},
+		{
+			"id": "df5501ad-37c7-4305-b45c-492fae8e837a",
+			"name": "Subir Doc",
+			"url": "http://localhost:8000/documentos/uploadfile",
+			"time": 2272,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"No genera error escribir un documento desde el backend hasta la BD vectorial.": true
+			},
+			"testPassFailCounts": {
+				"No genera error escribir un documento desde el backend hasta la BD vectorial.": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				2272
+			],
+			"allTests": [
+				{
+					"No genera error escribir un documento desde el backend hasta la BD vectorial.": true
+				}
+			]
+		},
+		{
 			"id": "225a238b-00a9-4aac-b917-2655336cdb14",
 			"name": "Delete Chat",
-			"url": "http://localhost:8000/chats/8",
-			"time": 27,
+			"url": "http://localhost:8000/chats/31",
+			"time": 21,
 			"responseCode": {
 				"code": 200,
 				"name": "OK"
@@ -418,25 +382,9 @@
 				}
 			},
 			"times": [
-				29,
-				26,
-				20,
-				26,
-				27
+				21
 			],
 			"allTests": [
-				{
-					"No genera error eliminar un chat con Id especifico.": true
-				},
-				{
-					"No genera error eliminar un chat con Id especifico.": true
-				},
-				{
-					"No genera error eliminar un chat con Id especifico.": true
-				},
-				{
-					"No genera error eliminar un chat con Id especifico.": true
-				},
 				{
 					"No genera error eliminar un chat con Id especifico.": true
 				}
@@ -445,8 +393,8 @@
 		{
 			"id": "8b01200c-82b5-460e-8250-760c25238a14",
 			"name": "Actualizar Usuario",
-			"url": "http://localhost:8000/usuarios/12",
-			"time": 25,
+			"url": "http://localhost:8000/usuarios/28",
+			"time": 18,
 			"responseCode": {
 				"code": 200,
 				"name": "OK"
@@ -461,25 +409,9 @@
 				}
 			},
 			"times": [
-				24,
-				16,
-				27,
-				21,
-				25
+				18
 			],
 			"allTests": [
-				{
-					"No genera error actualizar la información de un usuarios identificado con Id especifico.": true
-				},
-				{
-					"No genera error actualizar la información de un usuarios identificado con Id especifico.": true
-				},
-				{
-					"No genera error actualizar la información de un usuarios identificado con Id especifico.": true
-				},
-				{
-					"No genera error actualizar la información de un usuarios identificado con Id especifico.": true
-				},
 				{
 					"No genera error actualizar la información de un usuarios identificado con Id especifico.": true
 				}
@@ -488,8 +420,8 @@
 		{
 			"id": "ba215527-202f-4d42-9ca7-de5e42ccd6a7",
 			"name": "Detele Usuario 1",
-			"url": "http://localhost:8000/usuarios/11",
-			"time": 18,
+			"url": "http://localhost:8000/usuarios/27",
+			"time": 14,
 			"responseCode": {
 				"code": 204,
 				"name": "No Content"
@@ -504,25 +436,9 @@
 				}
 			},
 			"times": [
-				24,
-				14,
-				20,
-				22,
-				18
+				14
 			],
 			"allTests": [
-				{
-					"No genera error eliminar un usuario con Id especifico.": true
-				},
-				{
-					"No genera error eliminar un usuario con Id especifico.": true
-				},
-				{
-					"No genera error eliminar un usuario con Id especifico.": true
-				},
-				{
-					"No genera error eliminar un usuario con Id especifico.": true
-				},
 				{
 					"No genera error eliminar un usuario con Id especifico.": true
 				}
@@ -531,8 +447,8 @@
 		{
 			"id": "0bfa1baf-98e4-4a14-9371-5361f82b6bf5",
 			"name": "Detele Usuario 2",
-			"url": "http://localhost:8000/usuarios/12",
-			"time": 19,
+			"url": "http://localhost:8000/usuarios/28",
+			"time": 14,
 			"responseCode": {
 				"code": 204,
 				"name": "No Content"
@@ -547,25 +463,9 @@
 				}
 			},
 			"times": [
-				24,
-				20,
-				21,
-				18,
-				19
+				14
 			],
 			"allTests": [
-				{
-					"No genera error eliminar un usuario con Id especifico.": true
-				},
-				{
-					"No genera error eliminar un usuario con Id especifico.": true
-				},
-				{
-					"No genera error eliminar un usuario con Id especifico.": true
-				},
-				{
-					"No genera error eliminar un usuario con Id especifico.": true
-				},
 				{
 					"No genera error eliminar un usuario con Id especifico.": true
 				}
@@ -575,7 +475,7 @@
 			"id": "56cf9a40-e2a4-4520-95d8-7377e96789fc",
 			"name": "Get All (Vacio)",
 			"url": "http://127.0.0.1:8000/usuarios/",
-			"time": 15,
+			"time": 16,
 			"responseCode": {
 				"code": 200,
 				"name": "OK"
@@ -590,33 +490,179 @@
 				}
 			},
 			"times": [
-				25,
-				19,
-				14,
-				13,
-				15
+				16
 			],
 			"allTests": [
 				{
 					"No genera error traer todos los usuarios.": true
-				},
+				}
+			]
+		},
+		{
+			"id": "a2a5dc7c-6eed-44f9-8f97-5814cc649768",
+			"name": "List Models (Local)",
+			"url": "http://localhost:11434/api/tags",
+			"time": 10,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"No genera error traer los modelos que tenemos localmente en Ollama.": true
+			},
+			"testPassFailCounts": {
+				"No genera error traer los modelos que tenemos localmente en Ollama.": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				10
+			],
+			"allTests": [
 				{
-					"No genera error traer todos los usuarios.": true
-				},
+					"No genera error traer los modelos que tenemos localmente en Ollama.": true
+				}
+			]
+		},
+		{
+			"id": "931f4dd7-554d-4b64-9584-171a8a252cb5",
+			"name": "Query (Local)",
+			"url": "http://localhost:11434/api/generate",
+			"time": 7600,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"No genera error hacer un query.": true
+			},
+			"testPassFailCounts": {
+				"No genera error hacer un query.": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				7600
+			],
+			"allTests": [
 				{
-					"No genera error traer todos los usuarios.": true
-				},
+					"No genera error hacer un query.": true
+				}
+			]
+		},
+		{
+			"id": "37333b7e-bf17-46eb-981e-aa1395d27800",
+			"name": "Query Augment",
+			"url": "http://localhost:2000/augment/",
+			"time": 11400,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"No genera error hacer un query desde el Augment.": true
+			},
+			"testPassFailCounts": {
+				"No genera error hacer un query desde el Augment.": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				11400
+			],
+			"allTests": [
 				{
-					"No genera error traer todos los usuarios.": true
-				},
+					"No genera error hacer un query desde el Augment.": true
+				}
+			]
+		},
+		{
+			"id": "18344464-05d6-47fe-9045-99b7e148078c",
+			"name": "Retriver a LLM Query",
+			"url": "http://localhost:8080/retriever/contexto",
+			"time": 31493,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"No genera error hacer un query desde el Retriver.": true
+			},
+			"testPassFailCounts": {
+				"No genera error hacer un query desde el Retriver.": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				31493
+			],
+			"allTests": [
 				{
-					"No genera error traer todos los usuarios.": true
+					"No genera error hacer un query desde el Retriver.": true
+				}
+			]
+		},
+		{
+			"id": "30dbe2ad-1860-4a7d-8734-adf3f61cb8b2",
+			"name": "Embedding a LLM Query",
+			"url": "http://localhost:8003/embed_text",
+			"time": 49120,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"No genera error hacer un query desde el Embedding.": true
+			},
+			"testPassFailCounts": {
+				"No genera error hacer un query desde el Embedding.": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				49120
+			],
+			"allTests": [
+				{
+					"No genera error hacer un query desde el Embedding.": true
+				}
+			]
+		},
+		{
+			"id": "d3062d83-5bba-459f-8a22-7595760315d1",
+			"name": "Backend to LLM",
+			"url": "http://localhost:8000/prompt/",
+			"time": 1311,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"No genera error hacer un query desde el Backend.": true
+			},
+			"testPassFailCounts": {
+				"No genera error hacer un query desde el Backend.": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				1311
+			],
+			"allTests": [
+				{
+					"No genera error hacer un query desde el Backend.": true
 				}
 			]
 		}
 	],
-	"count": 5,
-	"totalTime": 10142,
+	"count": 1,
+	"totalTime": 106467,
 	"collection": {
 		"requests": [
 			{
@@ -656,6 +702,22 @@
 				"method": "GET"
 			},
 			{
+				"id": "0eda2e84-6e94-422b-b904-d2fd32ecfe9e",
+				"method": "GET"
+			},
+			{
+				"id": "eb8b6a81-a2f2-46ac-a40a-005ec8085eaf",
+				"method": "POST"
+			},
+			{
+				"id": "ba9907c7-3f2f-45f0-a7ee-adea402428d0",
+				"method": "POST"
+			},
+			{
+				"id": "df5501ad-37c7-4305-b45c-492fae8e837a",
+				"method": "POST"
+			},
+			{
 				"id": "225a238b-00a9-4aac-b917-2655336cdb14",
 				"method": "DELETE"
 			},
@@ -674,6 +736,30 @@
 			{
 				"id": "56cf9a40-e2a4-4520-95d8-7377e96789fc",
 				"method": "GET"
+			},
+			{
+				"id": "a2a5dc7c-6eed-44f9-8f97-5814cc649768",
+				"method": "GET"
+			},
+			{
+				"id": "931f4dd7-554d-4b64-9584-171a8a252cb5",
+				"method": "POST"
+			},
+			{
+				"id": "37333b7e-bf17-46eb-981e-aa1395d27800",
+				"method": "POST"
+			},
+			{
+				"id": "18344464-05d6-47fe-9045-99b7e148078c",
+				"method": "POST"
+			},
+			{
+				"id": "30dbe2ad-1860-4a7d-8734-adf3f61cb8b2",
+				"method": "POST"
+			},
+			{
+				"id": "d3062d83-5bba-459f-8a22-7595760315d1",
+				"method": "POST"
 			}
 		]
 	}
