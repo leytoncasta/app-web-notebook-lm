@@ -2,7 +2,7 @@
 ### Ejecución de los Servicios
 Para ejecutar los diferentes servicios en un solo comando, asegúrese de que Docker Desktop (en Windows/macOS) o Docker (en Linux) estén en ejecución.
 
-Luego, ejecute el siguiente comando en la terminal:
+Luego, ejecute el siguiente comando en la terminal en el directorio inicial del repositorio:
 ```
 docker-compose up --build -d
 ```
