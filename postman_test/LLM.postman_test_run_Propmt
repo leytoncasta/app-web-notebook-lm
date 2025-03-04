@@ -1,0 +1,208 @@
+{
+	"id": "6092623e-3a88-483f-be39-e9516b275553",
+	"name": "LLM",
+	"timestamp": "2025-03-04T01:43:38.396Z",
+	"collection_id": "12650312-50476494-46fb-411a-a1d2-865117c7483f",
+	"folder_id": "12650312-71d5403f-b4ca-45a0-8da0-53c68c2dcd76",
+	"environment_id": "0",
+	"totalPass": 6,
+	"delay": 0,
+	"persist": true,
+	"status": "finished",
+	"startedAt": "2025-03-04T01:41:46.163Z",
+	"totalFail": 0,
+	"results": [
+		{
+			"id": "a2a5dc7c-6eed-44f9-8f97-5814cc649768",
+			"name": "List Models (Local)",
+			"url": "http://localhost:11434/api/tags",
+			"time": 29,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"No genera error traer los modelos que tenemos localmente en Ollama.": true
+			},
+			"testPassFailCounts": {
+				"No genera error traer los modelos que tenemos localmente en Ollama.": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				29
+			],
+			"allTests": [
+				{
+					"No genera error traer los modelos que tenemos localmente en Ollama.": true
+				}
+			]
+		},
+		{
+			"id": "931f4dd7-554d-4b64-9584-171a8a252cb5",
+			"name": "Query (Local)",
+			"url": "http://localhost:11434/api/generate",
+			"time": 41491,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"No genera error hacer un query.": true
+			},
+			"testPassFailCounts": {
+				"No genera error hacer un query.": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				41491
+			],
+			"allTests": [
+				{
+					"No genera error hacer un query.": true
+				}
+			]
+		},
+		{
+			"id": "37333b7e-bf17-46eb-981e-aa1395d27800",
+			"name": "Query Augment",
+			"url": "http://localhost:2000/augment/",
+			"time": 11819,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"No genera error hacer un query desde el Augment.": true
+			},
+			"testPassFailCounts": {
+				"No genera error hacer un query desde el Augment.": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				11819
+			],
+			"allTests": [
+				{
+					"No genera error hacer un query desde el Augment.": true
+				}
+			]
+		},
+		{
+			"id": "18344464-05d6-47fe-9045-99b7e148078c",
+			"name": "Retriver a LLM Query",
+			"url": "http://localhost:8080/retriever/contexto",
+			"time": 8557,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"No genera error hacer un query desde el Retriver.": true
+			},
+			"testPassFailCounts": {
+				"No genera error hacer un query desde el Retriver.": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				8557
+			],
+			"allTests": [
+				{
+					"No genera error hacer un query desde el Retriver.": true
+				}
+			]
+		},
+		{
+			"id": "30dbe2ad-1860-4a7d-8734-adf3f61cb8b2",
+			"name": "Embedding a LLM Query",
+			"url": "http://localhost:8003/embed_text",
+			"time": 46787,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"No genera error hacer un query desde el Embedding.": true
+			},
+			"testPassFailCounts": {
+				"No genera error hacer un query desde el Embedding.": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				46787
+			],
+			"allTests": [
+				{
+					"No genera error hacer un query desde el Embedding.": true
+				}
+			]
+		},
+		{
+			"id": "d3062d83-5bba-459f-8a22-7595760315d1",
+			"name": "Backend to LLM",
+			"url": "http://localhost:8000/prompt/",
+			"time": 2657,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"No genera error hacer un query desde el Backend.": true
+			},
+			"testPassFailCounts": {
+				"No genera error hacer un query desde el Backend.": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				2657
+			],
+			"allTests": [
+				{
+					"No genera error hacer un query desde el Backend.": true
+				}
+			]
+		}
+	],
+	"count": 1,
+	"totalTime": 111340,
+	"collection": {
+		"requests": [
+			{
+				"id": "a2a5dc7c-6eed-44f9-8f97-5814cc649768",
+				"method": "GET"
+			},
+			{
+				"id": "931f4dd7-554d-4b64-9584-171a8a252cb5",
+				"method": "POST"
+			},
+			{
+				"id": "37333b7e-bf17-46eb-981e-aa1395d27800",
+				"method": "POST"
+			},
+			{
+				"id": "18344464-05d6-47fe-9045-99b7e148078c",
+				"method": "POST"
+			},
+			{
+				"id": "30dbe2ad-1860-4a7d-8734-adf3f61cb8b2",
+				"method": "POST"
+			},
+			{
+				"id": "d3062d83-5bba-459f-8a22-7595760315d1",
+				"method": "POST"
+			}
+		]
+	}
+}

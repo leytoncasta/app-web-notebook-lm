@@ -308,7 +308,7 @@
 								"exec": [
 									"var data = JSON.parse(responseBody);\r",
 									"postman.setGlobalVariable(\"id_chat\",data.id);\r",
-									"tests[\"No genera error crear un chat asociado a un usuario\"]=responseCode.code==200;"
+									"tests[\"No genera error crear un chat asociado a un usuario\"]=responseCode.code==201;"
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -396,6 +396,18 @@
 				},
 				{
 					"name": "Chats de un Usuario",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"No genera error traer un chat de un usuario con Id especifico.\"]=responseCode.code==200;"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -437,6 +449,18 @@
 				},
 				{
 					"name": "Subir Mini Prueba",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"No genera error escribir una prueba en la BD vectorial.\"]=responseCode.code==200;"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "noauth"
@@ -459,6 +483,18 @@
 				},
 				{
 					"name": "Subir Chat Local",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"No genera error escribir una documento en la BD vectorial directamente desde el chunking.\"]=responseCode.code==200;"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "noauth"
@@ -481,12 +517,12 @@
 							]
 						},
 						"url": {
-							"raw": "http://localhost:8002/upload_document",
+							"raw": "http://localhost:8001/upload_document",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8002",
+							"port": "8001",
 							"path": [
 								"upload_document"
 							]
@@ -501,7 +537,7 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									""
+									"tests[\"No genera error escribir un documento desde el backend hasta la BD vectorial.\"]=responseCode.code==200;"
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -852,6 +888,18 @@
 				},
 				{
 					"name": "Query Augment",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"No genera error hacer un query desde el Augment.\"]=responseCode.code==201;"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "noauth"
@@ -884,6 +932,19 @@
 				},
 				{
 					"name": "Retriver a LLM Query",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"No genera error hacer un query desde el Retriver.\"]=responseCode.code==201;\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "noauth"
@@ -922,6 +983,19 @@
 				},
 				{
 					"name": "Embedding a LLM Query",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"No genera error hacer un query desde el Embedding.\"]=responseCode.code==201;\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "noauth"
@@ -953,6 +1027,19 @@
 				},
 				{
 					"name": "Backend to LLM",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"No genera error hacer un query desde el Backend.\"]=responseCode.code==201;\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "bearer",
