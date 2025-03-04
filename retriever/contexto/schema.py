@@ -26,6 +26,7 @@ class RetrieverRequest(BaseModel):
 class PromptResponse(BaseModel):
     prompt: str
     text: List[str]
+    chat_id: int
 
 class AugmentResponse(BaseModel):
     model: str

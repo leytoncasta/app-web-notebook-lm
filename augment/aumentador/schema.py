@@ -4,6 +4,7 @@ from typing import List, Optional
 class AugmentRequest(BaseModel):
     prompt: str
     text: List[str]
+    chat_id: int
 
 class AugmentResponse(BaseModel):
     model: str

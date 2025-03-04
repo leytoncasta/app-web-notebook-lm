@@ -2,40 +2,36 @@ from sqlalchemy.orm import Session
 from sqlalchemy import text
 from . import model
 
-def get_texts_by_embedding(db: Session, query_embedding: list[float]) -> list[str]:
-    
+def get_texts_by_embedding(db: Session, query_embedding: list[float], chat_id: int) -> list[str]:
     vector_str = f"[{','.join(str(x) for x in query_embedding)}]"
     
     query = text("""
-        WITH vector_lengths AS (
-            SELECT id_session, 
-                   vector_dims(embeddings) as vec_length
-            FROM vectorial.session_embeddings
-        )
-        SELECT e.id_session 
-        FROM vectorial.session_embeddings e
-        INNER JOIN vector_lengths vl ON e.id_session = vl.id_session
-        WHERE vl.vec_length = vector_dims((:embedding)::vector)
-        ORDER BY e.embeddings <=> (:embedding)::vector
-        LIMIT 1
+        SELECT index, embeddings <=> (:embedding)::vector as similarity_score
+        FROM vectorial.session_embeddings
+        WHERE id_session = :chat_id
+        ORDER BY embeddings <=> (:embedding)::vector
+        LIMIT 5
     """)
     
     # Execute with the string representation
-    most_similar = db.execute(
+    most_similar_vectors = db.execute(
         query,
-        {"embedding": vector_str}
-    ).first()
+        {
+            "embedding": vector_str,
+            "chat_id": chat_id
+        }
+    ).fetchall()
 
-    if not most_similar:
-        raise ValueError(f"No matching sessions found with vector dimension {len(query_embedding)}")
+    if not most_similar_vectors:
+        raise ValueError(f"No matching vectors found for chat_id {chat_id}")
     
-    # Retrieve the id_session of the most similar vector
-    id_session = most_similar.id_session
+    # Get the indexes of the most similar vectors
+    vector_indexes = [vector.index for vector in most_similar_vectors]
 
-    # Fetch all texto fields for the id_session
+    # Fetch the texto fields for all matching indexes
     results = (
         db.query(model.FilesDB.texto)
-        .filter(model.FilesDB.id_session == id_session)
+        .filter(model.FilesDB.index.in_(vector_indexes))
         .all()
     )
 
