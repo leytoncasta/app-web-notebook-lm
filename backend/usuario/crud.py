@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from fastapi import HTTPException, Depends, status
+from fastapi import HTTPException, status
 from . import modelo
 from typing import List
 from JWT.auth import (

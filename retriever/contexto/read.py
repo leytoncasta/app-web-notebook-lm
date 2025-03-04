@@ -1,6 +1,5 @@
 from sqlalchemy.orm import Session
-from sqlalchemy import text, bindparam
-from sqlalchemy.dialects.postgresql import ARRAY, FLOAT
+from sqlalchemy import text
 from . import model
 
 def get_texts_by_embedding(db: Session, query_embedding: list[float]) -> list[str]:

@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, status, Form, HTTPException
+from fastapi import APIRouter, Depends, status, HTTPException
 from pydantic import BaseModel
 from typing import List, Optional
 from JWT.auth import verify_token
@@ -35,7 +35,7 @@ async def subir_prompt(
             "chat_id": request.chat_id
         }
 
-        async with httpx.AsyncClient(timeout=300.0) as client:
+        async with httpx.AsyncClient(timeout=1000.0) as client:
             try:
                 print(f"Attempting to connect to: {EMBEDDING_SERVICE_URL}")
                 print(f"With payload: {payload}")

@@ -3,9 +3,10 @@
   backdrop-filter: blur(10px);
   border-radius: 15px;
   box-shadow: var(--shadow);
-  height: calc(100vh - 20px); /* Match sidebar height */
+  height: calc(100vh - 20px);
   display: flex;
   flex-direction: column;
+  position: relative; /* Added for absolute positioning of input-area */
 }
 
 .chat-header {
@@ -24,16 +25,85 @@
 
 .messages {
   flex: 1;
+  overflow-y: auto;
   padding: 20px;
   display: flex;
   flex-direction: column;
-  gap: 15px;
-  overflow-y: auto;
-  color: #000;
+  gap: 10px;
+  padding-bottom: 100px; /* Added to prevent messages hidden behind input area */
 }
 
-/* Message input area improvements */
+.message {
+  max-width: 70%;
+  padding: 10px 15px;
+  border-radius: 15px;
+  margin-bottom: 10px;
+  position: relative;
+}
+
+.message.user {
+  background-color: var(--secondary-color);
+  color: white;
+  margin-left: auto; /* Added to push user messages to right */
+  border-bottom-right-radius: 5px;
+}
+
+.message.ai {
+  background-color: #f0f0f0;
+  color: black;
+  margin-right: auto; /* Added to push AI messages to left */
+  border-bottom-left-radius: 5px;
+}
+
+.message-timestamp {
+  font-size: 0.7rem;
+  color: #666;
+  margin-top: 5px;
+  text-align: right;
+}
+
+/* Typing indicator */
+.typing-indicator {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 10px 15px;
+}
+
+.typing-indicator span {
+  width: 8px;
+  height: 8px;
+  background-color: #90949c;
+  border-radius: 50%;
+  display: inline-block;
+  animation: bounce 1.3s linear infinite;
+}
+
+.typing-indicator span:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.typing-indicator span:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+@keyframes bounce {
+  0%,
+  60%,
+  100% {
+    transform: translateY(0);
+  }
+  30% {
+    transform: translateY(-4px);
+  }
+}
+
+/* Input area fixed at bottom */
 .input-area {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
   padding: 20px;
   background: var(--glass-bg);
   border-radius: 0 0 15px 15px;
@@ -41,6 +111,7 @@
   display: flex;
   gap: 15px;
   align-items: center;
+  backdrop-filter: blur(10px);
 }
 
 .message-input {
@@ -57,6 +128,11 @@
 .message-input:focus {
   box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
   outline: none;
+}
+
+.message-input:disabled {
+  background-color: #f5f5f5;
+  cursor: not-allowed;
 }
 
 /* Upload button styling */
@@ -94,7 +170,7 @@
   white-space: nowrap;
 }
 
-/* Send button improvements */
+/* Send button */
 .send-button {
   background: var(--secondary-color);
   color: white;
@@ -115,38 +191,20 @@
   background: var(--text-secondary);
   cursor: not-allowed;
   transform: none;
-}
-
-.loading-messages {
-  text-align: center;
-  padding: 20px;
-  color: #666;
-}
-
-.send-button:disabled {
   opacity: 0.5;
-  cursor: not-allowed;
 }
 
-.file-upload .upload-button {
-  background: none;
-  border: none;
-  font-size: 1.5rem;
-  cursor: pointer;
-  padding: 5px;
-  transition: transform 0.2s;
+/* Empty state */
+.empty-chat-area {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  background: var(--glass-bg);
+  border-radius: 15px;
 }
 
-.file-upload .upload-button:hover {
-  transform: scale(1.1);
-}
-
-.file-name {
-  margin-left: 10px;
-  font-size: 0.9em;
-  color: #666;
-  max-width: 150px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+.empty-state {
+  text-align: center;
+  color: var(--text-secondary);
 }

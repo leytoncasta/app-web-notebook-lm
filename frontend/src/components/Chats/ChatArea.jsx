@@ -8,16 +8,37 @@ const ChatArea = ({ chat }) => {
   const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [hasDocument, setHasDocument] = useState(false);
+  const [hasDocuments, setHasDocuments] = useState({}); // Track documents per chat
+  const [isAiTyping, setIsAiTyping] = useState(false); // Track AI typing state
   const fileInputRef = useRef();
   const messagesEndRef = useRef(null);
 
   // Obtener mensajes del chat actual
   const currentMessages = chat ? chatMessages[chat.id] || [] : [];
+  const currentChatHasDocument = chat ? hasDocuments[chat.id] || false : false;
 
   useEffect(() => {
     scrollToBottom();
   }, [currentMessages]);
+
+  //useEffect(() => {
+  //  // Check if current chat has a document when chat changes
+  //  if (chat) {
+  //    checkDocumentStatus();
+  //  }
+  //}, [chat]);
+  //
+  //const checkDocumentStatus = async () => {
+  //  try {
+  //    const response = await api.get(`/documentos/status/${chat.id}`);
+  //    setHasDocuments((prev) => ({
+  //      ...prev,
+  //      [chat.id]: response.data.hasDocument,
+  //    }));
+  //  } catch (err) {
+  //    console.error("Error checking document status:", err);
+  //  }
+  //};
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -38,7 +59,7 @@ const ChatArea = ({ chat }) => {
 
     if (file) {
       await handleFileUploadSubmit();
-    } else if (message.trim() && hasDocument) {
+    } else if (message.trim() && currentChatHasDocument) {
       await handleMessageSubmit();
     }
   };
@@ -71,7 +92,10 @@ const ChatArea = ({ chat }) => {
         ],
       }));
 
-      setHasDocument(true);
+      setHasDocuments((prev) => ({
+        ...prev,
+        [chat.id]: true,
+      }));
       setFile(null);
       setError("");
     } catch (err) {
@@ -85,6 +109,7 @@ const ChatArea = ({ chat }) => {
   const handleMessageSubmit = async () => {
     try {
       setLoading(true);
+      setIsAiTyping(true);
 
       // Agregar mensaje del usuario a la UI
       const newMessage = {
@@ -126,6 +151,7 @@ const ChatArea = ({ chat }) => {
       console.error("Error:", err);
     } finally {
       setLoading(false);
+      setIsAiTyping(false);
     }
   };
 
@@ -166,6 +192,15 @@ const ChatArea = ({ chat }) => {
             </div>
           </div>
         ))}
+        {isAiTyping && (
+          <div className="message ai">
+            <div className="typing-indicator">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+          </div>
+        )}
         <div ref={messagesEndRef} />
       </div>
 
@@ -184,7 +219,7 @@ const ChatArea = ({ chat }) => {
             type="button"
             onClick={() => fileInputRef.current.click()}
             className="upload-button"
-            disabled={hasDocument}
+            disabled={currentChatHasDocument || loading}
           >
             📄
           </button>
@@ -195,19 +230,23 @@ const ChatArea = ({ chat }) => {
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           placeholder={
-            hasDocument ? "Escribe un mensaje..." : "Sube un documento primero"
+            currentChatHasDocument
+              ? "Escribe un mensaje..."
+              : "Sube un documento primero"
           }
           className="message-input"
-          disabled={loading || !hasDocument}
+          disabled={loading || !currentChatHasDocument}
         />
         <button
           type="submit"
           className="send-button"
           disabled={
-            loading || (!file && !hasDocument) || (!message.trim() && !file)
+            loading ||
+            (!file && !currentChatHasDocument) ||
+            (!message.trim() && !file)
           }
         >
-          {loading ? "Enviando..." : "Enviar"}
+          {loading ? "Procesando..." : "Enviar"}
         </button>
       </form>
     </div>

@@ -1,5 +1,4 @@
-from sqlalchemy import Column, Integer, String, ForeignKey
-from sqlalchemy.orm import relationship
+from sqlalchemy import Column, Integer, ForeignKey
 from database import Base
 
 class UsuarioDB(Base):
