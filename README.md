@@ -19,3 +19,7 @@ Para ver los logs en tiempo real, ejecute:
 ```
 docker-compose logs -f
 ```
+Si se quisiera ejecutar un servicio en especifico se puede utilizar el comando 
+```
+docker build -f name_fockerfile.dockerfile -t tags_for_the_image . 
+```
