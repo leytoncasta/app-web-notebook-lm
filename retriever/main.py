@@ -15,7 +15,7 @@ app = FastAPI(
 # Configure CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # embedding url (need to be define)
+    allow_origins=["http://embeddings2:8002"],  # embedding url (need to be define)
     allow_credentials=True,
     allow_methods=["POST"],  # Allows just POST method
     allow_headers=["*"],  # Allows all headers

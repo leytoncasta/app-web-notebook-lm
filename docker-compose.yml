@@ -31,8 +31,6 @@ services:
     image: ollama:latest
     volumes:
       - ollama:/root/.ollama
-    ports:
-      - "11434:11434"
     networks:
       - project_network
     restart: unless-stopped
@@ -48,7 +46,7 @@ services:
     container_name: backend
     image: backend:latest
     ports:
-      - "8000:8000"
+      - 8000:8000
     depends_on:
       - db
     networks:
@@ -65,8 +63,6 @@ services:
     image: postgres:latest
     env_file:
       - ./backend/database/.env
-    ports:
-      - 5432:5432
     volumes:
       - relational_db:/var/lib/postgresql/data
     networks:
@@ -82,8 +78,6 @@ services:
       dockerfile: Dockerfile
     container_name: augment
     image: augment:latest
-    ports:
-      - "2000:2000"
     depends_on:
       - retriever
     networks:
@@ -101,8 +95,6 @@ services:
       dockerfile: Dockerfile
     container_name: retriever
     image: retriever:latest
-    ports:
-      - "8080:8080"
     depends_on:
       - vectorial_db
     networks:
@@ -122,8 +114,6 @@ services:
     image: vectorial_db:latest
     env_file:
       - ./vectorial_db/.env
-    ports: 
-      - "532:532"
     volumes:
       - vectorial_db:/var/lib/postgresql/data
     networks:
@@ -138,8 +128,6 @@ services:
       dockerfile: chunking.dockerfile
     container_name: chunking_service
     image: chunking:latest
-    ports:
-      - "8001:8001"
     networks:
       - project_network
 
@@ -156,8 +144,6 @@ services:
       dockerfile: embedings.dockerfile  
     container_name: embeddings_service_1
     image: embeddings1:latest
-    ports:
-      - "8002:8002"
     depends_on:
       - vectorial_db
     networks:
@@ -174,8 +160,6 @@ services:
     image: embeddings2:latest
     depends_on:
       - vectorial_db
-    ports:
-      - "8003:8002"
     networks:
       - project_network
 
