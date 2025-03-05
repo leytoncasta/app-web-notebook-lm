@@ -1,0 +1,1178 @@
+{
+	"info": {
+		"_postman_id": "2bc91d03-8494-4135-9510-542ba225a4a0",
+		"name": "LLM",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "42832108"
+	},
+	"item": [
+		{
+			"name": "Usuario & Chat",
+			"item": [
+				{
+					"name": "Get All (Vacio)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"No genera error traer todos los usuarios.\"]=responseCode.code==200;"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/usuarios/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"usuarios",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Usuario 1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data = JSON.parse(responseBody);\r",
+									"postman.setGlobalVariable(\"new_user1_id\",data.id);\r",
+									"tests[\"No genera error crearr un usuario.\"]=responseCode.code==201;"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre_usuario\": \"sbob\",\r\n    \"contraseña\": \"Bobi123!\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/usuarios",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"usuarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear  Usuario 2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data = JSON.parse(responseBody);\r",
+									"postman.setGlobalVariable(\"new_user2_id\",data.id);\r",
+									"tests[\"No genera error crearr un usuario.\"]=responseCode.code==201;"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre_usuario\": \"fbob\",\r\n    \"contraseña\": \"Bobi789!\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/usuarios",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"usuarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"No genera error traer todos los usuarios.\"]=responseCode.code==200;"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/usuarios/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"usuarios",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Log In",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data = JSON.parse(responseBody);\r",
+									"postman.setGlobalVariable(\"login_id\",data.user_id);\r",
+									"postman.setGlobalVariable(\"jwt_token\",data.access_token);\r",
+									"tests[\"No genera error buscar al usario y ver que su contrseña es correcta.\"]=responseCode.code==200;"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"sbob\",\r\n    \"password\": \"Bobi123!\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/usuarios/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"usuarios",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Usuario por ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"No genera error traer un usuario con un Id especifico.\"]=responseCode.code==200;"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/usuarios/{{new_user1_id}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"usuarios",
+								"{{new_user1_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Chats",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"No genera error traer todos los chats.\"]=responseCode.code==200;"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/chats/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"chats",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Chat",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data = JSON.parse(responseBody);\r",
+									"postman.setGlobalVariable(\"id_chat\",data.id);\r",
+									"tests[\"No genera error crear un chat asociado a un usuario\"]=responseCode.code==201;"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id_usuario\": \"{{new_user1_id}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/chats/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"chats",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Chat por ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"No genera error traer un chat con un Id especifico.\"]=responseCode.code==200;"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/chats/{{id_chat}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"chats",
+								"{{id_chat}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Chats de un Usuario",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"No genera error traer un chat de un usuario con Id especifico.\"]=responseCode.code==200;"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/chats/user/{{new_user1_id}}?skip=0&limit=100",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"chats",
+								"user",
+								"{{new_user1_id}}"
+							],
+							"query": [
+								{
+									"key": "skip",
+									"value": "0"
+								},
+								{
+									"key": "limit",
+									"value": "100"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Subir Mini Prueba",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"No genera error escribir una prueba en la BD vectorial.\"]=responseCode.code==200;"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8002/insert_dummy_data",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8002",
+							"path": [
+								"insert_dummy_data"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Subir Doc",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"No genera error escribir un documento desde el backend hasta la BD vectorial.\"]=responseCode.code==200;"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file_upload",
+									"type": "file",
+									"src": "/D:/Studies/UNIANDES/ENGLISH-II/iconoriginal.pdf"
+								},
+								{
+									"key": "chat_id",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8000/documentos/uploadfile",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"documentos",
+								"uploadfile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Subir Chat Local",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"No genera error escribir una documento en la BD vectorial directamente desde el chunking.\"]=responseCode.code==200;"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/D:/Studies/UNIANDES/ENGLISH-II/iconoriginal.pdf"
+								},
+								{
+									"key": "chat_id",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8001/upload_document",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8001",
+							"path": [
+								"upload_document"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Chat",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"No genera error eliminar un chat con Id especifico.\"]=responseCode.code==200;"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/chats/{{id_chat}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"chats",
+								"{{id_chat}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar Usuario",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"No genera error actualizar la información de un usuarios identificado con Id especifico.\"]=responseCode.code==200;"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre_usuario\": \"dmbob\",\r\n    \"contraseña\": \"Bobi123!\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/usuarios/{{new_user2_id}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"usuarios",
+								"{{new_user2_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Detele Usuario 1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"No genera error eliminar un usuario con Id especifico.\"]=responseCode.code==204;"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/usuarios/{{new_user1_id}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"usuarios",
+								"{{new_user1_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Detele Usuario 2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"No genera error eliminar un usuario con Id especifico.\"]=responseCode.code==204;"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/usuarios/{{new_user2_id}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"usuarios",
+								"{{new_user2_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All (Vacio)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"No genera error traer todos los usuarios.\"]=responseCode.code==200;"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/usuarios/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"usuarios",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "LLM",
+			"item": [
+				{
+					"name": "List Models (Local)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"No genera error traer los modelos que tenemos localmente en Ollama.\"]=responseCode.code==200;"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:11434/api/tags",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "11434",
+							"path": [
+								"api",
+								"tags"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "generar embedding",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"No genera error al generar Embedding.\"]=responseCode.code==200;"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"chat_id\": 1,\r\n  \"chunks\": [\r\n    \"Cuanto es uno más uno\"\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8002/generate_embeddings",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8002",
+							"path": [
+								"generate_embeddings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "almacenar chunk",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"No genera error al almacenar chunks\"]=responseCode.code==201;"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"text\": \"Cuanto es uno más uno\",\r\n  \"chat_id\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8002/embed_text",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8002",
+							"path": [
+								"embed_text"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Embedding a LLM Query",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"No genera error hacer un query desde el Embedding.\"]=responseCode.code==201;\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"text\": \"1+1?\",\r\n    \"chat_id\": 1\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8003/embed_text",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8003",
+							"path": [
+								"embed_text"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Query (Local)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"No genera error hacer un query.\"]=responseCode.code==200;"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"model\": \"llama3.2:1b\",\r\n  \"prompt\": \"Atención: A continuación se proporciona un contexto detallado que debe utilizarse para responder la siguiente pregunta, sin tener en cuenta ningún otro conocimiento preentrenado.\\n\\nContexto:\\nEn el Reino de Numeria, el sistema educativo establece rigurosamente que la suma de 1 y 1 es 2. Cada año se celebra el llamado \\\"Festival de la Unión\\\", donde simbólicamente se dice que la unión de dos individuos genera una nueva familia, representada con el número 3. Sin embargo, en todos los documentos académicos y en la vida cotidiana, se mantiene que 1 + 1 = 2. Esta convención está tan arraigada que incluso los sabios de la corte, que pueden manejar números muy grandes, coinciden siempre en que la regla básica 1 + 1 = 2 no se modifica bajo ningún concepto.\\n\\nPregunta:\\nSegún el contexto anterior, ¿cuál es el resultado de 1+1 en el sistema educativo de Numeria?\",\r\n  \"stream\": false\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:11434/api/generate",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "11434",
+							"path": [
+								"api",
+								"generate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Query Augment",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"No genera error hacer un query desde el Augment.\"]=responseCode.code==201;"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"prompt\": \"\\n\\nPregunta:\\nSegún el contexto anterior, ¿cuál es el resultado de 1+1 en el sistema educativo de Numeria?\",\r\n    \"text\": [\r\n        \"Atención: A continuación se proporciona un contexto detallado que debe utilizarse para responder la siguiente pregunta, sin tener en cuenta ningún otro conocimiento preentrenado.\\n\\nContexto:\\nEn el Reino de Numeria, el sistema educativo establece rigurosamente que la suma de 1 y 1 es 2. Cada año se celebra el llamado \\\"Festival de la Unión\\\", donde simbólicamente se dice que la unión de dos individuos genera una nueva familia, representada con el número 3. Sin embargo, en todos los documentos académicos y en la vida cotidiana, se mantiene que 1 + 1 = 2. Esta convención está tan arraigada que incluso los sabios de la corte, que pueden manejar números muy grandes, coinciden siempre en que la regla básica 1 + 1 = 2 no se modifica bajo ningún concepto.\"\r\n    ],\r\n    \"chat_id\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:2000/augment/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "2000",
+							"path": [
+								"augment",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Retriver a LLM Query",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"No genera error hacer un query desde el Retriver.\"]=responseCode.code==201;\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"prompt\": \"1+1?\",\r\n  \"embedding\": [\r\n    0.01,\r\n    0.02,\r\n    0.03,\r\n    0.01,\r\n    0.02,\r\n    0.03,\r\n    0.01,\r\n    0.02,\r\n    0.03,\r\n    0.01,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02,\r\n    0.02\r\n  ],\r\n  \"chat_id\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/retriever/contexto",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"retriever",
+								"contexto"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Backend to LLM",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"No genera error hacer un query desde el Backend.\"]=responseCode.code==201;\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"text\": \"1+1?\",\r\n    \"chat_id\": 1\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/prompt/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"prompt",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

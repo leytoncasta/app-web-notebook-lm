@@ -31,6 +31,7 @@ async def receive_llm_response(request: LLMRequest):
 async def get_llm_response(chat_id: str):
     try:
         chat_id = int(chat_id)
+        print(response_store)
         if chat_id not in list(response_store.keys()):
             return {"status": "waiting", "data": None}
         
