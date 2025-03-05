@@ -24,3 +24,6 @@ Si se quisiera ejecutar un servicio en especifico se puede utilizar el comando
 docker build -f name_fockerfile.dockerfile -t tags_for_the_image . 
 ```
 El punto final (.) indica que el contexto de construcción será el directorio actual. Por lo tanto, asegúrese de ejecutar este comando desde la carpeta correspondiente a uno de los microservicios para garantizar que Docker tenga acceso a los archivos necesarios
+## Diagrama de despliegue
+
+![Diagrama de despliegue](https://github.com/user-attachments/assets/640bf640-e73f-4246-a6ca-5c7cd02c26fb)
