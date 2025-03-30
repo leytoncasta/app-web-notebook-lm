@@ -34,3 +34,10 @@ steps:
   args: ['build', '-t', 'us-central1-docker.pkg.dev/desarrollo-web-451923/cloud-images/frontend', '-f', 'frontend/frontend.dockerfile', 'frontend']
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'us-central1-docker.pkg.dev/desarrollo-web-451923/cloud-images/frontend']
+
+# Pushing the seventh image
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', 'us-central1-docker.pkg.dev/desarrollo-web-451923/cloud-images/vectorial_db', '-f', 'vectorial_db/Dockerfile', 'vectorial_db']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'us-central1-docker.pkg.dev/desarrollo-web-451923/cloud-images/vectorial_db']
+
