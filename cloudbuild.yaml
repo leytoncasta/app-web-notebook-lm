@@ -1,36 +1,36 @@
 steps:
 # Pushing first image
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '-t', 'us-central1-docker.pkg.dev/desarrollo-web-451923/cloud-images/aumentador', 'augment/Dockerfile']
+  args: ['build', '-t', 'us-central1-docker.pkg.dev/desarrollo-web-451923/cloud-images/aumentador', '-f', 'augment/Dockerfile', 'augment']
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['push', 'us-central1-docker.pkg.dev/desarrollo-web-451923/my-docker-repo/aumentador']
+  args: ['push', 'us-central1-docker.pkg.dev/desarrollo-web-451923/cloud-images/aumentador']
 
 # Pushing second image
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '-t', 'us-central1-docker.pkg.dev/desarrollo-web-451923/cloud-images/backend', 'backend/Dockerfile']
+  args: ['build', '-t', 'us-central1-docker.pkg.dev/desarrollo-web-451923/cloud-images/backend', '-f', 'backend/backend.dockerfile', 'backend']
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'us-central1-docker.pkg.dev/desarrollo-web-451923/cloud-images/backend']
 
 # Pushing third image
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '-t', 'us-central1-docker.pkg.dev/desarrollo-web-451923/cloud-images/chunking', 'chunking/Dockerfile']
+  args: ['build', '-t', 'us-central1-docker.pkg.dev/desarrollo-web-451923/cloud-images/chunking', '-f', 'chunking/chunking.dockerfile', 'chunking']
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'us-central1-docker.pkg.dev/desarrollo-web-451923/cloud-images/chunking']
 
 # Pushing fourth image
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '-t', 'us-central1-docker.pkg.dev/desarrollo-web-451923/cloud-images/embeddings', 'embeddings/Dockerfile']
+  args: ['build', '-t', 'us-central1-docker.pkg.dev/desarrollo-web-451923/cloud-images/embeddings', '-f', 'embeddings/embedings.dockerfile', 'embeddings']
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'us-central1-docker.pkg.dev/desarrollo-web-451923/cloud-images/embeddings']
 
 # Pushing fifth image
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '-t', 'us-central1-docker.pkg.dev/desarrollo-web-451923/cloud-images/retriever', 'retriever/Dockerfile']
+  args: ['build', '-t', 'us-central1-docker.pkg.dev/desarrollo-web-451923/cloud-images/retriever', '-f', 'retriever/Dockerfile', 'retriever']
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'us-central1-docker.pkg.dev/desarrollo-web-451923/cloud-images/retriever']
 
-#pushing the sixth image
+# Pushing the sixth image
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '-t', 'us-central1-docker.pkg.dev/desarrollo-web-451923/cloud-images/frontend', 'frontend/frontend.dockerfile']
+  args: ['build', '-t', 'us-central1-docker.pkg.dev/desarrollo-web-451923/cloud-images/frontend', '-f', 'frontend/frontend.dockerfile', 'frontend']
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'us-central1-docker.pkg.dev/desarrollo-web-451923/cloud-images/frontend']
