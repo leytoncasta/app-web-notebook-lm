@@ -61,8 +61,11 @@ services:
   # Servicio Base de Datos RELACIONAL (PostgreSQL)
   # -----------------------------------------------------------------------------
   db:
+    build:
+      context: ./relational_db
+      dockerfile: Dockerfile
     container_name: relational_db
-    image: postgres:latest
+    image: relational_db:latest
     env_file:
       - ./backend/database/.env
     ports:
