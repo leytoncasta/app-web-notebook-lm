@@ -1,0 +1,67 @@
+LOCAL - Tag Docker 
+----------------------
+docker build -t relational_db:latest .
+
+
+LOCAL - Subir Tag a GCP
+--------------------------
+docker tag relational_db:lastest us-central1-docker.pkg.dev/desarrollo-web-451923/cloud-images/relational_db:lastest
+docker push us-central1-docker.pkg.dev/desarrollo-web-451923/cloud-images/relational_db:lastest
+
+
+GCP - Configurar la VM
+---------------------------
+1. Dar permisos al 'Service account' (1005183810077-compute@developer.gserviceaccount.com) de:
+    * Artifact Registry Reader
+    * Editor
+    * Service Usage Admin
+
+2. Al crear la VM debemos:
+    * Networking: Habilitar el tráfico necesario (o todo el HTTP y HTTPS).
+    * Security: Seleccionar el 'Service account' con los permisos. Además, habilitar el API: 'Cloud Platform' (o todos)
+
+
+GCP - VM (SSH)
+-----------------
+1. Configuraciones generales e instalar docker:
+    * sudo apt-get update
+    * sudo apt-get install -y docker.io docker-compose
+    * sudo systemctl status docker
+    * sudo docker network create private_network
+
+2. Ingresamos al GCP-CLI para bajar images de docker.
+    * gcloud auth list
+    * gcloud config get-value project --> (Si no es nuestro proyecto: gcloud config set project desarrollo-web-451923)
+    * gcloud auth configure-docker us-central1-docker.pkg.dev
+
+3. Revisamos que tengamos permisos:
+    * curl -H "Metadata-Flavor: Google" \
+        "http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/scopes"
+    * gcloud artifacts repositories list
+
+4. Revisamos que la imagen exista y cual es su tag
+    * gcloud artifacts packages list \
+        --repository=cloud-images \
+        --location=us-central1
+    * gcloud artifacts docker tags list us-central1-docker.pkg.dev/desarrollo-web-451923/cloud-images/relational_db
+
+5. Damos autorización a la VM con el 'Service account' para que pueda correr imagenes:
+
+    * TOKEN=$(gcloud auth print-access-token)
+        echo $TOKEN | sudo docker login -u oauth2accesstoken --password-stdin https://us-central1-docker.pkg.dev
+
+6. Corremos la imagen:
+
+    ----------- RELATIONAL DB -----------
+    sudo docker run -d \
+        --name relational_db \
+        --network private_network \
+        -e POSTGRES_DB=USER \
+        -e POSTGRES_USER=team5 \
+        -e POSTGRES_PASSWORD=Project2025! \
+        -e POSTGRES_PORT=5432 \
+        us-central1-docker.pkg.dev/desarrollo-web-451923/cloud-images/relational_db:latest
+        
+
+7. Revisar que este corriendo:
+    * docker ps

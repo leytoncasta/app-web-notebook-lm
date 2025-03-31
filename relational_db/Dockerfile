@@ -1,7 +1,6 @@
 # Start from the official PostgreSQL image
 FROM postgres:latest
 
-
 ENV POSTGRES_DB=${POSTGRES_DB}
 ENV POSTGRES_USER=${POSTGRES_USER}
 ENV POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
