@@ -62,6 +62,21 @@ GCP - VM (SSH)
         -e POSTGRES_PORT=5432 \
         us-central1-docker.pkg.dev/desarrollo-web-451923/cloud-images/relational_db:latest
         
+    ----------- BACKEND -----------
+    sudo docker run -d \
+        --name backend \
+        --network private_network \
+        -p 8000:8000 \
+        -e POSTGRES_DB=USER \
+        -e POSTGRES_USER=team5 \
+        -e POSTGRES_PASSWORD=Project2025! \
+        -e POSTGRES_PORT=5432 \
+        -e POSTGRES_HOST=relational_db \
+        -e DATABASE_URL='postgresql://team5:Project2025!@relational_db:5432/USER' \
+        -e SECRET_KEY=secret \
+        us-central1-docker.pkg.dev/desarrollo-web-451923/cloud-images/backend:latest
+
 
 7. Revisar que este corriendo:
-    * docker ps
+    * sudo docker ps
+    * sudo docker rm -f backend
