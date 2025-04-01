@@ -10,6 +10,7 @@ from database import engine
 from pathlib import Path
 from dotenv import load_dotenv
 import os
+import logging
 
 modelo.Base.metadata.create_all(bind=engine)
 
@@ -19,16 +20,18 @@ app = FastAPI(
 )
 
 BASE_DIR = Path(__file__).resolve().parent
-env_path = BASE_DIR / 'database/.env'
+env_path = BASE_DIR / '.env'
 load_dotenv(env_path)
 
-FRONTEND_URL = os.getenv("FRONTEND_URL")
-
+FRONTEND_URL = os.getenv("FRONTEND_URL") 
+logger = logging.getLogger("uvicorn")
+logger.info(f"Frontend URL: {FRONTEND_URL}")
+print(f"Frontend URL: {FRONTEND_URL}")
 
 # Configure CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://localhost:3000", "http://localhost:8080", FRONTEND_URL],  # Frontend URL
+    allow_origins=[FRONTEND_URL],  # Frontend URL
     allow_credentials=True,
     allow_methods=["*"],  # Allows all methods
     allow_headers=["*"],  # Allows all headers

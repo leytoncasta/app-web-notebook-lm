@@ -57,6 +57,7 @@ const Login = () => {
     setLoading(true);
     try {
       // Login request
+      console.log(api.defaults.baseURL);
       const response = await api.post("/usuarios/login", {
         username: formData.usuario,
         password: formData.contraseña,

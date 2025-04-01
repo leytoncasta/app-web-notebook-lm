@@ -12,8 +12,10 @@ import axios from "axios";
 // Creación de instancia de axios con configuración base
 // - baseURL: URL base del servidor
 // - headers: Cabeceras por defecto
+console.log("Import meta env:", import.meta.env);
+console.log("API Base URL:", import.meta.env.VITE_API_BASE_URL);
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,
+  baseURL: import.meta.env.VITE_API_BASE_URL || "http://10.109.1.22:8000",
   headers: {
     "Content-Type": "application/json",
   },

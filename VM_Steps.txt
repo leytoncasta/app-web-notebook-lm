@@ -5,8 +5,11 @@ docker build -t backend:latest -f backend/backend.dockerfile ./backend
 
 LOCAL - Subir Tag a GCP
 --------------------------
-docker tag relational_db:lastest us-central1-docker.pkg.dev/desarrollo-web-451923/cloud-images/relational_db:lastest
-docker push us-central1-docker.pkg.dev/desarrollo-web-451923/cloud-images/relational_db:lastest
+docker tag relational_db:latest us-central1-docker.pkg.dev/desarrollo-web-451923/cloud-images/relational_db:latest
+
+gcloud auth activate-service-account --key-file=key.json
+gcloud auth configure-docker us-central1-docker.pkg.dev
+docker push us-central1-docker.pkg.dev/desarrollo-web-451923/cloud-images/relational_db:latest
 
 
 GCP - Configurar la VM
@@ -74,8 +77,22 @@ GCP - VM (SSH)
         -e POSTGRES_HOST=relational_db \
         -e DATABASE_URL='postgresql://team5:Project2025!@relational_db:5432/USER' \
         -e SECRET_KEY=secret \
-        -e FRONTEND_URL=http://10.109.1.22:3000 \
+        -e FRONTEND_URL=http://34.171.248.204:3000 \
         us-central1-docker.pkg.dev/desarrollo-web-451923/cloud-images/backend:latest
+
+
+    ----------- FRONTEND -----------
+    docker build --no-cache -t frontend:latest --build-arg VITE_API_BASE_URL=http://34.30.75.41:8000 -f frontend/frontend.dockerfile ./frontend
+
+    sudo docker stop frontend
+    sudo docker rm frontend
+    sudo docker image prune -a
+
+    sudo docker run -d \
+        --name frontend \
+        --network public_network \
+        -p 3000:3000 \
+        us-central1-docker.pkg.dev/desarrollo-web-451923/cloud-images/frontend:latest
 
 
 7. Revisar que este corriendo:
