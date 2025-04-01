@@ -1,6 +1,6 @@
 LOCAL - Tag Docker 
 ----------------------
-docker build -t relational_db:latest .
+docker build -t backend:latest -f backend/backend.dockerfile ./backend
 
 
 LOCAL - Subir Tag a GCP
@@ -74,6 +74,7 @@ GCP - VM (SSH)
         -e POSTGRES_HOST=relational_db \
         -e DATABASE_URL='postgresql://team5:Project2025!@relational_db:5432/USER' \
         -e SECRET_KEY=secret \
+        -e FRONTEND_URL=http://10.109.1.22:3000 \
         us-central1-docker.pkg.dev/desarrollo-web-451923/cloud-images/backend:latest
 
 

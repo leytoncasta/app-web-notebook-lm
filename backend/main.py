@@ -7,6 +7,9 @@ from chat.rutas import router as chat_router
 from document.rutas import router as document_router
 from prompt.rutas import router as prompt_router
 from database import engine
+from pathlib import Path
+from dotenv import load_dotenv
+import os
 
 modelo.Base.metadata.create_all(bind=engine)
 
@@ -15,10 +18,17 @@ app = FastAPI(
     version="1.0.0"
 )
 
+BASE_DIR = Path(__file__).resolve().parent
+env_path = BASE_DIR / 'database/.env'
+load_dotenv(env_path)
+
+FRONTEND_URL = os.getenv("FRONTEND_URL")
+
+
 # Configure CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://localhost:3000", "http://localhost:8080"],  # Frontend URL
+    allow_origins=["http://localhost:5173", "http://localhost:3000", "http://localhost:8080", FRONTEND_URL],  # Frontend URL
     allow_credentials=True,
     allow_methods=["*"],  # Allows all methods
     allow_headers=["*"],  # Allows all headers
