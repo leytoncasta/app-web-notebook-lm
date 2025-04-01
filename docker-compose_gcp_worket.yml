@@ -1,4 +1,21 @@
 services:
+
+# -----------------------------------------------------------------------------
+# Augment
+# -----------------------------------------------------------------------------
+  augment:
+    container_name: augment
+    image: us-central1-docker.pkg.dev/desarrollo-web-451923/cloud-images/augment:latest
+    ports:
+      - "2000:2000"
+    depends_on:
+      - retriever
+    networks:
+      - project_network
+    volumes:
+      - augment:/var/lib/augment/data
+    restart: always
+
 # -----------------------------------------------------------------------------
 # Chunking
 # -----------------------------------------------------------------------------
@@ -20,10 +37,30 @@ services:
     networks:
       - project_network
 
+  embeddings2: 
+    container_name: embeddings_service_2
+    image: us-central1-docker.pkg.dev/desarrollo-web-451923/cloud-images/embeddings:latest
+    ports:
+      - "8003:8002"
+    networks:
+      - project_network
+# -----------------------------------------------------------------------------
+# Retriever
+# -----------------------------------------------------------------------------
+  retriever:
+    container_name: retriever
+    image: us-central1-docker.pkg.dev/desarrollo-web-451923/cloud-images/retriever:latest
+    ports:
+      - "8080:8080"
+    networks:
+      - project_network
+    volumes:
+      - retriever:/var/lib/retriever/data
+    restart: always
 # -----------------------------------------------------------------------------
 # NETWORKS & VOLUMES
 # -----------------------------------------------------------------------------
-
+  
 networks:
   project_network:
     driver: bridge
@@ -33,5 +70,8 @@ volumes:
     driver: local
   chunking: 
     driver: local
-    
+  retriever: 
+    driver: local
+  augment: 
+    driver: local
 
