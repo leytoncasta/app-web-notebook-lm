@@ -158,8 +158,8 @@ services:
     image: embeddings1:latest
     ports:
       - "8002:8002"
-    depends_on:
-      - vectorial_db
+    #depends_on:
+      #- vectorial_db
     networks:
       - project_network
 
@@ -178,7 +178,6 @@ services:
       - "8003:8002"
     networks:
       - project_network
-
 
 # -----------------------------------------------------------------------------
 # NETWORKS & VOLUMES
@@ -202,3 +201,4 @@ volumes:
   augment:
     driver: local
     
+
