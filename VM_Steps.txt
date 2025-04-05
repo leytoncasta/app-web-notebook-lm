@@ -98,3 +98,17 @@ GCP - VM (SSH)
 7. Revisar que este corriendo:
     * sudo docker ps
     * sudo docker rm -f backend
+
+8. Instalación Telnet en la máquina.
+    * sudo apt update
+    * sudo apt install telnet -y
+    * telnet --version
+
+GCP - VM (SSH) - Entar al contenedor de la base de datos
+-----------------
+
+* docker exec -it vectorial_db  /bin/bash
+* psql -p 532 -U team5 -d files
+* \dt vectorial.*
+* SELECT * FROM vectorial.session_embeddings;
+* DELETE FROM vectorial.session_embeddings;
