@@ -77,14 +77,14 @@ GCP - VM (SSH)
         -e POSTGRES_HOST=relational_db \
         -e DATABASE_URL='postgresql://team5:Project2025!@relational_db:5432/USER' \
         -e SECRET_KEY=secret \
-        -e FRONTEND_URL=http://34.30.125.254:3000 \
+        -e FRONTEND_URL=http://146.148.47.124:3000 \
         -e DOCUMENT_URL=http://10.109.1.18:8001 \
         -e PROMPT_URL=http://10.109.1.18:8003 \
         us-central1-docker.pkg.dev/desarrollo-web-451923/cloud-images/backend:latest
 
 
     ----------- FRONTEND -----------
-    docker build --no-cache -t frontend:latest --build-arg VITE_API_BASE_URL=http://34.58.53.24:8000 -f frontend/frontend.dockerfile ./frontend
+    docker build --no-cache -t frontend:latest --build-arg VITE_API_BASE_URL=http://34.59.120.196:8000 -f frontend/frontend.dockerfile ./frontend
 
     sudo docker stop frontend
     sudo docker rm frontend
@@ -113,3 +113,9 @@ GCP - VM (SSH) - Entar al contenedor de la base de datos
 * \dt vectorial.*
 * SELECT * FROM vectorial.session_embeddings;
 * DELETE FROM vectorial.session_embeddings;
+
+WORKER
+------------------------
+
+nano docker-compose_gcp_worker.yml
+docker-compose -f docker-compose_gcp_worker.yml up -d
