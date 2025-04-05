@@ -8,6 +8,8 @@ services:
     image: us-central1-docker.pkg.dev/desarrollo-web-451923/cloud-images/augment:latest
     ports:
       - "2000:2000"
+    environment:
+      - API_KEY=aaaaaaa
     depends_on:
       - retriever
     networks:

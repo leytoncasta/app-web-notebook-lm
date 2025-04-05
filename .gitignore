@@ -3,3 +3,4 @@
 retriever/retriever/*
 augment/augment/*
 key.json
+.venv

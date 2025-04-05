@@ -83,7 +83,7 @@ services:
     container_name: augment
     image: augment:latest
     ports:
-      - "2000:2000"
+      - "2000:2000" 
     depends_on:
       - retriever
     networks:
