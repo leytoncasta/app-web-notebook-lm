@@ -2,12 +2,26 @@ from fastapi import APIRouter, Depends, UploadFile, status, Form
 from JWT.auth import verify_token
 import httpx
 
+from pathlib import Path
+from dotenv import load_dotenv
+import os
+import logging
+
 router = APIRouter(
     prefix="/documentos",
     tags=["documentos"]
 )
 
-CHUNKING_SERVICE_URL = "http://chunking:8001/upload_document"
+BASE_DIR = Path(__file__).resolve().parent
+env_path = BASE_DIR / '.env'
+load_dotenv(env_path)
+
+DOCUMENT_URL = os.getenv("DOCUMENT_URL") 
+CHUNKING_SERVICE_URL = f"{DOCUMENT_URL}/upload_document"
+
+logger = logging.getLogger("uvicorn")
+logger.info(f"Document URL: {CHUNKING_SERVICE_URL}")
+print(f"Document URL: {CHUNKING_SERVICE_URL}")
 
 @router.post("/uploadfile", status_code=status.HTTP_200_OK)
 async def subir_documento(
