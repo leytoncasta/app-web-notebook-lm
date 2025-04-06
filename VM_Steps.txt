@@ -80,6 +80,7 @@ GCP - VM (SSH)
         -e FRONTEND_URL=http://146.148.47.124:3000 \
         -e DOCUMENT_URL=http://10.109.1.18:8001 \
         -e PROMPT_URL=http://10.109.1.18:8003 \
+        -v /mnt/filestore:/mnt/filestore:rw \
         us-central1-docker.pkg.dev/desarrollo-web-451923/cloud-images/backend:latest
 
 

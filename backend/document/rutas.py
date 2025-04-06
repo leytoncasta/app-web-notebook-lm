@@ -17,6 +17,7 @@ env_path = BASE_DIR / '.env'
 load_dotenv(env_path)
 
 DOCUMENT_URL = os.getenv("DOCUMENT_URL") 
+PATH_FILESTORE = os.getenv("PATH_FILESTORE")
 CHUNKING_SERVICE_URL = f"{DOCUMENT_URL}/upload_document"
 
 logger = logging.getLogger("uvicorn")
@@ -29,6 +30,23 @@ async def subir_documento(
     chat_id: int = Form(...),
     _: dict = Depends(verify_token)
 ):
+    # Saving file in filestore
+    try:
+        if PATH_FILESTORE:
+            #cretae chat_id as a specific diectory if it does not exist
+            chat_folder = os.path.join(PATH_FILESTORE, str(chat_id))
+            os.makedirs(chat_folder, exist_ok=True)
+
+            # Save file in the chat_id folder
+            file_location = os.path.join(chat_folder, file_upload.filename)
+            with open(file_location, "wb+") as file_object:
+                file_object.write(file_upload.file.read())
+            
+            await file_upload.seek(0)  # Reset file pointer to the beginning
+            logger.info(f"File saved at {file_location}")
+    except Exception as e:
+        logger.error(f"Error saving file: {e}")
+
     try:        
         files = {"file": (file_upload.filename, file_upload.file, file_upload.content_type)}
         data = {"chat_id": chat_id}
@@ -51,4 +69,3 @@ async def subir_documento(
             "status": "error",
             "message": str(e)
         }
-
