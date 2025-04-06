@@ -9,7 +9,7 @@ ABSOLUTE_PATH = Path(__file__).resolve().parent
 env_file = ABSOLUTE_PATH / '.env'
 #load_dotenv(env_file)
 
-CONNECTION_STRING = "postgresql+psycopg2://team5:Project2025!@10.109.1.19:532/files"
+CONNECTION_STRING = "postgresql+psycopg2://team5:Project2025!@10.248.32.6:5432/postgres"
 
 engine = create_engine(
     CONNECTION_STRING,
@@ -17,7 +17,7 @@ engine = create_engine(
 )
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-
+;
 Base = declarative_base()
 
 def get_db():
