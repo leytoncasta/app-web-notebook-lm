@@ -6,13 +6,13 @@ Con el fin de lograr ejecutar los servicios de manera correcta, debemos entender
 
 ![arquitectuaLM-Arquitectuta-GCP drawio](https://github.com/user-attachments/assets/0a7136fd-54c9-4373-b1c1-faf621c73ffb)
 
-La arquitectura fue diseñada para desplegarse en Google Cloud Platform (GCP). Está compuesta por una VPC que contiene dos subredes con propósitos específicos. La primera subred utiliza el segmento 10.109.1.16/28 y está destinada a los componentes de backend y worker, mientras que la segunda subred (10.109.1.0/28) se especializa en el frontend. Esta división permite una estructura clara y un aislamiento adecuado entre los diferentes componentes del sistema. 
+La arquitectura fue diseñada para desplegarse en Google Cloud Platform (GCP). Está compuesta por una VPC que contiene dos subredes con propósitos específicos. La primera subred utiliza el segmento 10.109.1.16/28 y está destinada a los componentes de backend y worker, mientras que la segunda subred (10.109.1.0/28) se especializa en el frontend. Esta división permite una estructura clara y un aislamiento adecuado entre los diferentes componentes del sistema.
 
-En la primera subred se implementaron dos máquinas virtuales con funciones complementarias. La instancia-backend se encarga de ejecutar el microservicio principal del backend, actuando como el núcleo de procesamiento. Por otro lado, la worker-instance gestiona tareas especializadas como la lectura, transformación e inserción de vectores en la base de datos, además de interactuar con el modelo Gemini para el procesamiento avanzado de consultas. Esta subred también alberga dos bases de datos Cloud SQL: una relacional para la gestión de usuarios y otra vectorial para almacenar los embeddings generados a partir de los documentos. Adicionalmente, incorpora un servicio Filestore configurado como NFS y montado en la instancia-backend, proporcionando almacenamiento persistente para los documentos de los usuarios. 
+En la primera subred se implementaron dos máquinas virtuales con funciones complementarias. La instancia-backend se encarga de ejecutar el microservicio principal del backend, actuando como el núcleo de procesamiento. Por otro lado, la worker-instance gestiona tareas especializadas como la lectura, transformación e inserción de vectores en la base de datos, además de interactuar con el modelo Gemini para el procesamiento avanzado de consultas. Esta subred también alberga dos bases de datos Cloud SQL: una relacional para la gestión de usuarios y otra vectorial para almacenar los embeddings generados a partir de los documentos. Adicionalmente, incorpora un servicio Filestore configurado como NFS y montado en la instancia-backend, proporcionando almacenamiento persistente para los documentos de los usuarios.
 
-La segunda subred está dedicada exclusivamente al frontend, conteniendo la instancia-front que ejecuta el microservicio de interfaz de usuario. Esta separación física garantiza un mejor control de acceso y seguridad, al mismo tiempo que optimiza el rendimiento al especializar cada subred en un conjunto específico de funciones. 
+La segunda subred está dedicada exclusivamente al frontend, conteniendo la instancia-front que ejecuta el microservicio de interfaz de usuario. Esta separación física garantiza un mejor control de acceso y seguridad, al mismo tiempo que optimiza el rendimiento al especializar cada subred en un conjunto específico de funciones.
 
-La arquitectura se complementa con servicios gestionados de GCP que potencian su funcionalidad. El Artifact Registry actúa como repositorio centralizado para las imágenes Docker utilizadas en los despliegues. El servicio Gemini se integra para proporcionar capacidades avanzadas de procesamiento de lenguaje natural. Finalmente, se implementaron reglas de firewall específicas para regular el tráfico entre las subredes, asegurando comunicaciones seguras y controladas. 
+La arquitectura se complementa con servicios gestionados de GCP que potencian su funcionalidad. El Artifact Registry actúa como repositorio centralizado para las imágenes Docker utilizadas en los despliegues. El servicio Gemini se integra para proporcionar capacidades avanzadas de procesamiento de lenguaje natural. Finalmente, se implementaron reglas de firewall específicas para regular el tráfico entre las subredes, asegurando comunicaciones seguras y controladas.
 
 ### Replicar la arquitectura de GCP
 
@@ -51,7 +51,13 @@ GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA <<NOMBRE_DEL_ESQUEM
 
 ##### 3. Filestore
 
-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+Además, como NDF usamos Filestore, el cual sigue una creación predeterminada. No obstante, luego de crear las maquinas virtuales se deberá corrar los siguientes comandos para el buen funcionamiento.
+
+sudo apt-get update && sudo apt-get install -y nfs-common
+sudo mkdir -p /mnt/filestore
+sudo mount [IP_address]:/share_name /mnt/filestore
+sudo nano /etc/fstab
+[IP_address]:/share_name /mnt/filestore nfs defaults 0 0
 
 ##### 4. Maquinas Virtuales
 

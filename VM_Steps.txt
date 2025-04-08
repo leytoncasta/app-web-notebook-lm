@@ -120,3 +120,13 @@ WORKER
 
 nano docker-compose_gcp_worker.yml
 docker-compose -f docker-compose_gcp_worker.yml up -d
+
+
+FILESTORE
+------------
+
+sudo apt-get update && sudo apt-get install -y nfs-common --> Instala paquete NFS
+sudo mkdir -p /mnt/filestore --> Crea carpeta que se sincroniza con filestore
+sudo mount [IP_address]:/share_name /mnt/filestore --> Monta el Filestore en la máquina
+sudo nano /etc/fstab -> Configura el servicio para que siga vinculado a la máquina cuando esta se reinicia o detiene
+[IP_address]:/share_name /mnt/filestore nfs defaults 0 0 --> Se añade esta línea al documento que se abre en el paso anterior
