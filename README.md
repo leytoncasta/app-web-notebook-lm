@@ -345,8 +345,28 @@ Por otro lado, cuando el usuario realiza una consulta, la pregunta se envía al 
 - El tipo de documento debe ser PDF de máximo 5 MB.
 - No se persiste el historial de chats una vez se cierra la interfaz web, se cierra o expira la sesión.
 
-# Arquitectura de la Aplicación
-
 # UML de la Aplicación
 
-#
+@startuml
+skinparam classAttributeIconSize 0
+
+class Usuario {
+  + id : Integer <<PK>>
+  + nombre_usuario : String
+  + contraseña : String
+}
+
+class Chat {
+  + id : Integer <<PK>>
+  + id_usuario : Integer <<FK>>
+}
+
+class Documento {
+  + id : Integer <<PK>>
+  + nombre_archivo : String
+}
+
+Usuario "1" -- "many" Chat
+Chat "1" -- "many" Documento
+
+@enduml
