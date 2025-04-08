@@ -347,26 +347,28 @@ Por otro lado, cuando el usuario realiza una consulta, la pregunta se envía al 
 
 # UML de la Aplicación
 
-@startuml
-skinparam classAttributeIconSize 0
+classDiagram
+    Usuario "1" -- "*" Chat : crea
+    Usuario "1" -- "*" Documento : sube
+    Chat "1" -- "*" Documento : contiene
 
-class Usuario {
-  + id : Integer <<PK>>
-  + nombre_usuario : String
-  + contraseña : String
-}
+    class Usuario {
+        +Integer id
+        +String nombre_usuario
+        +String contraseña
+        +validate_password(password)
+        +set_password(password)
+        +check_password(password)
+    }
 
-class Chat {
-  + id : Integer <<PK>>
-  + id_usuario : Integer <<FK>>
-}
+    class Chat {
+        +Integer id
+        +Integer id_usuario
+    }
 
-class Documento {
-  + id : Integer <<PK>>
-  + nombre_archivo : String
-}
-
-Usuario "1" -- "many" Chat
-Chat "1" -- "many" Documento
-
-@enduml
+    class Documento {
+        +Integer id
+        +String nombre_archivo
+        +Integer chat_id
+        +List chunking
+    }
