@@ -5,11 +5,13 @@
       <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
         <collectionProp name="Arguments.arguments"/>
       </elementProp>
+      <boolProp name="TestPlan.functional_mode">false</boolProp>
+      <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
     </TestPlan>
     <hashTree>
       <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="users">
-        <intProp name="ThreadGroup.num_threads">10</intProp>
-        <intProp name="ThreadGroup.ramp_time">1</intProp>
+        <intProp name="ThreadGroup.num_threads">150</intProp>
+        <intProp name="ThreadGroup.ramp_time">120</intProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller">
@@ -19,7 +21,7 @@
       </ThreadGroup>
       <hashTree>
         <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="Data Pruebas">
-          <stringProp name="filename">D:\Studies\UNIANDES\DESARROLLO_SOLUCIONES_CLOUD\Plan_pruebas_carga\test_usuarios.csv</stringProp>
+          <stringProp name="filename">C:\dev\app-web-notebook-lm\jmeter\test_usuarios.csv</stringProp>
           <stringProp name="fileEncoding"></stringProp>
           <stringProp name="variableNames"></stringProp>
           <boolProp name="ignoreFirstLine">false</boolProp>
@@ -30,7 +32,7 @@
           <stringProp name="shareMode">shareMode.all</stringProp>
         </CSVDataSet>
         <hashTree/>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="userRegistration" enabled="true">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="userRegistration">
           <stringProp name="HTTPSampler.domain">35.225.239.132</stringProp>
           <stringProp name="HTTPSampler.port">8000</stringProp>
           <stringProp name="HTTPSampler.protocol">http</stringProp>
@@ -53,16 +55,7 @@
           </elementProp>
         </HTTPSamplerProxy>
         <hashTree>
-          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="Hestor de Cabecera" enabled="true">
-            <collectionProp name="HeaderManager.headers">
-              <elementProp name="" elementType="Header">
-                <stringProp name="Header.name">Content-Type</stringProp>
-                <stringProp name="Header.value">application/json</stringProp>
-              </elementProp>
-            </collectionProp>
-          </HeaderManager>
-          <hashTree/>
-          <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+          <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree">
             <boolProp name="ResultCollector.error_logging">false</boolProp>
             <objProp>
               <name>saveConfig</name>
@@ -136,6 +129,15 @@
             <stringProp name="filename"></stringProp>
           </ResultCollector>
           <hashTree/>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="Hestor de Cabecera">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">Content-Type</stringProp>
+                <stringProp name="Header.value">application/json</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
         </hashTree>
         <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If Controller" enabled="true">
           <stringProp name="IfController.condition">${JMeterThread.last_sample_ok}</stringProp>
@@ -143,7 +145,7 @@
           <boolProp name="IfController.useExpression">true</boolProp>
         </IfController>
         <hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="UserLogin" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="UserLogin">
             <stringProp name="HTTPSampler.domain">35.225.239.132</stringProp>
             <stringProp name="HTTPSampler.port">8000</stringProp>
             <stringProp name="HTTPSampler.protocol">http</stringProp>
@@ -175,7 +177,7 @@
               </collectionProp>
             </HeaderManager>
             <hashTree/>
-            <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree">
+            <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
               <boolProp name="ResultCollector.error_logging">false</boolProp>
               <objProp>
                 <name>saveConfig</name>
@@ -386,9 +388,9 @@
               <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
             </JSONPostProcessor>
             <hashTree/>
-            <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="BeanShell PostProcessor">
+            <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="BeanShell PostProcessor" enabled="true">
               <boolProp name="resetInterpreter">false</boolProp>
-              <stringProp name="parameters">D:/Studies/UNIANDES/DESARROLLO_SOLUCIONES_CLOUD/Plan_pruebas_carga/</stringProp>
+              <stringProp name="parameters">C:\dev\app-web-notebook-lm\jmeter\</stringProp>
               <stringProp name="filename"></stringProp>
               <stringProp name="script">import java.io.FileWriter;
 import java.io.File;
@@ -443,7 +445,7 @@ synchronized(this) {
           <boolProp name="IfController.useExpression">true</boolProp>
         </IfController>
         <hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="uploadDocument">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="uploadDocument" enabled="true">
             <stringProp name="HTTPSampler.domain">35.225.239.132</stringProp>
             <stringProp name="HTTPSampler.port">8000</stringProp>
             <stringProp name="HTTPSampler.protocol">http</stringProp>
@@ -454,15 +456,15 @@ synchronized(this) {
             <boolProp name="HTTPSampler.DO_MULTIPART_POST">true</boolProp>
             <elementProp name="HTTPsampler.Files" elementType="HTTPFileArgs">
               <collectionProp name="HTTPFileArgs.files">
-                <elementProp name="D:\Studies\UNIANDES\DESARROLLO_SOLUCIONES_CLOUD\Plan_pruebas_carga\Pez.pdf" elementType="HTTPFileArg">
+                <elementProp name="C:\Users\erich\Downloads\Pez.pdf" elementType="HTTPFileArg">
                   <stringProp name="File.mimetype">application/pdf</stringProp>
-                  <stringProp name="File.path">D:\Studies\UNIANDES\DESARROLLO_SOLUCIONES_CLOUD\Plan_pruebas_carga\Pez.pdf</stringProp>
+                  <stringProp name="File.path">C:\Users\erich\Downloads\Pez.pdf</stringProp>
                   <stringProp name="File.paramname">file_upload</stringProp>
                 </elementProp>
               </collectionProp>
             </elementProp>
             <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
-            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="Variables definidas por el Usuario">
               <collectionProp name="Arguments.arguments">
                 <elementProp name="chat_id" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
@@ -476,7 +478,7 @@ synchronized(this) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree>
-            <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager">
+            <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
               <collectionProp name="HeaderManager.headers">
                 <elementProp name="" elementType="Header">
                   <stringProp name="Header.name">Content-Type</stringProp>
@@ -489,7 +491,7 @@ synchronized(this) {
               </collectionProp>
             </HeaderManager>
             <hashTree/>
-            <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree">
+            <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
               <boolProp name="ResultCollector.error_logging">false</boolProp>
               <objProp>
                 <name>saveConfig</name>
@@ -565,6 +567,64 @@ synchronized(this) {
             <hashTree/>
           </hashTree>
         </hashTree>
+        <com.github.johrstrom.listener.PrometheusListener guiclass="com.github.johrstrom.listener.gui.PrometheusListenerGui" testclass="com.github.johrstrom.listener.PrometheusListener" testname="Prometheus Listener" enabled="true">
+          <collectionProp name="prometheus.collector_definitions">
+            <elementProp name="" elementType="com.github.johrstrom.listener.ListenerCollectorConfig">
+              <stringProp name="collector.help">Sampler Response Time</stringProp>
+              <stringProp name="collector.metric_name">ResponseTime</stringProp>
+              <stringProp name="collector.type">SUMMARY</stringProp>
+              <collectionProp name="collector.labels">
+                <stringProp name="102727412">label</stringProp>
+                <stringProp name="3059181">code</stringProp>
+              </collectionProp>
+              <stringProp name="collector.quantiles_or_buckets">0.75,0.5|0.95,0.1|0.99,0.01</stringProp>
+              <stringProp name="listener.collector.listen_to">samples</stringProp>
+              <stringProp name="listener.collector.measuring">ResponseTime</stringProp>
+            </elementProp>
+            <elementProp name="" elementType="com.github.johrstrom.listener.ListenerCollectorConfig">
+              <stringProp name="collector.help">Success and failure ratio</stringProp>
+              <stringProp name="collector.metric_name">Ratio</stringProp>
+              <stringProp name="collector.type">SUCCESS_RATIO</stringProp>
+              <collectionProp name="collector.labels">
+                <stringProp name="102727412">label</stringProp>
+                <stringProp name="3059181">code</stringProp>
+              </collectionProp>
+              <stringProp name="collector.quantiles_or_buckets"></stringProp>
+              <stringProp name="listener.collector.listen_to">samples</stringProp>
+              <stringProp name="listener.collector.measuring">SuccessRatio</stringProp>
+            </elementProp>
+            <elementProp name="" elementType="com.github.johrstrom.listener.ListenerCollectorConfig">
+              <stringProp name="collector.help">default help string</stringProp>
+              <stringProp name="collector.metric_name">throughtput_total</stringProp>
+              <stringProp name="collector.type">COUNTER</stringProp>
+              <collectionProp name="collector.labels">
+                <stringProp name="102727412">label</stringProp>
+              </collectionProp>
+              <stringProp name="collector.quantiles_or_buckets"></stringProp>
+              <stringProp name="listener.collector.measuring">SuccessTotal</stringProp>
+            </elementProp>
+            <elementProp name="" elementType="com.github.johrstrom.listener.ListenerCollectorConfig">
+              <stringProp name="collector.help">default help string</stringProp>
+              <stringProp name="collector.metric_name">response_time_summary</stringProp>
+              <stringProp name="collector.type">SUMMARY</stringProp>
+              <collectionProp name="collector.labels">
+                <stringProp name="102727412">label</stringProp>
+              </collectionProp>
+              <stringProp name="collector.quantiles_or_buckets"></stringProp>
+            </elementProp>
+            <elementProp name="" elementType="com.github.johrstrom.listener.ListenerCollectorConfig">
+              <stringProp name="collector.help">default help string</stringProp>
+              <stringProp name="collector.metric_name">concurrent_users</stringProp>
+              <stringProp name="collector.type">GAUGE</stringProp>
+              <collectionProp name="collector.labels">
+                <stringProp name="102727412">label</stringProp>
+              </collectionProp>
+              <stringProp name="collector.quantiles_or_buckets"></stringProp>
+              <stringProp name="listener.collector.measuring">ResponseTime</stringProp>
+            </elementProp>
+          </collectionProp>
+        </com.github.johrstrom.listener.PrometheusListener>
+        <hashTree/>
       </hashTree>
     </hashTree>
   </hashTree>
