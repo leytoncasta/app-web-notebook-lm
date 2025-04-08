@@ -53,11 +53,13 @@ GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA <<NOMBRE_DEL_ESQUEM
 
 Además, como NDF usamos Filestore, el cual sigue una creación predeterminada. No obstante, luego de crear las maquinas virtuales se deberá corrar los siguientes comandos para el buen funcionamiento.
 
+```bash
 sudo apt-get update && sudo apt-get install -y nfs-common
 sudo mkdir -p /mnt/filestore
 sudo mount [IP_address]:/share_name /mnt/filestore
 sudo nano /etc/fstab
 [IP_address]:/share_name /mnt/filestore nfs defaults 0 0
+```
 
 ##### 4. Maquinas Virtuales
 
