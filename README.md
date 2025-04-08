@@ -40,7 +40,7 @@ Se deben subir cada una de las imagenes necesarias del proyecto, las cuales se d
 
 ##### 2. Cloud SQL
 
-Como se describe en la arquitectura, el proyecto cuenta con dos bases de datos: una vectorial, para el amacenamiento correcto del vectores; y otra relacional, para la información de los usuarios y los chats. Estás bases de datos se definen como Cloud SQL con Postgres >> 15. Dentro, se debe definir el usuario por el cual se van a conectar a la base de datos, unicamente por la IP Privada.
+Como se describe en la arquitectura, el proyecto cuenta con dos bases de datos: una vectorial, para el amacenamiento correcto del vectores; y otra relacional, para la información de los usuarios y los chats. Para las bases de datos se usa el servicio Cloud SQL con el motor Postgres. Dentro, se debe definir el usuario por el cual se van a conectar a la base de datos, unicamente por la IP Privada.
 
 Este usuario creado, debe contar con todos los permisos necesarios. Para eso, desde el usuario 'postgres' correr:
 
@@ -51,7 +51,7 @@ GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA <<NOMBRE_DEL_ESQUEM
 
 ##### 3. Filestore
 
-Además, como NDF usamos Filestore, el cual sigue una creación predeterminada. No obstante, luego de crear las maquinas virtuales se deberá corrar los siguientes comandos para el buen funcionamiento.
+Además, como NDF usamos Filestore, el cual sigue una creación predeterminada. No obstante, luego de crear las maquinas virtuales se deberá correr los siguientes comandos para el buen funcionamiento.
 
 ```bash
 sudo apt-get update && sudo apt-get install -y nfs-common
