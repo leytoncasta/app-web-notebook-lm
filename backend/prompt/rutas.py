@@ -4,6 +4,11 @@ from typing import List, Optional
 from JWT.auth import verify_token
 import httpx
 
+from pathlib import Path
+from dotenv import load_dotenv
+import os
+import logging
+
 router = APIRouter(
     prefix="/prompt",
     tags=["prompt"]
@@ -22,7 +27,17 @@ class PromptRequest(BaseModel):
     text: str
     chat_id: int
 
-EMBEDDING_SERVICE_URL = "http://embeddings2:8002/embed_text"
+
+BASE_DIR = Path(__file__).resolve().parent
+env_path = BASE_DIR / '.env'
+load_dotenv(env_path)
+
+PROMPT_URL = os.getenv("PROMPT_URL") 
+EMBEDDING_SERVICE_URL = f"{PROMPT_URL}/embed_text"
+
+logger = logging.getLogger("uvicorn")
+logger.info(f"Prompt URL: {EMBEDDING_SERVICE_URL}")
+print(f"Prompt URL: {EMBEDDING_SERVICE_URL}")
 
 @router.post("/", response_model=AugmentResponse, status_code=status.HTTP_201_CREATED)
 async def subir_prompt(

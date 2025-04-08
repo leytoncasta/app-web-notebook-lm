@@ -61,8 +61,11 @@ services:
   # Servicio Base de Datos RELACIONAL (PostgreSQL)
   # -----------------------------------------------------------------------------
   db:
+    build:
+      context: ./relational_db
+      dockerfile: Dockerfile
     container_name: relational_db
-    image: postgres:latest
+    image: relational_db:latest
     env_file:
       - ./backend/database/.env
     ports:
@@ -83,7 +86,7 @@ services:
     container_name: augment
     image: augment:latest
     ports:
-      - "2000:2000"
+      - "2000:2000" 
     depends_on:
       - retriever
     networks:
@@ -158,8 +161,8 @@ services:
     image: embeddings1:latest
     ports:
       - "8002:8002"
-    depends_on:
-      - vectorial_db
+    #depends_on:
+      #- vectorial_db
     networks:
       - project_network
 
@@ -178,7 +181,6 @@ services:
       - "8003:8002"
     networks:
       - project_network
-
 
 # -----------------------------------------------------------------------------
 # NETWORKS & VOLUMES
@@ -202,3 +204,4 @@ volumes:
   augment:
     driver: local
     
+

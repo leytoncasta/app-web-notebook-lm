@@ -2,14 +2,14 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base
 from sqlalchemy.orm import sessionmaker
 import os
-from dotenv import load_dotenv
+#from dotenv import load_dotenv
 from pathlib import Path
 
 ABSOLUTE_PATH = Path(__file__).resolve().parent
 env_file = ABSOLUTE_PATH / '.env'
-load_dotenv(env_file)
+#load_dotenv(env_file)
 
-CONNECTION_STRING = os.getenv("CONNECTION_STRING")
+CONNECTION_STRING = "postgresql+psycopg2://team5:Project2025!@10.248.32.6:5432/postgres"
 
 engine = create_engine(
     CONNECTION_STRING,

@@ -2,3 +2,5 @@
 *__pycache__
 retriever/retriever/*
 augment/augment/*
+key.json
+.venv

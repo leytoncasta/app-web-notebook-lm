@@ -11,7 +11,7 @@ from database import engine
 import aiohttp
 
 app = FastAPI()
-model = SentenceTransformer("all-MiniLM-L6-v2")  
+model = SentenceTransformer("all-MiniLM-L6-v2")  # paraphrase-MiniLM-L3-v2
 modelo.Base.metadata.create_all(bind=engine)
 API_URL_RETRIEVER = "http://retriever:8080/retriever/contexto"
 
@@ -101,3 +101,21 @@ async def embed_text(request: TextRequest):
         raise e
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Internal Server Error: {str(e)}")
+    
+@app.post("/test", response_model=AugmentResponse, status_code=status.HTTP_201_CREATED)
+async def test(request: TextRequest):
+    try:
+        if not request.text.strip():
+            raise HTTPException(status_code=400, detail="Input text cannot be empty")
+        
+        embedding = model.encode(request.text).tolist()
+        json_document = {
+            "prompt": request.text,
+            "embedding": embedding,
+            "chat_id": request.chat_id
+        }
+    except HTTPException as e:
+        raise e
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Internal Server Error: {str(e)}")
+    return test

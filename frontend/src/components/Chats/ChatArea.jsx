@@ -142,7 +142,7 @@ const ChatArea = ({ chat }) => {
             return true;
           }
 
-          await new Promise((resolve) => setTimeout(resolve, 1000));
+          await new Promise((resolve) => setTimeout(resolve, 2000));
           return false;
         } catch (error) {
           console.error("Error polling response:", error);
@@ -150,6 +150,8 @@ const ChatArea = ({ chat }) => {
           return true;
         }
       };
+
+      await new Promise((resolve) => setTimeout(resolve, 1500));
 
       while (!(await pollResponse())) {
         continue;
