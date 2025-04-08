@@ -347,6 +347,7 @@ Por otro lado, cuando el usuario realiza una consulta, la pregunta se envía al 
 
 # UML de la Aplicación
 
+```mermaid
 classDiagram
     Usuario "1" -- "*" Chat : crea
     Usuario "1" -- "*" Documento : sube
@@ -372,3 +373,5 @@ classDiagram
         +Integer chat_id
         +List chunking
     }
+
+```
