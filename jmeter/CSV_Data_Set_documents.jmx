@@ -92,7 +92,7 @@
             <stringProp name="filename"></stringProp>
           </ResultCollector>
           <hashTree/>
-          <ResultCollector guiclass="SummaryReport" testclass="ResultCollector" testname="Summary Report" enabled="true">
+          <ResultCollector guiclass="SummaryReport" testclass="ResultCollector" testname="Summary Report">
             <boolProp name="ResultCollector.error_logging">false</boolProp>
             <objProp>
               <name>saveConfig</name>
@@ -139,7 +139,7 @@
           </HeaderManager>
           <hashTree/>
         </hashTree>
-        <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If Controller" enabled="true">
+        <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If Controller">
           <stringProp name="IfController.condition">${JMeterThread.last_sample_ok}</stringProp>
           <boolProp name="IfController.evaluateAll">false</boolProp>
           <boolProp name="IfController.useExpression">true</boolProp>
@@ -168,7 +168,7 @@
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree>
-            <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+            <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager">
               <collectionProp name="HeaderManager.headers">
                 <elementProp name="" elementType="Header">
                   <stringProp name="Header.name">Content-Type</stringProp>
@@ -177,7 +177,7 @@
               </collectionProp>
             </HeaderManager>
             <hashTree/>
-            <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+            <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree">
               <boolProp name="ResultCollector.error_logging">false</boolProp>
               <objProp>
                 <name>saveConfig</name>
@@ -214,7 +214,7 @@
               <stringProp name="filename"></stringProp>
             </ResultCollector>
             <hashTree/>
-            <ResultCollector guiclass="SummaryReport" testclass="ResultCollector" testname="Summary Report" enabled="true">
+            <ResultCollector guiclass="SummaryReport" testclass="ResultCollector" testname="Summary Report">
               <boolProp name="ResultCollector.error_logging">false</boolProp>
               <objProp>
                 <name>saveConfig</name>
@@ -251,14 +251,14 @@
               <stringProp name="filename"></stringProp>
             </ResultCollector>
             <hashTree/>
-            <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="JSON Extractor_ID" enabled="true">
+            <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="JSON Extractor_ID">
               <stringProp name="JSONPostProcessor.referenceNames">${nombre_usuario}_id</stringProp>
               <stringProp name="JSONPostProcessor.jsonPathExprs">$.usuario_id</stringProp>
               <stringProp name="JSONPostProcessor.match_numbers">0</stringProp>
               <stringProp name="Scope.variable">${nombre_usuario}_id</stringProp>
             </JSONPostProcessor>
             <hashTree/>
-            <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="JSON Extractor_JW_token" enabled="true">
+            <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="JSON Extractor_JW_token">
               <stringProp name="JSONPostProcessor.referenceNames">${nombre_usuario}_token</stringProp>
               <stringProp name="JSONPostProcessor.jsonPathExprs">$.access_token</stringProp>
               <stringProp name="JSONPostProcessor.match_numbers">0</stringProp>
@@ -273,7 +273,7 @@
           <boolProp name="IfController.useExpression">true</boolProp>
         </IfController>
         <hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="createChat" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="createChat">
             <stringProp name="HTTPSampler.domain">35.225.239.132</stringProp>
             <stringProp name="HTTPSampler.port">8000</stringProp>
             <stringProp name="HTTPSampler.protocol">http</stringProp>
@@ -295,7 +295,7 @@
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree>
-            <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+            <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager">
               <collectionProp name="HeaderManager.headers">
                 <elementProp name="" elementType="Header">
                   <stringProp name="Header.name">Content-Type</stringProp>
@@ -308,7 +308,7 @@
               </collectionProp>
             </HeaderManager>
             <hashTree/>
-            <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+            <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree">
               <boolProp name="ResultCollector.error_logging">false</boolProp>
               <objProp>
                 <name>saveConfig</name>
@@ -345,7 +345,7 @@
               <stringProp name="filename"></stringProp>
             </ResultCollector>
             <hashTree/>
-            <ResultCollector guiclass="SummaryReport" testclass="ResultCollector" testname="Summary Report" enabled="true">
+            <ResultCollector guiclass="SummaryReport" testclass="ResultCollector" testname="Summary Report">
               <boolProp name="ResultCollector.error_logging">false</boolProp>
               <objProp>
                 <name>saveConfig</name>
@@ -382,13 +382,13 @@
               <stringProp name="filename"></stringProp>
             </ResultCollector>
             <hashTree/>
-            <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="JSON Extractor_chat_id" enabled="true">
+            <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="JSON Extractor_chat_id">
               <stringProp name="JSONPostProcessor.referenceNames">${nombre_usuario}_chat_id</stringProp>
               <stringProp name="JSONPostProcessor.jsonPathExprs">$.id</stringProp>
               <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
             </JSONPostProcessor>
             <hashTree/>
-            <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="BeanShell PostProcessor" enabled="true">
+            <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="BeanShell PostProcessor">
               <boolProp name="resetInterpreter">false</boolProp>
               <stringProp name="parameters">C:\dev\app-web-notebook-lm\jmeter\</stringProp>
               <stringProp name="filename"></stringProp>
@@ -445,7 +445,7 @@ synchronized(this) {
           <boolProp name="IfController.useExpression">true</boolProp>
         </IfController>
         <hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="uploadDocument" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="uploadDocument">
             <stringProp name="HTTPSampler.domain">35.225.239.132</stringProp>
             <stringProp name="HTTPSampler.port">8000</stringProp>
             <stringProp name="HTTPSampler.protocol">http</stringProp>
@@ -478,7 +478,7 @@ synchronized(this) {
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree>
-            <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+            <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager">
               <collectionProp name="HeaderManager.headers">
                 <elementProp name="" elementType="Header">
                   <stringProp name="Header.name">Content-Type</stringProp>
@@ -491,7 +491,7 @@ synchronized(this) {
               </collectionProp>
             </HeaderManager>
             <hashTree/>
-            <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+            <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree">
               <boolProp name="ResultCollector.error_logging">false</boolProp>
               <objProp>
                 <name>saveConfig</name>
@@ -528,7 +528,7 @@ synchronized(this) {
               <stringProp name="filename"></stringProp>
             </ResultCollector>
             <hashTree/>
-            <ResultCollector guiclass="SummaryReport" testclass="ResultCollector" testname="Summary Report" enabled="true">
+            <ResultCollector guiclass="SummaryReport" testclass="ResultCollector" testname="Summary Report">
               <boolProp name="ResultCollector.error_logging">false</boolProp>
               <objProp>
                 <name>saveConfig</name>
