@@ -63,7 +63,7 @@ const Register = () => {
     }
 
     try {
-      await api.post("/usuarios", {
+      await api.post("/usuarios/", {
         nombre_usuario: formData.nombre_usuario,
         contraseña: formData.contrasenia,
       });

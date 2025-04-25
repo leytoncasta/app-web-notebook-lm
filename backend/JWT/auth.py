@@ -4,17 +4,9 @@ from jose import JWTError, jwt
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from passlib.context import CryptContext
-import os
-from dotenv import load_dotenv
-from pathlib import Path
-
-# Load environment variables
-BASE_DIR = Path(__file__).resolve().parent.parent
-env_path = BASE_DIR / 'database' / '.env'
-load_dotenv(env_path)
 
 # Security configurations
-SECRET_KEY = os.getenv("SECRET_KEY")
+SECRET_KEY = "secret"
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 

@@ -57,7 +57,6 @@ const Login = () => {
     setLoading(true);
     try {
       // Login request
-      console.log(api.defaults.baseURL);
       const response = await api.post("/usuarios/login", {
         username: formData.usuario,
         password: formData.contraseña,
@@ -86,7 +85,7 @@ const Login = () => {
         } catch (chatError) {
           if (chatError.response?.status === 404) {
             // Create new chat if none exists
-            await api.post("/chats", {
+            await api.post("/chats/", {
               id_usuario: userId,
             });
           } else {

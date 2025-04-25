@@ -62,7 +62,7 @@ const ChatSidebar = ({
 
       api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
-      const response = await api.post("/chats", {
+      const response = await api.post("/chats/", {
         id_usuario: JSON.parse(userId),
       });
 

@@ -19,6 +19,7 @@ async def login(
 
 @router.post("/", response_model=schema.Usuario, status_code=status.HTTP_201_CREATED)
 async def crear_usuario(usuario: schema.Usuario, db: Session = Depends(get_db)):
+    print(usuario)
     return crud.crear_usuario(db, usuario)
 
 @router.get("/", response_model=List[schema.Usuario], status_code=status.HTTP_200_OK)

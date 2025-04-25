@@ -1,5 +1,4 @@
 from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
 from usuario import modelo
 from usuario.rutas import router as usuario_router
 from LLM.rutas import router as LLM_router
@@ -7,34 +6,12 @@ from chat.rutas import router as chat_router
 from document.rutas import router as document_router
 from prompt.rutas import router as prompt_router
 from database import engine
-from pathlib import Path
-from dotenv import load_dotenv
-import os
-import logging
 
 modelo.Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
     title="LLM App",
     version="1.0.0"
-)
-
-BASE_DIR = Path(__file__).resolve().parent
-env_path = BASE_DIR / '.env'
-load_dotenv(env_path)
-
-FRONTEND_URL = os.getenv("FRONTEND_URL") 
-logger = logging.getLogger("uvicorn")
-logger.info(f"Frontend URL: {FRONTEND_URL}")
-print(f"Frontend URL: {FRONTEND_URL}")
-
-# Configure CORS
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=[FRONTEND_URL],  # Frontend URL
-    allow_credentials=True,
-    allow_methods=["*"],  # Allows all methods
-    allow_headers=["*"],  # Allows all headers
 )
 
 app.include_router(usuario_router)
