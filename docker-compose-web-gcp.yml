@@ -1,0 +1,48 @@
+services:
+
+  frontend:
+    container_name: frontend
+    image: us-central1-docker.pkg.dev/desarrollo-cloud-457900/desarrollo-cloud/frontend:latest
+    ports:
+      - 80:80
+    depends_on:
+      - backend
+    networks:
+      - project_network
+
+  backend:
+    container_name: backend
+    image: us-central1-docker.pkg.dev/desarrollo-cloud-457900/desarrollo-cloud/backend:latest
+    expose:
+      - "8000"
+    environment:
+      DATABASE_URL: postgresql+psycopg2://team5:Project2025!@relational_db:5432/USER
+    networks:
+      - project_network
+    restart: always
+    depends_on:
+      - relational_db
+
+  relational_db:
+    container_name: relational_db
+    image: us-central1-docker.pkg.dev/desarrollo-cloud-457900/desarrollo-cloud/relational_db:latest
+    environment:
+      POSTGRES_DB: USER
+      POSTGRES_USER: team5
+      POSTGRES_PASSWORD: Project2025!
+      POSTGRES_PORT: 5432
+    volumes:
+      - relational_db:/var/lib/postgresql/data
+    networks:
+      - project_network
+    expose:
+      - "5432"
+    restart: always
+
+networks:
+  project_network:
+    driver: bridge
+
+volumes:
+  relational_db:
+    driver: local
