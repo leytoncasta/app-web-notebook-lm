@@ -12,7 +12,6 @@ services:
       - API_KEY=aaaaa
     depends_on:
       - retriever
-    networks:
       - project_network
     volumes:
       - augment:/var/lib/augment/data

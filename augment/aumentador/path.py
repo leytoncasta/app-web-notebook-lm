@@ -14,7 +14,7 @@ router = APIRouter(
 )
 
 logger = logging.getLogger(__name__)
-BACKEND_URL = "http://10.109.1.22:8000/LLM/response"
+BACKEND_URL = "http://10.109.1.21:8000/LLM/response"
 
 @router.post("/", response_model=schema.AugmentResponse, status_code=status.HTTP_201_CREATED)
 async def augment_search(request: schema.AugmentRequest):
