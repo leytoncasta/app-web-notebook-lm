@@ -5,7 +5,7 @@ services:
 # -----------------------------------------------------------------------------
   augment:
     container_name: augment
-    image: us-central1-docker.pkg.dev/desarrollo-web-451923/cloud-images/aumentador:latest
+    image:  us-central1-docker.pkg.dev/desarrollo-cloud-457900/desarrollo-cloud/aumentador:latest
     ports:
       - "2000:2000"
     environment:
@@ -22,7 +22,7 @@ services:
 # Chunking
 # -----------------------------------------------------------------------------
   chunking:
-    image: us-central1-docker.pkg.dev/desarrollo-web-451923/cloud-images/chunking:latest
+    image:  us-central1-docker.pkg.dev/desarrollo-cloud-457900/desarrollo-cloud/chunking:latest
     container_name: chunking_service
     ports:
       - "8001:8001"
@@ -33,14 +33,14 @@ services:
 # -----------------------------------------------------------------------------
   embeddings: 
     container_name: embeddings
-    image: us-central1-docker.pkg.dev/desarrollo-web-451923/cloud-images/embeddings:latest
+    image:  us-central1-docker.pkg.dev/desarrollo-cloud-457900/desarrollo-cloud/embeddings:latest
     ports:
       - "8002:8002"
     networks:
       - project_network
   embeddings2: 
     container_name: embeddings_service_2
-    image: us-central1-docker.pkg.dev/desarrollo-web-451923/cloud-images/embeddings:latest
+    image:  us-central1-docker.pkg.dev/desarrollo-cloud-457900/desarrollo-cloud/embeddings:latest
     ports:
       - "8003:8002"
     networks:
@@ -50,7 +50,7 @@ services:
 # -----------------------------------------------------------------------------
   retriever:
     container_name: retriever
-    image: us-central1-docker.pkg.dev/desarrollo-web-451923/cloud-images/retriever:latest
+    image:  us-central1-docker.pkg.dev/desarrollo-cloud-457900/desarrollo-cloud/retriever:latest
     ports:
       - "8080:8080"
     networks:
