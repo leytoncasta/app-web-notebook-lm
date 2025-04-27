@@ -8,22 +8,17 @@ const ChatArea = ({ chat }) => {
   const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [hasDocuments, setHasDocuments] = useState({}); // Track documents per chat
-  const [isAiTyping, setIsAiTyping] = useState(false); // Track AI typing state
+  const [hasDocuments, setHasDocuments] = useState({});
+  const [isAiTyping, setIsAiTyping] = useState(false);
   const fileInputRef = useRef();
   const messagesEndRef = useRef(null);
 
-  // Obtener mensajes del chat actual
   const currentMessages = chat ? chatMessages[chat.id] || [] : [];
   const currentChatHasDocument = chat ? hasDocuments[chat.id] || false : false;
 
   useEffect(() => {
-    scrollToBottom();
-  }, [currentMessages]);
-
-  const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
+  }, [currentMessages]);
 
   if (!chat) {
     return (
@@ -98,25 +93,25 @@ const ChatArea = ({ chat }) => {
         isUser: true,
         timestamp: new Date().toISOString(),
       };
-
       setChatMessages((prev) => ({
         ...prev,
         [chat.id]: [...(prev[chat.id] || []), newMessage],
       }));
 
-      // Esperar la respuesta del POST y mostrarla directamente
+      // Enviar prompt al servidor
       const response = await api.post("/prompt/", {
         text: message,
         chat_id: chat.id,
       });
 
-      if (response.data && response.data.text) {
+      const aiText = response.data.response;
+      if (aiText) {
         setChatMessages((prev) => ({
           ...prev,
           [chat.id]: [
             ...(prev[chat.id] || []),
             {
-              content: response.data.response,
+              content: aiText,
               isUser: false,
               timestamp: new Date().toISOString(),
             },
@@ -136,22 +131,18 @@ const ChatArea = ({ chat }) => {
       setIsAiTyping(false);
     }
   };
-  // ...existing code...
 
   const handleFileUpload = (e) => {
     const selectedFile = e.target.files[0];
-
     if (selectedFile) {
       if (selectedFile.type !== "application/pdf") {
         setError("Solo se permiten archivos PDF");
         return;
       }
-
-      if (selectedFile.size > 5000000) {
+      if (selectedFile.size > 5 * 1024 * 1024) {
         setError("El archivo debe ser menor a 5MB");
         return;
       }
-
       setFile(selectedFile);
       setError("");
     }
