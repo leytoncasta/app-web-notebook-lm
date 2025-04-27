@@ -39,7 +39,7 @@ async def augment_search(request: schema.AugmentRequest):
             done_reason="stop"                
         )
 
-        async with httpx.AsyncClient() as client:
+        """async with httpx.AsyncClient() as client:
             backend_response = await client.post(
                 BACKEND_URL,
                 json={
@@ -48,7 +48,7 @@ async def augment_search(request: schema.AugmentRequest):
                 }
             )
             if backend_response.status_code != 200:
-                logger.error(f"Failed to send response to backend: {backend_response.text}")
+                logger.error(f"Failed to send response to backend: {backend_response.text}")"""
 
         return augment_response
           
