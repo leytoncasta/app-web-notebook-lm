@@ -13,8 +13,8 @@ services:
   backend:
     container_name: backend
     image: us-central1-docker.pkg.dev/desarrollo-cloud-457900/desarrollo-cloud/backend:latest
-    expose:
-      - "8000"
+    ports:
+      - "8000:8000"
     environment:
       DATABASE_URL: postgresql+psycopg2://team5:Project2025!@relational_db:5432/USER
     networks:
