@@ -78,8 +78,8 @@ GCP - VM (SSH)
         -e DATABASE_URL='postgresql+psycopg2://team5:Project2025!@10.248.32.6:5432/USER' \
         -e SECRET_KEY=secret \
         -e FRONTEND_URL=http://34.29.171.241:3000 \
-        -e DOCUMENT_URL=http://10.109.1.18:8001 \
-        -e PROMPT_URL=http://10.109.1.18:8003 \
+        -e DOCUMENT_URL=http://10.109.1.34:8001 \
+        -e PROMPT_URL=http://10.109.1.34:8003 \
         -v /mnt/filestore:/mnt/filestore:rw \
         us-central1-docker.pkg.dev/desarrollo-web-451923/cloud-images/backend:latest
 
