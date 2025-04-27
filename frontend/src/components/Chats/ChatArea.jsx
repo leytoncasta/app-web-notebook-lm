@@ -104,61 +104,30 @@ const ChatArea = ({ chat }) => {
         [chat.id]: [...(prev[chat.id] || []), newMessage],
       }));
 
-      api
-        .post("/prompt/", {
-          text: message,
-          chat_id: chat.id,
-        })
-        .catch((error) => {
-          console.error("Error sending prompt:", error);
-          throw error;
-        });
+      // Esperar la respuesta del POST y mostrarla directamente
+      const response = await api.post("/prompt/", {
+        text: message,
+        chat_id: chat.id,
+      });
 
-      let attempts = 0;
-      const maxAttempts = 300; // 5 minutos máximo
-
-      const pollResponse = async () => {
-        try {
-          const llmResponse = await api.get(`/LLM/response/${chat.id}`);
-
-          if (llmResponse.data.status === "success" && llmResponse.data.data) {
-            setChatMessages((prev) => ({
-              ...prev,
-              [chat.id]: [
-                ...(prev[chat.id] || []),
-                {
-                  content: llmResponse.data.data,
-                  isUser: false,
-                  timestamp: new Date().toISOString(),
-                },
-              ],
-            }));
-            return true;
-          }
-
-          attempts++;
-          if (attempts >= maxAttempts) {
-            setError("Tiempo de espera agotado");
-            return true;
-          }
-
-          await new Promise((resolve) => setTimeout(resolve, 2000));
-          return false;
-        } catch (error) {
-          console.error("Error polling response:", error);
-          setError("Error al obtener la respuesta");
-          return true;
-        }
-      };
-
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-
-      while (!(await pollResponse())) {
-        continue;
+      if (response.data && response.data.text) {
+        setChatMessages((prev) => ({
+          ...prev,
+          [chat.id]: [
+            ...(prev[chat.id] || []),
+            {
+              content: response.data.response,
+              isUser: false,
+              timestamp: new Date().toISOString(),
+            },
+          ],
+        }));
+        setError("");
+      } else {
+        setError("No se recibió respuesta del modelo.");
       }
 
       setMessage("");
-      setError("");
     } catch (err) {
       setError("Error al enviar el mensaje");
       console.error("Error:", err);
@@ -167,6 +136,7 @@ const ChatArea = ({ chat }) => {
       setIsAiTyping(false);
     }
   };
+  // ...existing code...
 
   const handleFileUpload = (e) => {
     const selectedFile = e.target.files[0];
