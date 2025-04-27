@@ -8,13 +8,15 @@ import google.generativeai as genai
 
 api_key = os.getenv("API_KEY")
 
+BACKEND_IP = os.getenv("BACKEND_IP")
+BACKEND_URL = f"http://{BACKEND_IP}:8000/LLM/response"
+
 router = APIRouter(
     prefix="/augment",
     tags=["augment"]
 )
 
 logger = logging.getLogger(__name__)
-BACKEND_URL = "http://10.109.1.4:8000/LLM/response"
 
 @router.post("/", response_model=schema.AugmentResponse, status_code=status.HTTP_201_CREATED)
 async def augment_search(request: schema.AugmentRequest):
