@@ -18,7 +18,7 @@ env_path = BASE_DIR / '.env'
 load_dotenv(env_path)
 
 DOCUMENT_URL = os.getenv("DOCUMENT_URL") 
-CLOUD_STORAGE = os.getenv("PATH_FILESTORE")
+CLOUD_STORAGE = os.getenv("CLOUD_STORAGE")
 CHUNKING_SERVICE_URL = f"{DOCUMENT_URL}/upload_document"
 
 logger = logging.getLogger("uvicorn")
@@ -31,20 +31,19 @@ async def subir_documento(
     chat_id: int = Form(...),
     _: dict = Depends(verify_token)
 ):
-    # Saving file in filestore
+    # Saving file in cloud storage
     try:
         if CLOUD_STORAGE:
             storage_client = storage.Client()
             bucket = storage_client.bucket(CLOUD_STORAGE)
-            blobs = list(bucket.list_blobs(prefix=chat_id+"/", max_results=1))
+            folder_prefix = f"{str(chat_id)}/"
+            blobs = list(bucket.list_blobs(prefix=folder_prefix, max_results=1))
             if not blobs:
-                blob = bucket.blob(chat_id+"/")
-                blob.upload_from_file(file_upload.file, content_type=file_upload.content_type)
-                logger.info(f"Created folder: gs://{CLOUD_STORAGE}/{chat_id+"/"}")
-            else:
-                blob = bucket.blob(chat_id+"/")
-                blob.upload_from_file(file_upload.file, content_type=file_upload.content_type)
-                logger.info(f"Updated folder: gs://{CLOUD_STORAGE}/{chat_id+"/"}")
+                logger.info(f"Created folder: gs://{CLOUD_STORAGE}/{folder_prefix}")
+            
+            blob = bucket.blob(f"{folder_prefix}{file_upload.filename}")
+            blob.upload_from_file(file_upload.file, content_type=file_upload.content_type)
+            logger.info(f"Updated folder: gs://{CLOUD_STORAGE}/{folder_prefix}{file_upload.filename}")
     except Exception as e:
         logger.error(f"Error saving file: {e}")
 
