@@ -4,3 +4,4 @@ retriever/retriever/*
 augment/augment/*
 key.json
 .venv
+backend/backend/*

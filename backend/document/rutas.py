@@ -1,5 +1,6 @@
 from fastapi import APIRouter, Depends, UploadFile, status, Form
 from JWT.auth import verify_token
+from google.cloud import storage
 import httpx
 
 from pathlib import Path
@@ -17,7 +18,7 @@ env_path = BASE_DIR / '.env'
 load_dotenv(env_path)
 
 DOCUMENT_URL = os.getenv("DOCUMENT_URL") 
-PATH_FILESTORE = os.getenv("PATH_FILESTORE")
+CLOUD_STORAGE = os.getenv("PATH_FILESTORE")
 CHUNKING_SERVICE_URL = f"{DOCUMENT_URL}/upload_document"
 
 logger = logging.getLogger("uvicorn")
@@ -32,18 +33,18 @@ async def subir_documento(
 ):
     # Saving file in filestore
     try:
-        if PATH_FILESTORE:
-            #cretae chat_id as a specific diectory if it does not exist
-            chat_folder = os.path.join(PATH_FILESTORE, str(chat_id))
-            os.makedirs(chat_folder, exist_ok=True)
-
-            # Save file in the chat_id folder
-            file_location = os.path.join(chat_folder, file_upload.filename)
-            with open(file_location, "wb+") as file_object:
-                file_object.write(file_upload.file.read())
-            
-            await file_upload.seek(0)  # Reset file pointer to the beginning
-            logger.info(f"File saved at {file_location}")
+        if CLOUD_STORAGE:
+            storage_client = storage.Client()
+            bucket = storage_client.bucket(CLOUD_STORAGE)
+            blobs = list(bucket.list_blobs(prefix=chat_id+"/", max_results=1))
+            if not blobs:
+                blob = bucket.blob(chat_id+"/")
+                blob.upload_from_file(file_upload.file, content_type=file_upload.content_type)
+                logger.info(f"Created folder: gs://{CLOUD_STORAGE}/{chat_id+"/"}")
+            else:
+                blob = bucket.blob(chat_id+"/")
+                blob.upload_from_file(file_upload.file, content_type=file_upload.content_type)
+                logger.info(f"Updated folder: gs://{CLOUD_STORAGE}/{chat_id+"/"}")
     except Exception as e:
         logger.error(f"Error saving file: {e}")
 
