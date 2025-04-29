@@ -1,7 +1,6 @@
 from fastapi import FastAPI
 from usuario import modelo
 from usuario.rutas import router as usuario_router
-from LLM.rutas import router as LLM_router
 from chat.rutas import router as chat_router
 from document.rutas import router as document_router
 from prompt.rutas import router as prompt_router
@@ -15,7 +14,6 @@ app = FastAPI(
 )
 
 app.include_router(usuario_router)
-app.include_router(LLM_router)
 app.include_router(chat_router)
 app.include_router(document_router)
 app.include_router(prompt_router)

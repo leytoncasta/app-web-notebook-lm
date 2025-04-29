@@ -16,33 +16,11 @@ services:
     ports:
       - "8000:8000"
     environment:
-      DATABASE_URL: postgresql+psycopg2://team5:Project2025!@relational_db:5432/USER
+      DATABASE_URL: postgresql+psycopg2://postgres:admin@10.189.176.3:5432/USER # IP del SQL en GCP
     networks:
       - project_network
-    restart: always
-    depends_on:
-      - relational_db
-
-  relational_db:
-    container_name: relational_db
-    image: us-central1-docker.pkg.dev/desarrollo-cloud-457900/desarrollo-cloud/relational_db:latest
-    environment:
-      POSTGRES_DB: USER
-      POSTGRES_USER: team5
-      POSTGRES_PASSWORD: Project2025!
-      POSTGRES_PORT: 5432
-    volumes:
-      - relational_db:/var/lib/postgresql/data
-    networks:
-      - project_network
-    expose:
-      - "5432"
     restart: always
 
 networks:
   project_network:
     driver: bridge
-
-volumes:
-  relational_db:
-    driver: local
