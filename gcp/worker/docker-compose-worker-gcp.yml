@@ -1,0 +1,29 @@
+services:
+
+  embeddings_prompt:
+    container_name: embeddings_prompt
+    image: us-central1-docker.pkg.dev/desarrollo-cloud-457900/desarrollo-cloud/embeddings_prompt:latest
+    ports:
+      - "8003:8003"
+    networks:
+      - project_network
+    restart: always
+
+  retriever:
+    container_name: retriever
+    image:  us-central1-docker.pkg.dev/desarrollo-cloud-457900/desarrollo-cloud/retriever:latest
+    ports:
+      - "8080:8080"
+    networks:
+      - project_network
+    restart: always
+
+networks:
+  project_network:
+    driver: bridge
+
+volumes:
+  embeddings_prompt:
+    driver: local
+  retriever:
+    driver: local

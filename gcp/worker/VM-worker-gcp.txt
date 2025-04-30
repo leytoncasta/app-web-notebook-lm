@@ -5,7 +5,6 @@ sudo apt-get update
 sudo apt-get install -y docker.io docker-compose
 
 sudo docker network create project_network
-sudo docker volume create relational_db
 
 gcloud auth configure-docker us-central1-docker.pkg.dev
 TOKEN=$(gcloud auth print-access-token)
@@ -14,6 +13,6 @@ echo $TOKEN | sudo docker login -u oauth2accesstoken --password-stdin https://us
 Docker Compose
 # ----------------------------------------------------------
 
-nano docker-compose-web-gcp.yml
-sudo docker-compose -f docker-compose-web-gcp.yml up -d
+nano docker-compose-worker-gcp.yml
+sudo docker-compose -f docker-compose-worker-gcp.yml up -d
 sudo docker ps

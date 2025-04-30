@@ -1,0 +1,7 @@
+fastapi
+uvicorn
+#sentence-transformers
+python-dotenv
+aiohttp
+google-cloud-pubsub
+asyncio
