@@ -93,36 +93,67 @@ const ChatArea = ({ chat }) => {
         isUser: true,
         timestamp: new Date().toISOString(),
       };
+
       setChatMessages((prev) => ({
         ...prev,
         [chat.id]: [...(prev[chat.id] || []), newMessage],
       }));
 
-      // Enviar prompt al servidor
-      const response = await api.post("/prompt/", {
-        text: message,
-        chat_id: chat.id,
-      });
+      api
+        .post("/prompt/", {
+          text: message,
+          chat_id: chat.id,
+        })
+        .catch((error) => {
+          console.error("Error sending prompt:", error);
+          throw error;
+        });
 
-      const aiText = response.data.response;
-      if (aiText) {
-        setChatMessages((prev) => ({
-          ...prev,
-          [chat.id]: [
-            ...(prev[chat.id] || []),
-            {
-              content: aiText,
-              isUser: false,
-              timestamp: new Date().toISOString(),
-            },
-          ],
-        }));
-        setError("");
-      } else {
-        setError("No se recibió respuesta del modelo.");
+      let attempts = 0;
+      const maxAttempts = 300;
+
+      const pollResponse = async () => {
+        try {
+          const llmResponse = await api.get(`/LLM/response/${chat.id}`);
+
+          if (llmResponse.data.status === "success" && llmResponse.data.data) {
+            setChatMessages((prev) => ({
+              ...prev,
+              [chat.id]: [
+                ...(prev[chat.id] || []),
+                {
+                  content: llmResponse.data.data,
+                  isUser: false,
+                  timestamp: new Date().toISOString(),
+                },
+              ],
+            }));
+            return true;
+          }
+
+          attempts++;
+          if (attempts >= maxAttempts) {
+            setError("Tiempo de espera agotado");
+            return true;
+          }
+
+          await new Promise((resolve) => setTimeout(resolve, 3000));
+          return false;
+        } catch (error) {
+          console.error("Error polling response:", error);
+          setError("Error al obtener la respuesta");
+          return true;
+        }
+      };
+
+      await new Promise((resolve) => setTimeout(resolve, 3000));
+
+      while (!(await pollResponse())) {
+        continue;
       }
 
       setMessage("");
+      setError("");
     } catch (err) {
       setError("Error al enviar el mensaje");
       console.error("Error:", err);

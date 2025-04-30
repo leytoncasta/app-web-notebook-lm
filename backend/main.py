@@ -5,6 +5,7 @@ from chat.rutas import router as chat_router
 from document.rutas import router as document_router
 from prompt.rutas import router as prompt_router
 from database import engine
+from gemini.rutas import router as gemini_router
 
 modelo.Base.metadata.create_all(bind=engine)
 
@@ -17,3 +18,4 @@ app.include_router(usuario_router)
 app.include_router(chat_router)
 app.include_router(document_router)
 app.include_router(prompt_router)
+app.include_router(gemini_router)
