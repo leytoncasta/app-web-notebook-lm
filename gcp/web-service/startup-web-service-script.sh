@@ -7,10 +7,6 @@ apt-get install -y docker.io docker-compose
 # Instalar gsutil si no está
 apt-get install -y google-cloud-sdk
 
-# Crear red y volumen (solo si no existen)
-docker network create project_network || true
-docker volume create relational_db || true
-
 # Autenticación con Artifact Registry
 gcloud auth configure-docker us-central1-docker.pkg.dev
 TOKEN=$(gcloud auth print-access-token)

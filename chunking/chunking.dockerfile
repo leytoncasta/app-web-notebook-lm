@@ -1,11 +1,14 @@
-FROM tiangolo/uvicorn-gunicorn-fastapi:python3.9
+FROM python:3.9-slim
 
 WORKDIR /app
 
-COPY main.py /app/
+COPY requirements.txt .
 
-RUN pip install pypdf fastapi
+RUN pip install --no-cache-dir -r requirements.txt && \
+    rm -rf /root/.cache/pip
 
-EXPOSE 8002
+COPY . /app/
+
+EXPOSE 8001
 
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8001"]

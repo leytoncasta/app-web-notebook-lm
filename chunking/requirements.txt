@@ -1,0 +1,7 @@
+fastapi
+uvicorn
+aiohttp
+google-cloud-pubsub
+google-cloud-storage
+pypdf
+python-dotenv

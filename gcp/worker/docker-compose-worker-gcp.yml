@@ -1,5 +1,16 @@
 services:
 
+  chunking:
+    image: us-central1-docker.pkg.dev/desarrollo-cloud-457900/desarrollo-cloud/chunking:latest
+    container_name: chunking
+    ports:
+      - "8001:8001"
+    environment:
+      CLOUD_STORAGE: bucket-documents-users
+    networks:
+      - project_network
+    restart: always
+
   embeddings_prompt:
     container_name: embeddings_prompt
     image: us-central1-docker.pkg.dev/desarrollo-cloud-457900/desarrollo-cloud/embeddings_prompt:latest
@@ -23,6 +34,8 @@ networks:
     driver: bridge
 
 volumes:
+  chunking:
+    driver: local
   embeddings_prompt:
     driver: local
   retriever:
