@@ -11,7 +11,12 @@ SERVICE_ABSOLUTE_PATH = Path(__file__).resolve().parent
 env_file = SERVICE_ABSOLUTE_PATH / '.env'
 load_dotenv(env_file)
 
-API_URL_AUGMENTER = os.getenv("API_URL_AUGMENTER")
+
+
+API_URL_AUGMENTER =" http://augment:8005/augment/"
+
+
+
 if not API_URL_AUGMENTER:
     raise ValueError("API_URL_AUGMENTER environment variable is not set")
 

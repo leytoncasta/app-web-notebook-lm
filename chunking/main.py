@@ -23,7 +23,7 @@ SUBSCRIPTION_ID = "webserver-to-chunking-sub"
 
 
 
-EMBEDDING_SERVICE_URL = "http://embeddings:8002/generate_embeddings"
+EMBEDDING_SERVICE_URL = "http://embeddings_doc:8002/generate_embeddings"
 
 
 

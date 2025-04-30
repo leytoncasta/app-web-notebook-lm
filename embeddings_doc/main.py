@@ -15,8 +15,6 @@ from database import engine
 app = FastAPI()
 model = SentenceTransformer("all-MiniLM-L6-v2")  # paraphrase-MiniLM-L3-v2
 modelo.Base.metadata.create_all(bind=engine)
-API_URL_RETRIEVER = "http://retriever:8080/retriever/contexto"
-
 class EmbeddingRequest(BaseModel):
     chat_id: int
     chunks: List[str]

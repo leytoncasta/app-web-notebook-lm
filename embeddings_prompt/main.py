@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from google.cloud import pubsub_v1
+from sentence_transformers import SentenceTransformer
 import aiohttp
 import asyncio
 import json
@@ -10,26 +11,32 @@ import json
 
 PROJECT_ID = "desarrollo-cloud-457900"
 SUBSCRIPTION_ID = "webserver-to-embedding2"
-API_URL_RETRIEVER = "http://retriever:8080/retriever/contexto"
+
+
+API_URL_RETRIEVER = "http://retriever:8004/retriever/contexto"
+
+
 
 subscriber = pubsub_v1.SubscriberClient()
 subscription_path = subscriber.subscription_path(PROJECT_ID, SUBSCRIPTION_ID)
 
 app = FastAPI()
+model = SentenceTransformer("all-MiniLM-L6-v2") 
 
 # ---------------
 # Procesamiento asincrónico
 # ---------------
 
 async def process_message(message_data):
+
     print(f"Mensaje recibido: {message_data}")
 
-    # TODO: Cambiar el modelo de embeddings aL CORRECTO.
-    embedding = [1] * 384
+    text = message_data.get("text")
+    embedding = model.encode(text).tolist()
 
     async with aiohttp.ClientSession() as session:
         json_document = {
-            "prompt": message_data.get("text"),
+            "prompt": text,
             "chat_id": message_data.get("chat_id"),
             "embedding": embedding
         }

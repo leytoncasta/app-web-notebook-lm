@@ -1,0 +1,34 @@
+frontend
+--------------------------------------------------------
+docker build -t us-central1-docker.pkg.dev/desarrollo-cloud-457900/desarrollo-cloud/frontend:latest -f ./frontend/frontend.dockerfile ./frontend
+docker push us-central1-docker.pkg.dev/desarrollo-cloud-457900/desarrollo-cloud/frontend:latest
+
+backend
+--------------------------------------------------------
+docker build -t us-central1-docker.pkg.dev/desarrollo-cloud-457900/desarrollo-cloud/backend:latest -f ./backend/backend.dockerfile ./backend
+docker push us-central1-docker.pkg.dev/desarrollo-cloud-457900/desarrollo-cloud/backend:latest
+
+chunking
+--------------------------------------------------------
+docker build -t us-central1-docker.pkg.dev/desarrollo-cloud-457900/desarrollo-cloud/chunking:latest -f ./chunking/chunking.dockerfile ./chunking
+docker push us-central1-docker.pkg.dev/desarrollo-cloud-457900/desarrollo-cloud/chunking:latest
+
+embeddings_docs
+--------------------------------------------------------
+docker build -t us-central1-docker.pkg.dev/desarrollo-cloud-457900/desarrollo-cloud/embeddings_doc:latest -f ./embeddings_doc/embeddings_doc.dockerfile ./embeddings_doc
+docker push us-central1-docker.pkg.dev/desarrollo-cloud-457900/desarrollo-cloud/embeddings_doc:latest
+
+embeddings_prompt
+--------------------------------------------------------
+docker build -t us-central1-docker.pkg.dev/desarrollo-cloud-457900/desarrollo-cloud/embeddings_prompt:latest -f ./embeddings_prompt/embeddings_prompt.dockerfile ./embeddings_prompt
+docker push us-central1-docker.pkg.dev/desarrollo-cloud-457900/desarrollo-cloud/embeddings_prompt:latest
+
+retriever
+--------------------------------------------------------
+docker build -t us-central1-docker.pkg.dev/desarrollo-cloud-457900/desarrollo-cloud/retriever:latest -f ./retriever/retriever.dockerfile ./retriever
+docker push us-central1-docker.pkg.dev/desarrollo-cloud-457900/desarrollo-cloud/retriever:latest
+
+augment
+--------------------------------------------------------
+docker build -t us-central1-docker.pkg.dev/desarrollo-cloud-457900/desarrollo-cloud/augment:latest -f ./augment/augment.dockerfile ./augment
+docker push us-central1-docker.pkg.dev/desarrollo-cloud-457900/desarrollo-cloud/augment:latest
