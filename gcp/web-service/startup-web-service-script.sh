@@ -1,4 +1,11 @@
 #!/bin/bash
+set -e
+
+# Esperar a que apt/dpkg estén libres
+while fuser /var/lib/dpkg/lock-frontend >/dev/null 2>&1 || fuser /var/lib/apt/lists/lock >/dev/null 2>&1; do
+   echo "Esperando a que apt/dpkg estén disponibles..."
+   sleep 3
+done
 
 # Instalar Docker y Docker Compose
 apt-get update
