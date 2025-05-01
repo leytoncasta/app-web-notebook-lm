@@ -73,7 +73,7 @@ async def pull_messages_loop():
             response = subscriber.pull(
                 request={
                     "subscription": subscription_path,
-                    "max_messages": 10,
+                    "max_messages": 3,
                     "return_immediately": False,
                 },
                 timeout=10
