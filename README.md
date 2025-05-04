@@ -4,9 +4,9 @@
 
 Con el fin de lograr ejecutar los servicios de manera correcta, debemos entender la arquitectura que desplegamos:
 
-Arquitectura de la Aplicación
+## Arquitectura de la Aplicación
 
-(A) Escalabilidad Capa Web
+### (A) Escalabilidad Capa Web
 
 La arquitectura diseñada para la capa web en Google Cloud Platform (GCP) está
 compuesta por una VPC única que alberga tres subredes especializadas, cada una
@@ -47,9 +47,10 @@ autenticación como la base de datos vectorial para búsquedas semánticas.
 Finalmente, Cloud Storage ofrece un almacenamiento seguro y escalable para los
 documentos subidos por los usuarios. La Figura 1 representa la arquitectura descrita.
 
-AAAAAAAAAAAAAAAAAAAAAAAAAAA
+![image](https://github.com/user-attachments/assets/4de610a9-9267-4b14-8821-72f20df0e938)
 
-Escalabilidad en el Backend (workers)
+
+### (B) Escalabilidad en el Backend (workers)
 
 Como parte de la evolución del proyecto y para establecer un punto de comparación
 en las pruebas de rendimiento, se implementaron cambios significativos sobre la
@@ -85,9 +86,9 @@ revisada proporciona una base más robusta para manejar cargas variables y
 mantiene la coherencia con los servicios gestionados de GCP utilizados en el diseño
 original. La Figura 2 muestra el cambio descrito.
 
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+![image](https://github.com/user-attachments/assets/d381176d-e8f7-4fb7-b185-7a32f6343a2f)
 
-### Replicar la arquitectura de GCP
+## Replicar la arquitectura de GCP
 
 Si deseamos montar todo desde cero en GCP se deben seguir los siguientes pasos:
 
