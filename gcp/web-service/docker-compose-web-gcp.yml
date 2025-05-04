@@ -1,0 +1,27 @@
+services:
+
+  frontend:
+    container_name: frontend
+    image: us-central1-docker.pkg.dev/desarrollo-cloud-457900/desarrollo-cloud/frontend:latest
+    ports:
+      - 80:80
+    depends_on:
+      - backend
+    networks:
+      - project_network
+
+  backend:
+    container_name: backend
+    image: us-central1-docker.pkg.dev/desarrollo-cloud-457900/desarrollo-cloud/backend:latest
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: postgresql+psycopg2://postgres:admin@10.189.176.3:5432/USER # IP del SQL en GCP
+      CLOUD_STORAGE: bucket-documents-users
+    networks:
+      - project_network
+    restart: always
+
+networks:
+  project_network:
+    driver: bridge

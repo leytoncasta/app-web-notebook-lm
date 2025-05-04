@@ -1,5 +1,5 @@
 # Start from the official PostgreSQL image
-FROM postgres:latest
+FROM postgres:17
 
 ENV POSTGRES_DB=${POSTGRES_DB}
 ENV POSTGRES_USER=${POSTGRES_USER}

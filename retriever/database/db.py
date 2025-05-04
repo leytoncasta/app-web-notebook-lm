@@ -9,7 +9,7 @@ ABSOLUTE_PATH = Path(__file__).resolve().parent
 env_file = ABSOLUTE_PATH / '.env'
 load_dotenv(env_file)
 
-CONNECTION_STRING = os.getenv("CONNECTION_STRING")
+CONNECTION_STRING = "postgresql+psycopg2://postgres:admin@10.189.176.3:5432/postgres"
 
 engine = create_engine(
     CONNECTION_STRING,

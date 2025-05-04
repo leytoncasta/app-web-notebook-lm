@@ -1,88 +1,43 @@
 from fastapi import APIRouter, Depends, status, HTTPException
 from pydantic import BaseModel
-from typing import List, Optional
 from JWT.auth import verify_token
-import httpx
 
-from pathlib import Path
-from dotenv import load_dotenv
-import os
-import logging
+from google.cloud import pubsub_v1
+import json
 
 router = APIRouter(
     prefix="/prompt",
     tags=["prompt"]
 )
-
-class AugmentResponse(BaseModel):
-    model: str
-    prompt: str
-    stream: bool
-    context: List[str]
-    response: str
-    done: bool = False
-    done_reason: Optional[str] = ""
-
 class PromptRequest(BaseModel):
     text: str
     chat_id: int
 
+PROJECT_ID = "desarrollo-cloud-457900"
+TOPIC_ID = "webserver-to-workers"
 
-BASE_DIR = Path(__file__).resolve().parent
-env_path = BASE_DIR / '.env'
-load_dotenv(env_path)
+publisher = pubsub_v1.PublisherClient()
+topic_path = publisher.topic_path(PROJECT_ID, TOPIC_ID)
 
-PROMPT_URL = os.getenv("PROMPT_URL") 
-EMBEDDING_SERVICE_URL = f"{PROMPT_URL}/embed_text"
-
-logger = logging.getLogger("uvicorn")
-logger.info(f"Prompt URL: {EMBEDDING_SERVICE_URL}")
-print(f"Prompt URL: {EMBEDDING_SERVICE_URL}")
-
-@router.post("/", response_model=AugmentResponse, status_code=status.HTTP_201_CREATED)
+@router.post("/", status_code=status.HTTP_201_CREATED)
 async def subir_prompt(
     request: PromptRequest,
     _: dict = Depends(verify_token)
 ):
-    try:        
+    try:
         payload = {
             "text": request.text,
             "chat_id": request.chat_id
         }
 
-        async with httpx.AsyncClient(timeout=1000.0) as client:
-            try:
-                print(f"Attempting to connect to: {EMBEDDING_SERVICE_URL}")
-                print(f"With payload: {payload}")
-                
-                headers = {
-                    "Content-Type": "application/json",
-                    "Accept": "application/json"
-                }
-                
-                response = await client.post(
-                    EMBEDDING_SERVICE_URL, 
-                    json=payload,
-                    headers=headers
-                )
-                
-                response.raise_for_status()
-                
-                return response.json()
-                
-            except httpx.TimeoutException as e:
-                print(f"Timeout error: {str(e)}")
-                raise HTTPException(status_code=504, detail="Request timed out")
-            except httpx.RequestError as e:
-                print(f"Request error: {str(e)}")
-                raise HTTPException(status_code=502, detail=f"Connection error: {str(e)}")
-            except httpx.HTTPStatusError as e:
-                print(f"HTTP error: {str(e)}")
-                raise HTTPException(
-                    status_code=e.response.status_code,
-                    detail=f"Embedding service error: {e.response.text}"
-                )
-    
+        # Publicar en Pub/Sub
+        future = publisher.publish(
+            topic_path,
+            data=json.dumps(payload).encode("utf-8")
+        )
+        message_id = future.result()
+        print(f"Mensaje publicado con ID: {message_id}")
+
     except Exception as e:
-        print(f"General error: {str(e)}")
+        print(f"Error al publicar en Pub/Sub: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))

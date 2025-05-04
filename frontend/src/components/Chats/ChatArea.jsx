@@ -8,22 +8,17 @@ const ChatArea = ({ chat }) => {
   const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [hasDocuments, setHasDocuments] = useState({}); // Track documents per chat
-  const [isAiTyping, setIsAiTyping] = useState(false); // Track AI typing state
+  const [hasDocuments, setHasDocuments] = useState({});
+  const [isAiTyping, setIsAiTyping] = useState(false);
   const fileInputRef = useRef();
   const messagesEndRef = useRef(null);
 
-  // Obtener mensajes del chat actual
   const currentMessages = chat ? chatMessages[chat.id] || [] : [];
   const currentChatHasDocument = chat ? hasDocuments[chat.id] || false : false;
 
   useEffect(() => {
-    scrollToBottom();
-  }, [currentMessages]);
-
-  const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
+  }, [currentMessages]);
 
   if (!chat) {
     return (
@@ -115,7 +110,7 @@ const ChatArea = ({ chat }) => {
         });
 
       let attempts = 0;
-      const maxAttempts = 300; // 5 minutos máximo
+      const maxAttempts = 300;
 
       const pollResponse = async () => {
         try {
@@ -142,7 +137,7 @@ const ChatArea = ({ chat }) => {
             return true;
           }
 
-          await new Promise((resolve) => setTimeout(resolve, 2000));
+          await new Promise((resolve) => setTimeout(resolve, 3000));
           return false;
         } catch (error) {
           console.error("Error polling response:", error);
@@ -151,7 +146,7 @@ const ChatArea = ({ chat }) => {
         }
       };
 
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      await new Promise((resolve) => setTimeout(resolve, 3000));
 
       while (!(await pollResponse())) {
         continue;
@@ -170,18 +165,15 @@ const ChatArea = ({ chat }) => {
 
   const handleFileUpload = (e) => {
     const selectedFile = e.target.files[0];
-
     if (selectedFile) {
       if (selectedFile.type !== "application/pdf") {
         setError("Solo se permiten archivos PDF");
         return;
       }
-
-      if (selectedFile.size > 5000000) {
+      if (selectedFile.size > 5 * 1024 * 1024) {
         setError("El archivo debe ser menor a 5MB");
         return;
       }
-
       setFile(selectedFile);
       setError("");
     }
