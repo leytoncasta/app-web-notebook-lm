@@ -547,4 +547,5 @@ classDiagram
 
 ## Diagram de Componentes
 
-AAAAAAAAA
+![image](https://github.com/user-attachments/assets/93e7a688-58ac-4ec7-a05a-0631fd29105c)
+
