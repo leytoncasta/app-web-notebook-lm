@@ -1,0 +1,757 @@
+{
+	"info": {
+		"_postman_id": "50476494-46fb-411a-a1d2-865117c7483f",
+		"name": "LLM",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "12650312"
+	},
+	"item": [
+		{
+			"name": "Usuario & Chat",
+			"item": [
+				{
+					"name": "Get All (Vacio)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"No genera error traer todos los usuarios.\"]=responseCode.code==200;\r",
+									"postman.setGlobalVariable(\"gcp_backend_url\",\"backend-service-697367184851.us-central1.run.app\");"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://backend-service-697367184851.us-central1.run.app/usuarios/",
+							"protocol": "https",
+							"host": [
+								"backend-service-697367184851",
+								"us-central1",
+								"run",
+								"app"
+							],
+							"path": [
+								"usuarios",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Usuario 1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data = JSON.parse(responseBody);\r",
+									"postman.setGlobalVariable(\"new_user1_id\",data.id);\r",
+									"tests[\"No genera error crearr un usuario.\"]=responseCode.code==201;"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre_usuario\": \"sbob\",\r\n    \"contraseña\": \"Bobi123!\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{gcp_backend_url}}/usuarios/",
+							"protocol": "https",
+							"host": [
+								"{{gcp_backend_url}}"
+							],
+							"path": [
+								"usuarios",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear  Usuario 2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data = JSON.parse(responseBody);\r",
+									"postman.setGlobalVariable(\"new_user2_id\",data.id);\r",
+									"tests[\"No genera error crearr un usuario.\"]=responseCode.code==201;"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre_usuario\": \"fbob\",\r\n    \"contraseña\": \"Bobi789!\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{gcp_backend_url}}/usuarios/",
+							"protocol": "https",
+							"host": [
+								"{{gcp_backend_url}}"
+							],
+							"path": [
+								"usuarios",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"No genera error traer todos los usuarios.\"]=responseCode.code==200;"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{gcp_backend_url}}/usuarios/",
+							"protocol": "https",
+							"host": [
+								"{{gcp_backend_url}}"
+							],
+							"path": [
+								"usuarios",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Log In",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data = JSON.parse(responseBody);\r",
+									"postman.setGlobalVariable(\"login_id\",data.user_id);\r",
+									"postman.setGlobalVariable(\"jwt_token\",data.access_token);\r",
+									"tests[\"No genera error buscar al usario y ver que su contrseña es correcta.\"]=responseCode.code==200;"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"sbob\",\r\n    \"password\": \"Bobi123!\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{gcp_backend_url}}/usuarios/login",
+							"protocol": "https",
+							"host": [
+								"{{gcp_backend_url}}"
+							],
+							"path": [
+								"usuarios",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Usuario por ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"No genera error traer un usuario con un Id especifico.\"]=responseCode.code==200;"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{gcp_backend_url}}/usuarios/{{new_user1_id}}",
+							"protocol": "https",
+							"host": [
+								"{{gcp_backend_url}}"
+							],
+							"path": [
+								"usuarios",
+								"{{new_user1_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Chats",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"No genera error traer todos los chats.\"]=responseCode.code==200;"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{gcp_backend_url}}/chats/",
+							"protocol": "https",
+							"host": [
+								"{{gcp_backend_url}}"
+							],
+							"path": [
+								"chats",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Chat",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data = JSON.parse(responseBody);\r",
+									"postman.setGlobalVariable(\"id_chat\",data.id);\r",
+									"tests[\"No genera error crear un chat asociado a un usuario\"]=responseCode.code==201;"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id_usuario\": \"{{new_user1_id}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{gcp_backend_url}}/chats/",
+							"protocol": "https",
+							"host": [
+								"{{gcp_backend_url}}"
+							],
+							"path": [
+								"chats",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Chat por ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"No genera error traer un chat con un Id especifico.\"]=responseCode.code==200;"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{gcp_backend_url}}/chats/{{id_chat}}",
+							"protocol": "https",
+							"host": [
+								"{{gcp_backend_url}}"
+							],
+							"path": [
+								"chats",
+								"{{id_chat}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Chats de un Usuario",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"No genera error traer un chat de un usuario con Id especifico.\"]=responseCode.code==200;"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{gcp_backend_url}}/chats/user/{{new_user1_id}}?skip=0&limit=100",
+							"protocol": "https",
+							"host": [
+								"{{gcp_backend_url}}"
+							],
+							"path": [
+								"chats",
+								"user",
+								"{{new_user1_id}}"
+							],
+							"query": [
+								{
+									"key": "skip",
+									"value": "0"
+								},
+								{
+									"key": "limit",
+									"value": "100"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Subir Doc",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"No genera error escribir un documento desde el backend hasta la BD vectorial.\"]=responseCode.code==200;"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file_upload",
+									"type": "file",
+									"src": "postman-cloud:///1f011cc5-7c34-4160-9ec4-9cf903927e21"
+								},
+								{
+									"key": "chat_id",
+									"value": "20000",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://{{gcp_backend_url}}/documentos/uploadfile",
+							"protocol": "https",
+							"host": [
+								"{{gcp_backend_url}}"
+							],
+							"path": [
+								"documentos",
+								"uploadfile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Send a Prompt",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"No genera error hacer un query desde el Backend.\"]=responseCode.code==201;\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"text\": \"1+1?\",\r\n    \"chat_id\": {{id_chat}}\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{gcp_backend_url}}/prompt/",
+							"protocol": "https",
+							"host": [
+								"{{gcp_backend_url}}"
+							],
+							"path": [
+								"prompt",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Chat",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"No genera error eliminar un chat con Id especifico.\"]=responseCode.code==200;"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://{{gcp_backend_url}}/chats/{{id_chat}}",
+							"protocol": "https",
+							"host": [
+								"{{gcp_backend_url}}"
+							],
+							"path": [
+								"chats",
+								"{{id_chat}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar Usuario",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"No genera error actualizar la información de un usuarios identificado con Id especifico.\"]=responseCode.code==200;"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre_usuario\": \"dmbob\",\r\n    \"contraseña\": \"Bobi123!\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{gcp_backend_url}}/usuarios/{{new_user2_id}}",
+							"protocol": "https",
+							"host": [
+								"{{gcp_backend_url}}"
+							],
+							"path": [
+								"usuarios",
+								"{{new_user2_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Detele Usuario 1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"No genera error eliminar un usuario con Id especifico.\"]=responseCode.code==204;"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://{{gcp_backend_url}}/usuarios/{{new_user1_id}}",
+							"protocol": "https",
+							"host": [
+								"{{gcp_backend_url}}"
+							],
+							"path": [
+								"usuarios",
+								"{{new_user1_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Detele Usuario 2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"No genera error eliminar un usuario con Id especifico.\"]=responseCode.code==204;"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://{{gcp_backend_url}}/usuarios/{{new_user2_id}}",
+							"protocol": "https",
+							"host": [
+								"{{gcp_backend_url}}"
+							],
+							"path": [
+								"usuarios",
+								"{{new_user2_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All (Vacio)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"No genera error traer todos los usuarios.\"]=responseCode.code==200;"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{gcp_backend_url}}/usuarios/",
+							"protocol": "https",
+							"host": [
+								"{{gcp_backend_url}}"
+							],
+							"path": [
+								"usuarios",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
