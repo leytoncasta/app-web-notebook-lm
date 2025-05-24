@@ -1,6 +1,10 @@
-from fastapi import APIRouter, HTTPException, Request
+from fastapi import APIRouter, HTTPException, Request, Depends
 from typing import Dict
 from datetime import datetime
+from database import get_db
+from sqlalchemy.orm import Session
+from . import create
+import pytz
 import base64
 import json
 
@@ -61,7 +65,12 @@ async def process_message(data, chat_id):
 # ---------------
 
 @router.post("/pubsub/push")
-async def receive_pubsub_push(request: Request):
+async def receive_pubsub_push(request: Request, db: Session = Depends(get_db)):
+    try:
+        timestamp = datetime.now(pytz.timezone('America/Bogota'))
+    except Exception as e:
+        print("Error procesando mensaje push:", e, flush=True)
+        raise HTTPException(status_code=500, detail=f"Error timestamp: {e}")
     try:
         body = await request.json()
         message_data = body["message"]["data"]
@@ -74,9 +83,16 @@ async def receive_pubsub_push(request: Request):
         chat_id = str(message.get("chat_id"))
 
         await process_message(data, chat_id)
+        # Guardar datos en la base de datos de PromptResponse
+        create.write_db(db, int(chat_id), str(data), 201, timestamp)
+        
         return {"status": "success"}
 
     except Exception as e:
+        try:
+            create.write_db(db, int(chat_id), str(data), 400, timestamp)
+        except Exception as db_error:
+            print("Error guardando en la base de datos:", db_error, flush=True)
         print("Error procesando mensaje push:", e, flush=True)
         raise HTTPException(status_code=400, detail="Error en el mensaje")
 
@@ -104,3 +120,14 @@ async def cleanup_old_responses():
                      if (current_time - data["timestamp"]).seconds > 600]
     for chat_id in expired_chats:
         del response_store[chat_id]
+
+def create_timestamp():
+    # Get the current time with UTC timezone
+    utc_now = datetime.datetime.now(pytz.utc)
+    
+    # Convert to Colombia timezone
+    colombia_timezone = pytz.timezone('America/Bogota')
+    colombia_now = utc_now.astimezone(colombia_timezone)
+    
+    # Return the timezone-aware datetime object (not timestamp)
+    return colombia_now
