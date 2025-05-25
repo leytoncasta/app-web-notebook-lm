@@ -5,7 +5,7 @@ import os
 from dotenv import load_dotenv
 from pathlib import Path
 
-SQLALCHEMY_DATABASE_URL = "postgresql+psycopg2://postgres:admin@10.189.176.3:5432/postgres"
+SQLALCHEMY_DATABASE_URL = "postgresql+psycopg2://postgres:admin@10.189.176.3:5432/PROMPT_RESPONSE"
 
 engine = create_engine(
     SQLALCHEMY_DATABASE_URL,

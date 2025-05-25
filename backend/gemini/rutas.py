@@ -3,6 +3,7 @@ from typing import Dict
 from datetime import datetime
 from database import get_db
 from sqlalchemy.orm import Session
+from sqlalchemy import func
 from . import create
 import pytz
 import base64
@@ -67,7 +68,7 @@ async def process_message(data, chat_id):
 @router.post("/pubsub/push")
 async def receive_pubsub_push(request: Request, db: Session = Depends(get_db)):
     try:
-        timestamp = datetime.now(pytz.timezone('America/Bogota'))
+        timestamp = func.now()
     except Exception as e:
         print("Error procesando mensaje push:", e, flush=True)
         raise HTTPException(status_code=500, detail=f"Error timestamp: {e}")
@@ -120,14 +121,3 @@ async def cleanup_old_responses():
                      if (current_time - data["timestamp"]).seconds > 600]
     for chat_id in expired_chats:
         del response_store[chat_id]
-
-def create_timestamp():
-    # Get the current time with UTC timezone
-    utc_now = datetime.datetime.now(pytz.utc)
-    
-    # Convert to Colombia timezone
-    colombia_timezone = pytz.timezone('America/Bogota')
-    colombia_now = utc_now.astimezone(colombia_timezone)
-    
-    # Return the timezone-aware datetime object (not timestamp)
-    return colombia_now
