@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, Text, TIMESTAMP
-from database import Base
+from  gemini.database import Base
 
 class PromptResponseDB(Base):
     __tablename__ = "prompt_response"

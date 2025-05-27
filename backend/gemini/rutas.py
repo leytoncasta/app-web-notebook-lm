@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, Request, Depends
 from typing import Dict
 from datetime import datetime
-from database import get_db
+from gemini.database import get_db
 from sqlalchemy.orm import Session
 from sqlalchemy import func
 from . import create
