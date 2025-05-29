@@ -14,3 +14,17 @@ Docker Compose
 nano docker-compose-web-gcp.yml
 sudo docker-compose -f docker-compose-web-gcp.yml up -d
 sudo docker ps
+
+# Cloud Run BackEnd
+# ---------------------
+
+gcloud run deploy backend-service \
+  --image=us-central1-docker.pkg.dev/desarrollo-cloud-457900/desarrollo-cloud/backend:latest \
+  --platform=managed \
+  --region=northamerica-south1 \
+  --allow-unauthenticated \
+  --set-env-vars="DATABASE_URL=postgresql+psycopg2://postgres:admin@34.68.52.115:5432/USER,CLOUD_STORAGE=bucket-documents-users"
+
+curl -X POST https://backend-service-697367184851.northamerica-south1.run.app/usuarios/ \
+  -H "Content-Type: application/json" \
+  -d '{"nombre_usuario": "JJ", "contraseña": "123456"}'

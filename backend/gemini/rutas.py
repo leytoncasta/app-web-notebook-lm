@@ -1,14 +1,16 @@
-from fastapi import APIRouter, HTTPException
-from fastapi_utils.tasks import repeat_every
+from fastapi import APIRouter, HTTPException, Request, Depends
 from typing import Dict
 from datetime import datetime
+from gemini.database import get_db
+from sqlalchemy.orm import Session
+from sqlalchemy import func
+from . import create
+import pytz
+import base64
+import json
 
 from google.cloud import pubsub_v1
 from google.api_core.exceptions import AlreadyExists
-import threading
-import asyncio
-import requests
-import json
 
 router = APIRouter(
     prefix="/LLM",
@@ -16,127 +18,100 @@ router = APIRouter(
 )
 
 # ---------------
-# PUB/SUB CONFIG
+# CONFIGURACIÓN FIJA
 # ---------------
 
 PROJECT_ID = "desarrollo-cloud-457900"
 TOPIC_ID = "workers-to-webserver"
+SUBSCRIPTION_ID = "embedding2-to-cloudrun-push"
+PUSH_ENDPOINT = "https://backend-service-697367184851.us-central1.run.app/LLM/pubsub/push"
+
+# ---------------
+# CREAR SUSCRIPCIÓN PUSH (UNA SOLA VEZ)
+# ---------------
+
 subscriber = pubsub_v1.SubscriberClient()
+subscription_path = subscriber.subscription_path(PROJECT_ID, SUBSCRIPTION_ID)
+topic_path = subscriber.topic_path(PROJECT_ID, TOPIC_ID)
 
-def get_instance_name():
-    metadata_url = "http://metadata.google.internal/computeMetadata/v1/instance/name"
-    headers = {"Metadata-Flavor": "Google"}
-    response = requests.get(metadata_url, headers=headers)
-    return response.text.strip()  # Ej: 'webserver-group-xyz123'
-
-def get_subscription_id(instance_name: str) -> str:
-    return f"embedding2-to-{instance_name}"
-
-def ensure_subscription_exists(subscriber, subscription_path, topic_path):
+def ensure_subscription_exists():
     try:
         subscriber.create_subscription(
             name=subscription_path,
             topic=topic_path,
+            push_config={"push_endpoint": PUSH_ENDPOINT},
             ack_deadline_seconds=20,
         )
-        print(f"Subscripción creada: {subscription_path}", flush=True)
+        print(f"Subscripción push creada: {subscription_path}", flush=True)
     except AlreadyExists:
         print(f"Subscripción ya existe: {subscription_path}", flush=True)
 
-instance_name = get_instance_name()
-SUBSCRIPTION_ID = get_subscription_id(instance_name)
-subscription_path = subscriber.subscription_path(PROJECT_ID, SUBSCRIPTION_ID)
-topic_path = subscriber.topic_path(PROJECT_ID, TOPIC_ID)
-
-ensure_subscription_exists(subscriber, subscription_path, topic_path)
+# Solo descomentá después del primer deploy, cuando tengas el endpoint real (huevo y gallina)
+ensure_subscription_exists()
 
 # ---------------
-# IN-MEMORY RESPONSE STORE
+# ALMACÉN TEMPORAL DE RESPUESTAS
 # ---------------
 
 response_store: Dict[str, dict] = {}
 
 async def process_message(data, chat_id):
+    response_store[chat_id] = {
+        "data": data,
+        "timestamp": datetime.now(),
+    }
+
+# ---------------
+# ENDPOINT PARA RECIBIR PUSH DE PUB/SUB
+# ---------------
+
+@router.post("/pubsub/push")
+async def receive_pubsub_push(request: Request, db: Session = Depends(get_db)):
     try:
-        response_store[chat_id] = {
-            "data": data,
-            "timestamp": datetime.now(),
-        }
-        return True
+        timestamp = func.now()
     except Exception as e:
-        raise HTTPException(status_code=400, detail="Invalid request data")
+        print("Error procesando mensaje push:", e, flush=True)
+        raise HTTPException(status_code=500, detail=f"Error timestamp: {e}")
+    try:
+        body = await request.json()
+        message_data = body["message"]["data"]
+        decoded = base64.b64decode(message_data).decode("utf-8")
+        message = json.loads(decoded)
 
-# ---------------
-# POLLING LOOP
-# ---------------
+        print(f"Mensaje recibido via PUSH: {message}", flush=True)
 
-async def pull_messages_loop():
-    while True:
+        data = message.get("data")
+        chat_id = str(message.get("chat_id"))
+
+        await process_message(data, chat_id)
+        # Guardar datos en la base de datos de PromptResponse
+        create.write_db(db, int(chat_id), str(data), 201, timestamp)
+        
+        return {"status": "success"}
+
+    except Exception as e:
         try:
-            response = subscriber.pull(
-                request={
-                    "subscription": subscription_path,
-                    "max_messages": 10,
-                    "return_immediately": False,
-                },
-                timeout=10
-            )
-
-            ack_ids = []
-
-            for received_message in response.received_messages:
-                message = json.loads(received_message.message.data.decode("utf-8"))
-                print(f"Mensaje recibido: {message}", flush=True)
-
-                data = message.get("data")
-                chat_id = message.get("chat_id")
-                await process_message(data, chat_id)
-
-                ack_ids.append(received_message.ack_id)
-
-            if ack_ids:
-                subscriber.acknowledge(
-                    request={
-                        "subscription": subscription_path,
-                        "ack_ids": ack_ids,
-                    }
-                )
-
-        except Exception as e:
-            print(f"Error en pull loop: {e}", flush=True)
-
-        await asyncio.sleep(1)
-
-def start_polling_thread():
-    asyncio.run(pull_messages_loop())
+            create.write_db(db, int(chat_id), str(data), 400, timestamp)
+        except Exception as db_error:
+            print("Error guardando en la base de datos:", db_error, flush=True)
+        print("Error procesando mensaje push:", e, flush=True)
+        raise HTTPException(status_code=400, detail="Error en el mensaje")
 
 # ---------------
-# STARTUP EVENTS
-# ---------------
-
-@router.on_event("startup")
-async def startup_event():
-    print(f"Instancia {instance_name} escuchando en {SUBSCRIPTION_ID}", flush=True)
-    threading.Thread(target=start_polling_thread, daemon=True).start()
-
-# ---------------
-# FRONTEND API (opcional)
+# ENDPOINT PARA CONSULTA DESDE FRONTEND
 # ---------------
 
 @router.get("/response/{chat_id}")
 async def get_llm_response(chat_id: str):
-    try:
-        chat_id = int(chat_id)
-        if chat_id not in response_store:
-            return {"status": "waiting", "data": None}
-        response = response_store[chat_id]["data"]
-        return {"status": "success", "data": response}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail="Error retrieving response")
+    if chat_id not in response_store:
+        return {"status": "waiting", "data": None}
+    return {"status": "success", "data": response_store[chat_id]["data"]}
 
 # ---------------
-# LIMPIEZA DE RESPUESTAS ANTIGUAS
+# LIMPIEZA DE DATOS ANTIGUOS
 # ---------------
+
+from fastapi_utils.tasks import repeat_every
 
 @router.on_event("startup")
 @repeat_every(seconds=600)

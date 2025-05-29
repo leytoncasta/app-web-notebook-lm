@@ -8,85 +8,19 @@ Con el fin de lograr ejecutar los servicios de manera correcta, debemos entender
 
 ### (A) Escalabilidad Capa Web
 
-La arquitectura diseñada para la capa web en Google Cloud Platform (GCP) está
-compuesta por una VPC única que alberga tres subredes especializadas, cada una
-con funciones específicas para garantizar escalabilidad, resiliencia y alto
-desempeño.
+La arquitectura diseñada para este proyecto en Google Cloud Platform (GCP) se compone de una VPC única que integra cuatro subredes especializadas, garantizando escalabilidad, resiliencia y alto rendimiento. La primera subred (10.109.2.0/27) aloja la instancia worker, encargada de ejecutar microservicios clave para el procesamiento de datos, incluyendo la transformación de documentos, la inserción en una base de datos vectorial (PostgreSQL) mediante Cloud SQL (PaaS) y la comunicación con el modelo Gemini para el análisis avanzado de consultas. La segunda subred (10.108.0.0/26) despliega un grupo de autoescalado con el microservicio de frontend, que gestiona la interfaz de usuario, junto con un microservicio en Cloud Run que maneja solicitudes de autenticación, registro, almacenamiento de documentos en Cloud Storage y la publicación de mensajes en Pub/Sub para su procesamiento por parte de los workers.
 
-La primera subred (10.109.1.32/27) está dedicada a la instancia worker, que ejecuta
-microservicios clave para el procesamiento de datos. Estos microservicios se
-encargan de leer y transformar los documentos cargados por los usuarios, insertar
-la información en una base de datos vectorial (PostgreSQL) administrada mediante
-Cloud SQL (PaaS), y comunicarse con el modelo Gemini para el procesamiento
-avanzado de consultas. Esta instancia actúa como el núcleo de procesamiento de la
-arquitectura, asegurando que los datos sean correctamente estructurados y
-almacenados para su posterior recuperación.
+La tercera subred (10.0.0.0/26) actúa como capa de proxy, albergando un balanceador de carga que distribuye el tráfico externo hacia las instancias saludables del grupo de autoescalado frontend, mejorando la confiabilidad del sistema. Por su parte, la cuarta subred (10.109.0.0/26) ejecuta en Cloud Run el microservicio de chunking, el cual procesa los mensajes de Pub/Sub para fragmentar el texto antes de su análisis.
 
-En la segunda subred (10.109.1.0/27), se despliega un grupo de autoescalado
-(instance group) que aloja los microservicios del frontend y backend (web-server).
-Este grupo gestiona las solicitudes de los usuarios, autenticándolas mediante una
-base de datos relacional y redirigiéndolas a la instancia worker para su
-procesamiento. Además, se encarga de almacenar los documentos en Cloud
-Storage y coordinar el flujo de chats y archivos hacia los workers. Para manejar
-cargas variables, el grupo emplea una política de autoescalado que inicia con una
-sola instancia y escala hasta tres cuando el uso de CPU supera el 60%, optimizando
-así el rendimiento y la disponibilidad del servicio.
-
-La tercera subred (10.0.0.0/26) funciona como capa de proxy y alberga un
-balanceador de carga, que es el punto de entrada principal para las solicitudes
-externas. Este componente verifica constantemente el estado de las instancias en
-el grupo de autoescalado y distribuye el tráfico únicamente hacia aquellas que están
-activas y saludables, mejorando la confiabilidad del sistema.
-
-La arquitectura se complementa con servicios administrados de GCP que potencian
-su funcionalidad. El Artifact Registry centraliza las imágenes Docker utilizadas en los
-despliegues, agilizando la gestión de contenedores. Por otro lado, Gemini
-proporciona capacidades avanzadas de procesamiento de lenguaje natural (NLP),
-mientras que Cloud SQL soporta tanto la base de datos relacional para
-autenticación como la base de datos vectorial para búsquedas semánticas.
-Finalmente, Cloud Storage ofrece un almacenamiento seguro y escalable para los
-documentos subidos por los usuarios. La Figura 1 representa la arquitectura descrita.
+La arquitectura se complementa con servicios gestionados de GCP, como un balanceador de carga interno para distribuir tráfico desde el servicio de chunking hacia los workers. Donde se hace uso de Artifact Registry para centralizar imágenes Docker, y Gemini para capacidades avanzadas de NLP. Además, Cloud SQL soporta bases de datos relacionales y vectoriales, mientras que Cloud Storage proporciona almacenamiento seguro para documentos. Esta estructura integrada asegura un flujo eficiente de datos, desde la interacción del usuario hasta el procesamiento y almacenamiento final.
 
 ![image](https://github.com/user-attachments/assets/4de610a9-9267-4b14-8821-72f20df0e938)
 
+### (B) Escalabilidad en el Backend / Workers
 
-### (B) Escalabilidad en el Backend (workers)
+En este proyecto, se priorizó la optimización del rendimiento y la escalabilidad mediante el reemplazo de dos componentes críticos. En primer lugar, se separó el microservicio del frontend y el backend, los cuales inicialmente coexistían en un mismo grupo de instancias con escalamiento lento. Para solucionar esto, se migró el backend a Cloud Run, un servicio que permite una escalabilidad autogestionada por GCP más rápida que la configuración manual y evita que las cargas elevadas afecten el frontend, garantizando así una mejor distribución de recursos y una respuesta ágil ante picos de demanda.
 
-Como parte de la evolución del proyecto y para establecer un punto de comparación
-en las pruebas de rendimiento, se implementaron cambios significativos sobre la
-arquitectura inicial de escalabilidad de la capa web. Estas modificaciones buscan
-mejorar la capacidad de procesamiento y distribuir eficientemente la carga de
-trabajo.
-
-El primer cambio fundamental fue la migración de la infraestructura de workers a una
-nueva subred (10.109.2.0/27) en la región us-east5. Esta decisión se tomó debido a
-limitaciones en el número de instancias permitidas en la subred original
-(10.109.1.32/27) de la región us-west1. La nueva configuración implementa un grupo
-de instancias autoescalables (instance group) para los workers, similar al utilizado
-en el web-server de la arquitectura inicial. Este grupo aplica la misma política de
-autoescalado, expandiéndose cuando la utilización de CPU supera el 60%, lo que
-proporciona mayor capacidad operativa y resiliencia durante picos de demanda.
-
-Como segunda mejora, se incorporó el servicio Pub/Sub de GCP, que actúa como
-sistema de colas y balanceador de carga inteligente entre la capa web
-(frontend/backend) y la capa de procesamiento (workers). Esta solución ofrece
-múltiples ventajas:
-
-1. Funciona como buffer para las solicitudes, evitando la sobrecarga de los
-   microservicios.
-2. Garantiza la persistencia de las peticiones incluso durante escalamientos o
-   fallos temporales.
-3. Distribuye automáticamente la carga entre los workers disponibles
-4. Permite comunicación bidireccional eficiente entre componentes
-
-La implementación de Pub/Sub no solo optimiza el flujo de trabajo, sino que también
-desacopla los componentes del sistema, mejorando la mantenibilidad y
-permitiendo un escalamiento independiente de cada capa. Esta arquitectura
-revisada proporciona una base más robusta para manejar cargas variables y
-mantiene la coherencia con los servicios gestionados de GCP utilizados en el diseño
-original. La Figura 2 muestra el cambio descrito.
-
-![image](https://github.com/user-attachments/assets/d381176d-e8f7-4fb7-b185-7a32f6343a2f)
+El segundo cambio clave fue la migración del microservicio de chunking, que originalmente se ejecutaba en el mismo grupo de instancias destinado a los workers. Al trasladarlo a Cloud Run, se redujo la carga en las instancias críticas, dejando únicamente tres microservicios esenciales en el grupo de workers para un procesamiento más eficiente. Esta modificación no solo mejoró la escalabilidad del servicio de chunking, sino que también aseguró que las tareas principales de procesamiento no se vieran afectadas por fluctuaciones en la demanda. Ambos ajustes contribuyen a una arquitectura más robusta, flexible y preparada para manejar cargas variables sin comprometer el rendimiento del sistema.
 
 ## Replicar la arquitectura de GCP
 
@@ -194,26 +128,6 @@ services:
     image: us-central1-docker.pkg.dev/desarrollo-cloud-457900/desarrollo-cloud/frontend:latest
     ports:
       - 80:80
-    depends_on:
-      - backend
-    networks:
-      - project_network
-
-  backend:
-    container_name: backend
-    image: us-central1-docker.pkg.dev/desarrollo-cloud-457900/desarrollo-cloud/backend:latest
-    ports:
-      - "8000:8000"
-    environment:
-      DATABASE_URL: postgresql+psycopg2://postgres:admin@10.189.176.3:5432/USER # IP del SQL en GCP
-      CLOUD_STORAGE: bucket-documents-users
-    networks:
-      - project_network
-    restart: always
-
-networks:
-  project_network:
-    driver: bridge
 ```
 
 3. Worker - Script Arranque
@@ -251,17 +165,6 @@ docker-compose -f docker-compose-worker-gcp.yml up -d
 
 ```bash
 services:
-
-  chunking:
-    image: us-central1-docker.pkg.dev/desarrollo-cloud-457900/desarrollo-cloud/chunking:latest
-    container_name: chunking
-    ports:
-      - "8001:8001"
-    environment:
-      CLOUD_STORAGE: bucket-documents-users
-    networks:
-      - project_network
-    restart: always
 
   embeddings_doc:
     container_name: embeddings_doc
@@ -306,8 +209,6 @@ networks:
     driver: bridge
 
 volumes:
-  chunking:
-    driver: local
   embeddings_docs:
     driver: local
   embeddings_prompt:
@@ -317,6 +218,42 @@ volumes:
   augment:
     driver: local
 ```
+
+### 6. Cloud Run
+
+Tanto para el backend, como para el chunking, se utiliza el siguiente comando con el fin de crear el servicio solicitado:
+
+```
+gcloud run deploy backend-service \
+  --image=us-central1-docker.pkg.dev/desarrollo-cloud-457900/desarrollo-cloud/backend:latest \
+  --platform=managed \
+  --region=northamerica-south1 \
+  --allow-unauthenticated \
+  --set-env-vars="DATABASE_URL=postgresql+psycopg2://XXX:XXX@XXX:XXX/XXX, CLOUD_STORAGE=XXX-XXX-XXX"
+```
+
+De manera manual se debe ajustar las variables de entorno necesarias. Igualmente, se debe ajustar la Sub-Net a la que pertenece con base en lo
+descrito en el diagrama de arquitectura. Para saber si quedo bien configurado podemo probar una petición a un endpoint; ejemplo:
+
+```
+curl -X POST https://backend-service-XXX.northamerica-south1.run.app/usuarios/ \
+  -H "Content-Type: application/json" \
+  -d '{"nombre_usuario": "XXX", "contraseña": "XXX"}'
+```
+
+### Pasos de integración
+
+El proceso de integración inicia con el desacoplamiento de los microservicios de backend y chunking, migrándolos a Cloud Run para mejorar su escalabilidad. El backend se despliega en la misma subred que aloja el frontend, manteniendo una comunicación directa y eficiente entre ambos, mientras que su conexión con la base de datos relacional, Pub/Sub y Cloud Storage no requiere configuraciones adicionales, ya que estos servicios conservan sus mismos endpoints. Por otro lado, el microservicio de chunking, alojado en una subred distinta y en otra región, se integra mediante un balanceador de carga global, que distribuye las tareas procesadas hacia el grupo de instancias de workers en la subred principal, asegurando un reparto equitativo de la carga. Los workers mantienen su comunicación con Pub/Sub, la base de datos vectorial (a través de Cloud SQL) y los servicios de Gemini, sin modificaciones en sus endpoints, lo que garantiza continuidad en el flujo de procesamiento y minimiza impactos en la arquitectura existente. Esta estrategia de integración optimiza el rendimiento, la escalabilidad y la resiliencia del sistema sin introducir complejidades innecesarias.
+
+**Variables de Entorno:**
+
+Se configuraron dos variables clave para garantizar la seguridad y flexibilidad del sistema:
+
+1. DATABASE_URL: Almacena el string de conexión a la base de datos, evitando que credenciales sensibles queden expuestas en el build de la imagen desplegada en Cloud Run. Esto protege la información de los usuarios y facilita la rotación de credenciales sin modificar el código.
+
+2. CLOUD_STORAGE: Contiene el nombre del bucket de Cloud Storage donde se guardan los documentos subidos por los usuarios, evitando referencias directas en el código y reduciendo riesgos de exposición accidental de datos confidenciales.
+
+Ambas variables siguen las mejores prácticas de seguridad, manteniendo la configuración fuera del código fuente y permitiendo una gestión centralizada a través de los servicios gestionados de GCP, lo que mejora tanto la protección de datos como la mantenibilidad del sistema.
 
 ## Historias de usuario
 
@@ -434,71 +371,7 @@ Por otro lado, cuando el usuario realiza una consulta, la pregunta se envía al 
 
 ## Conclusiones de pruebas de carga
 
-Durante el proceso de pruebas de carga, se identificó un rendimiento sustancial en los
-microservicios que conforman la aplicación. En comparación con la entrega anterior, se
-observó una mejora significativa en los servicios de la capa web-server, especialmente en
-la Arquitectura A (escalabilidad de la capa web-server). Mientras que en la segunda entrega
-el sistema alcanzaba su límite con aproximadamente 70 usuarios, en esta arquitectura, se
-alcanzó un umbral de 257 usuarios interactuando con la ruta crítica (desde el login hasta la
-carga del documento) antes de que se presentara degradación. Las pruebas se realizaron
-con 300 usuarios en 240 segundos, lo que permitió concluir que el balanceo de carga y las
-políticas de autoescalado fueron clave para evitar un colapso prematuro del sistema.
-Además, se logró atender entre 3 y 6 clientes simultáneamente en ciertos intervalos de
-tiempo, demostrando una capacidad de respuesta eficiente.
-
-Por su parte, la Arquitectura B (escalado de la capa de proceso) mostró un rendimiento aún
-más destacado. Las pruebas se ejecutaron con 600 usuarios en 240 segundos, de los
-cuales 397 completaron exitosamente la ruta crítica 1, casi el doble que en la Arquitectura
-A. Además, se observó una atención recurrente de 8 a 12 clientes simultáneos en
-determinados periodos, lo que confirma una mayor capacidad de procesamiento.  
-Un hallazgo relevante fue que la capa de proceso (workers) en ambas arquitecturas no
-experimentó sobrecarga, permitiendo manejar la demanda de clientes que completaron la
-ruta crítica (257 en la Arquitectura A y 397 en la B). Esto indica que el cuello de botella se
-encontraba en la capa web-server, ya que los workers nunca alcanzaron su límite de
-capacidad. Los picos máximos de CPU en esta capa fueron del 38.96% (Arquitectura A) y
-197% (Arquitectura B), muy por debajo del máximo teórico del 300%.
-
-Al igual que en la entrega anterior, los servicios administrados (Cloud SQL y Cloud Storage)
-demostraron alta disponibilidad y adaptabilidad ante el incremento de demanda, sin
-convertirse en puntos únicos de fallo.
-
-Los resultados evidencian que las nuevas arquitecturas marcaron un hito en las pruebas de
-carga, logrando una mejora superior al 200% en rendimiento. Este avance se atribuye
-directamente a las estrategias de escalabilidad implementadas, consolidando un sistema
-más robusto y eficiente.
-
-## Consideraciones adicionales
-
-La implementación del balanceador de carga combinado con Pub/Sub como sistema de
-colas demostró ser estratégicamente acertada, evidenciándose una mejora sustancial en
-la capacidad del sistema. Esta arquitectura permitió manejar un mayor volumen de
-solicitudes concurrentes y soportar un crecimiento significativo de usuarios recurrentes sin
-comprometer la estabilidad del servicio.
-
-Sin embargo, durante las pruebas de carga identificamos una limitación crítica en el
-mecanismo de escalamiento actual. Los grupos de instancias presentan una latencia
-considerable en su respuesta a picos de demanda, debido principalmente al tiempo
-requerido para el aprovisionamiento y la inicialización de nuevas instancias (incluyendo el
-arranque de los microservicios). Para mitigar este problema, proponemos dos estrategias
-complementarias:
-
-1. Optimización del autoescalado tradicional:
-   • Mantener instancias reservadas desde el inicio (aunque pueda generar cierta
-   subutilización de recursos)
-   • Ajustar los umbrales de escalado a valores más conservadores (40%-50% de uso
-   de CPU)
-   • Esto proporciona un margen temporal suficiente para que nuevas instancias
-   estén operativas antes de alcanzar puntos críticos de carga
-
-2. Migración a arquitectura basada en contenedores:
-   Evaluar el uso de servicios como Cloud Run o Kubernetes (GKE)
-   • Escalamiento horizontal más rápido (en cuestión de segundos)
-   • Mayor eficiencia en la gestión de recursos
-   • Simplificación del ciclo de vida de las aplicaciones
-   • Mejor mantenibilidad y despliegues continuos
-
-La solución con contenedores representa un enfoque más moderno y elástico,
-particularmente adecuado para cargas de trabajo variables.
+Con respecto a lo que concierne a esta arquitectura, esta es mucho más robusta que la anterior, siendo capaz de soportar cargar más grandes, pero esto tiene el costo de aumentar de forma considerable las latencias, también podemos ver que la arquitectura gracias a las colas del pub sub es más robusta, y permite manejar mejor las cargas sin colapsar el sistema, tal vez por otro lado se pueda aumentar el número de mensajes que procesa cada worker en los prompts.
 
 # UML de la Aplicación
 
@@ -547,4 +420,3 @@ classDiagram
 ## Diagram de Componentes
 
 ![image](https://github.com/user-attachments/assets/93e7a688-58ac-4ec7-a05a-0631fd29105c)
-
