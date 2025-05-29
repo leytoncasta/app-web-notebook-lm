@@ -14,7 +14,8 @@ La tercera subred (10.0.0.0/26) actúa como capa de proxy, albergando un balance
 
 La arquitectura se complementa con servicios gestionados de GCP, como un balanceador de carga interno para distribuir tráfico desde el servicio de chunking hacia los workers. Donde se hace uso de Artifact Registry para centralizar imágenes Docker, y Gemini para capacidades avanzadas de NLP. Además, Cloud SQL soporta bases de datos relacionales y vectoriales, mientras que Cloud Storage proporciona almacenamiento seguro para documentos. Esta estructura integrada asegura un flujo eficiente de datos, desde la interacción del usuario hasta el procesamiento y almacenamiento final.
 
-![image](https://github.com/user-attachments/assets/4de610a9-9267-4b14-8821-72f20df0e938)
+![final](https://github.com/user-attachments/assets/b9cb3255-b706-468e-a2e4-3887d4d1ddb1)
+
 
 ### (B) Escalabilidad en el Backend / Workers
 
